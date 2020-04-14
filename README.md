@@ -1,1 +1,1 @@
-# 🚰 aiooguardian: A Python3 library for Elexa Guardian water valves and sensors
+# 🚰 aioguardian: A Python3 library for Elexa Guardian devices
