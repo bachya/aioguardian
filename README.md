@@ -86,8 +86,8 @@ except GuardianError as err:
 asyncio.get_event_loop().run_until_complete(main())
 ```
 
-Check out the `[examples`](https://github.com/bachya/aioguardian/tree/dev/examples)
-directory for more info.
+Check out the [examples directory](https://github.com/bachya/aioguardian/tree/dev/examples)
+for more info.
 
 # Contributing
 
