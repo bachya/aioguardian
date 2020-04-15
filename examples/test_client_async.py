@@ -30,6 +30,9 @@ async def main() -> None:
 
         # factory_reset_response = await client.device.factory_reset()
         # _LOGGER.info("Factory reset response: %s", factory_reset_response)
+
+        # upgrade_firmware_response = await client.device.upgrade_firmware()
+        # _LOGGER.info("Upgrade firmware response: %s", upgrade_firmware_response)
     except GuardianError as err:
         _LOGGER.info(err)
 
