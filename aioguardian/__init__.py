@@ -1,1 +1,2 @@
-"""Define module exports."""
+"""Define the aioguardian package."""
+from .client import Client  # noqa
