@@ -23,42 +23,26 @@ def test_get_event_loop():
 
 
 @pytest.mark.asyncio
-async def test_ping_success_async():
+@pytest.mark.parametrize(
+    "command_response", [load_fixture("ping_success_response.json").encode()]
+)
+async def test_ping_success_async(mock_datagram_client):
     """Test a successful ping of the device in async mode."""
     client = Client("192.168.1.100", use_async=True)
-
-    ping_success_response = load_fixture("ping_success_response.json")
-
-    mock_datagram_client = MagicMock()
-    mock_datagram_client.connect = CoroutineMock()
-    mock_datagram_client.recv = CoroutineMock(
-        return_value=(ping_success_response.encode(), "192.168.1.100")
-    )
-    mock_datagram_client.send = CoroutineMock()
-    mock_datagram_client.close = MagicMock()
-
-    with patch("asyncio_dgram.connect", return_value=mock_datagram_client):
+    with mock_datagram_client:
         ping_response = await client.device.ping()
         assert ping_response["command"] == 0
         assert ping_response["status"] == "ok"
         assert ping_response["data"]["uid"] == "ABCDEF123456"
 
 
-def test_ping_success_sync():
+@pytest.mark.parametrize(
+    "command_response", [load_fixture("ping_success_response.json").encode()]
+)
+def test_ping_success_sync(mock_datagram_client):
     """Test a successful ping of the device in sync mode."""
     client = Client("192.168.1.100")
-
-    ping_success_response = load_fixture("ping_success_response.json")
-
-    mock_datagram_client = MagicMock()
-    mock_datagram_client.connect = CoroutineMock()
-    mock_datagram_client.recv = CoroutineMock(
-        return_value=(ping_success_response.encode(), "192.168.1.100")
-    )
-    mock_datagram_client.send = CoroutineMock()
-    mock_datagram_client.close = MagicMock()
-
-    with patch("asyncio_dgram.connect", return_value=mock_datagram_client):
+    with mock_datagram_client:
         ping_response = client.device.ping()
         assert ping_response["command"] == 0
         assert ping_response["status"] == "ok"
@@ -66,41 +50,25 @@ def test_ping_success_sync():
 
 
 @pytest.mark.asyncio
-async def test_ping_failure_async():
+@pytest.mark.parametrize(
+    "command_response", [load_fixture("ping_failure_response.json").encode()]
+)
+async def test_ping_failure_async(mock_datagram_client):
     """Test a failureful ping of the device in async mode."""
     client = Client("192.168.1.100", use_async=True)
-
-    ping_failure_response = load_fixture("ping_failure_response.json")
-
-    mock_datagram_client = MagicMock()
-    mock_datagram_client.connect = CoroutineMock()
-    mock_datagram_client.recv = CoroutineMock(
-        return_value=(ping_failure_response.encode(), "192.168.1.100")
-    )
-    mock_datagram_client.send = CoroutineMock()
-    mock_datagram_client.close = MagicMock()
-
-    with patch("asyncio_dgram.connect", return_value=mock_datagram_client):
+    with mock_datagram_client:
         with pytest.raises(RequestError) as err:
             await client.device.ping()
             assert "error" in err
 
 
-def test_ping_failure_sync():
+@pytest.mark.parametrize(
+    "command_response", [load_fixture("ping_failure_response.json").encode()]
+)
+def test_ping_failure_sync(mock_datagram_client):
     """Test a failureful ping of the device in sync mode."""
     client = Client("192.168.1.100")
-
-    ping_failure_response = load_fixture("ping_failure_response.json")
-
-    mock_datagram_client = MagicMock()
-    mock_datagram_client.connect = CoroutineMock()
-    mock_datagram_client.recv = CoroutineMock(
-        return_value=(ping_failure_response.encode(), "192.168.1.100")
-    )
-    mock_datagram_client.send = CoroutineMock()
-    mock_datagram_client.close = MagicMock()
-
-    with patch("asyncio_dgram.connect", return_value=mock_datagram_client):
+    with mock_datagram_client:
         with pytest.raises(RequestError) as err:
             client.device.ping()
             assert "error" in err
