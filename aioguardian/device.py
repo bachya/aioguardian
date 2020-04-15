@@ -1,19 +1,14 @@
 """Define device info-related API endpoints."""
-from typing import Callable, Coroutine
+from typing import Callable
 
 
 class Device:  # pylint: disable=too-few-public-methods
     """Define the endpoint manager."""
 
-    def __init__(
-        self,
-        async_execute_command: Callable[..., Coroutine],
-        create_or_run_future: Callable,
-    ):
+    def __init__(self, execute_command: Callable):
         """Initialize."""
-        self._async_execute_command = async_execute_command
-        self._create_or_run_future = create_or_run_future
+        self._execute_command = execute_command
 
     def ping(self):
         """Ping the device."""
-        return self._create_or_run_future(self._async_execute_command(0))
+        return self._execute_command(0)

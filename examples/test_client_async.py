@@ -13,7 +13,7 @@ async def main() -> None:
     """Create the aiohttp session and run the example."""
     logging.basicConfig(level=logging.DEBUG)
 
-    client = Client("<IP ADDRESS>")
+    client = Client("<IP ADDRESS>", use_async=True)
 
     start = time.time()
 
