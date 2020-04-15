@@ -27,15 +27,25 @@ def _get_event_loop() -> asyncio.AbstractEventLoop:
 
 
 class Client:  # pylint: disable=too-few-public-methods
-    """Define the client object."""
+    """Define the client object.
+
+    :param ip_address: The IP address or FQDN of the Guardian device
+    :type ip_address: ``str``
+    :param port: The port to connect to
+    :type port: ``int``
+    :param use_async: Whether to use async mode
+    :type use_async: ``bool``
+    :param event_loop: An  ``asyncio`` event loop to attach this Client to
+    :type event_loop: ``asyncio.AbstractEventLoop``
+    """
 
     def __init__(
         self,
         ip_address: str,
         *,
         port: int = DEFAULT_PORT,
-        event_loop: Optional[asyncio.AbstractEventLoop] = None,
         use_async: bool = False,
+        event_loop: Optional[asyncio.AbstractEventLoop] = None,
     ) -> None:
         """Initialize."""
         self._ip = ip_address
@@ -46,11 +56,18 @@ class Client:  # pylint: disable=too-few-public-methods
         self.device = Device(self.execute_command)
 
     def execute_command(
-        self, command_decimal: int, *, params: Optional[dict] = None
+        self, command_integer: int, *, params: Optional[dict] = None
     ) -> Union[dict, asyncio.Future]:
-        """Make a request against the Guardian device and return the response."""
+        """Make a request against the Guardian device and return the response.
+
+        :param command_integer: The integer denoting the command to execute
+        :type url: ``int``
+        :param params: Any parameters to send along with the command
+        :type url: ``dict``
+        :rtype: ``dict``
+        """
         _params = params or {}
-        payload = {"command": command_decimal, **_params}
+        payload = {"command": command_integer, **_params}
 
         async def request():
             async with timeout(DEFAULT_REQUEST_TIMEOUT):
@@ -60,7 +77,7 @@ class Client:  # pylint: disable=too-few-public-methods
                     data, remote_addr = await stream.recv()
                     stream.close()
                 except (asyncio.CancelledError, asyncio.TimeoutError):
-                    raise SocketError(f"Request timed out (command: {command_decimal})")
+                    raise SocketError(f"Request timed out (command: {command_integer})")
 
             decoded_data = json.loads(data.decode())
             _LOGGER.debug("Received data from %s: %s", remote_addr, decoded_data)
