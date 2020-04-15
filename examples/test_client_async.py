@@ -13,14 +13,17 @@ async def main() -> None:
     """Create the aiohttp session and run the example."""
     logging.basicConfig(level=logging.DEBUG)
 
-    client = Client("<IP ADDRESS>", use_async=True)
+    client = Client("172.16.11.208", use_async=True)
 
     start = time.time()
 
     try:
-        # Get current UV info:
+        # Run through various device-related commands:
         ping_response = await client.device.ping()
         _LOGGER.info("Ping response: %s", ping_response)
+
+        diagnostics_response = await client.device.diagnostics()
+        _LOGGER.info("Diagnostics response: %s", diagnostics_response)
     except GuardianError as err:
         _LOGGER.info(err)
 

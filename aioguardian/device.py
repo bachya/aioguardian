@@ -9,6 +9,10 @@ class Device:  # pylint: disable=too-few-public-methods
         """Initialize."""
         self._execute_command = execute_command
 
+    def diagnostics(self):
+        """Ping the device."""
+        return self._execute_command(1)
+
     def ping(self):
         """Ping the device."""
         return self._execute_command(0)

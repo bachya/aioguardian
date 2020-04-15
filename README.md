@@ -45,9 +45,7 @@ from aioguardian.errors import GuardianError
 client = Client("192.168.1.100")
 
 try:
-    # Ping the device to ensure it can be reached:
     ping_response = client.device.ping()
-    print(ping_response)
 except GuardianError as err:
     print(f"There was an error: {err}")
 ```
@@ -68,9 +66,7 @@ from aioguardian.errors import GuardianError
 client = Client("192.168.1.100", use_async=True)
 
 try:
-    # Ping the device to ensure it can be reached:
     ping_response = await client.device.ping()
-    print(ping_response)
 except GuardianError as err:
     print(f"There was an error: {err}")
 
@@ -78,8 +74,12 @@ except GuardianError as err:
 asyncio.get_event_loop().run_until_complete(main())
 ```
 
-Check out the `[examples/`](https://github.com/bachya/aioguardian/tree/dev/examples)
-directory for more info.
+## Commands
+
+Many API calls are available:
+
+* `client.device.diagnostics()`: return diagnostics info from the device
+* `client.device.ping()`: ping the device to determine whether it can be reached
 
 # Contributing
 
