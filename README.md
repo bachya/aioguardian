@@ -48,7 +48,7 @@ try:
     # Ping the device to ensure it can be reached:
     ping_response = client.device.ping()
     print(ping_response)
-except OpenUvError as err:
+except GuardianError as err:
     print(f"There was an error: {err}")
 ```
 
@@ -71,7 +71,7 @@ try:
     # Ping the device to ensure it can be reached:
     ping_response = await client.device.ping()
     print(ping_response)
-except OpenUvError as err:
+except GuardianError as err:
     print(f"There was an error: {err}")
 
 
