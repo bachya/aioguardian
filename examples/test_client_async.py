@@ -24,6 +24,9 @@ async def main() -> None:
 
         diagnostics_response = await client.device.diagnostics()
         _LOGGER.info("Diagnostics response: %s", diagnostics_response)
+
+        reboot_response = await client.device.reboot()
+        _LOGGER.info("Reboot response: %s", reboot_response)
     except GuardianError as err:
         _LOGGER.info(err)
 

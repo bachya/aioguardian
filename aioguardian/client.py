@@ -36,7 +36,7 @@ class Client:  # pylint: disable=too-few-public-methods
         port: int = DEFAULT_PORT,
         event_loop: Optional[asyncio.AbstractEventLoop] = None,
         use_async: bool = False,
-    ):
+    ) -> None:
         """Initialize."""
         self._ip = ip_address
         self._loop = event_loop
