@@ -27,6 +27,9 @@ async def main() -> None:
 
         reboot_response = await client.device.reboot()
         _LOGGER.info("Reboot response: %s", reboot_response)
+
+        # factory_reset_response = await client.device.factory_reset()
+        # _LOGGER.info("Factory reset response: %s", factory_reset_response)
     except GuardianError as err:
         _LOGGER.info(err)
 
