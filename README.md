@@ -16,6 +16,7 @@
 - [Usage](#usage)
   * [Sync (Normal) Usage](#sync--normal--usage)
   * [Async Usage](#async-usage)
+- [Commands](#commands)
 - [Contributing](#contributing)
 
 # Installation
