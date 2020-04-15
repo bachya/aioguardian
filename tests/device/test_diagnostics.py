@@ -1,4 +1,4 @@
-"""Test device-related API calls."""
+"""Test the diagnostics command."""
 from asynctest import CoroutineMock, MagicMock, patch
 import pytest
 
