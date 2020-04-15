@@ -1,25 +1,11 @@
-"""Test device-related API calls."""
-import asyncio
-
+"""Test the ping command."""
 from asynctest import CoroutineMock, MagicMock, patch
 import pytest
 
 from aioguardian import Client
-from aioguardian.client import _get_event_loop
 from aioguardian.errors import RequestError
 
-from .common import load_fixture
-
-
-def test_get_event_loop():
-    """Test getting the active (or a new) event loop."""
-    loop = _get_event_loop()  # pylint: disable=protected-access
-    assert isinstance(loop, asyncio.AbstractEventLoop)
-
-    # Test there being no currently running event loop generates one:
-    with patch("asyncio.get_event_loop", side_effect=RuntimeError):
-        loop = _get_event_loop()  # pylint: disable=protected-access
-        assert isinstance(loop, asyncio.AbstractEventLoop)
+from tests.common import load_fixture
 
 
 @pytest.mark.asyncio
