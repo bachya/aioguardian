@@ -2,7 +2,7 @@
 import asyncio
 import json
 import logging
-from typing import Coroutine, Optional
+from typing import Optional, Union
 
 from async_timeout import timeout
 import asyncio_dgram
@@ -43,38 +43,37 @@ class Client:  # pylint: disable=too-few-public-methods
         self._port = port
         self._use_async = use_async
 
-        self.device = Device(self._async_execute_command, self._create_or_run_future)
+        self.device = Device(self.execute_command)
 
-    async def _async_execute_command(
+    def execute_command(
         self, command_decimal: int, *, params: Optional[dict] = None
-    ) -> dict:
+    ) -> Union[dict, asyncio.Future]:
         """Make a request against the Guardian device and return the response."""
         _params = params or {}
         payload = {"command": command_decimal, **_params}
 
-        async with timeout(DEFAULT_REQUEST_TIMEOUT):
-            try:
-                stream = await asyncio_dgram.connect((self._ip, self._port))
-                await stream.send(json.dumps(payload).encode())
-                data, remote_addr = await stream.recv()
-                stream.close()
-            except (asyncio.CancelledError, asyncio.TimeoutError):
-                raise SocketError(f"Request timed out (command: {command_decimal})")
+        async def request():
+            async with timeout(DEFAULT_REQUEST_TIMEOUT):
+                try:
+                    stream = await asyncio_dgram.connect((self._ip, self._port))
+                    await stream.send(json.dumps(payload).encode())
+                    data, remote_addr = await stream.recv()
+                    stream.close()
+                except (asyncio.CancelledError, asyncio.TimeoutError):
+                    raise SocketError(f"Request timed out (command: {command_decimal})")
 
-        decoded_data = json.loads(data.decode())
-        _LOGGER.debug("Received data from %s: %s", remote_addr, decoded_data)
+            decoded_data = json.loads(data.decode())
+            _LOGGER.debug("Received data from %s: %s", remote_addr, decoded_data)
 
-        if decoded_data.get("status") != "ok":
-            raise RequestError(f"The API call failed: {decoded_data}")
+            if decoded_data.get("status") != "ok":
+                raise RequestError(f"The API call failed: {decoded_data}")
 
-        return decoded_data
+            return decoded_data
 
-    def _create_or_run_future(self, coro: Coroutine):
-        """Return or run a future that contains an API request."""
         if not self._loop:
             self._loop = _get_event_loop()
 
-        future = asyncio.ensure_future(coro, loop=self._loop)
+        future = asyncio.ensure_future(request(), loop=self._loop)
 
         if self._use_async:
             return future
