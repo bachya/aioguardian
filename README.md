@@ -80,6 +80,7 @@ asyncio.get_event_loop().run_until_complete(main())
 Many API calls are available:
 
 * `client.device.diagnostics()`: return diagnostics info from the device
+* `client.device.factory_reset()`: perform a factory reset of the device
 * `client.device.ping()`: ping the device to determine whether it can be reached
 * `client.device.reboot()`: reboot the device
 

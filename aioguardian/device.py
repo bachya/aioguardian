@@ -13,6 +13,10 @@ class Device:
         """Retrieve diagnostics info."""
         return self._execute_command(1)
 
+    def factory_reset(self) -> dict:
+        """Perform a factory reset on the device."""
+        return self._execute_command(255)
+
     def ping(self) -> dict:
         """Ping the device."""
         return self._execute_command(0)
