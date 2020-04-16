@@ -20,7 +20,7 @@ VALVE_STATE_MAPPING = {
 }
 
 
-class Valve:  # pylint: disable=too-few-public-methods
+class Valve:
     """Define the manager object.
 
     Note that this class shouldn't be instantiated directly; it will be instantiated as
@@ -30,6 +30,13 @@ class Valve:  # pylint: disable=too-few-public-methods
     def __init__(self, execute_command: Callable[..., Coroutine]) -> None:
         """Initialize."""
         self._execute_command = execute_command
+
+    async def valve_close(self) -> dict:
+        """Close the valve.
+
+        :rtype: ``dict``
+        """
+        return await self._execute_command(Command.valve_close)
 
     async def valve_open(self) -> dict:
         """Open the valve.
