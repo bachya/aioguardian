@@ -15,6 +15,13 @@ class Sensor:  # pylint: disable=too-few-public-methods
         """Initialize."""
         self._execute_command: Callable[..., Coroutine] = execute_command
 
+    async def pair_dump(self) -> dict:
+        """Dump information on all paired sensors.
+
+        :rtype: ``dict``
+        """
+        return await self._execute_command(Command.pair_dump)
+
     async def sensor_status(self) -> dict:
         """Retrieve status of onboard sensors (not external, paired sensors).
 

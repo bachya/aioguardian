@@ -33,7 +33,7 @@ async def test_connect_timeout():
 
 @pytest.mark.asyncio
 async def test_request_timeout():
-    """Test that a timeout during connection throws an exception."""
+    """Test that a timeout during command execution throws an exception."""
     with patch(
         "asyncio_dgram.aio.DatagramStream.send",
         CoroutineMock(side_effect=asyncio.TimeoutError),
