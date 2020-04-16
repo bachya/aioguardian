@@ -1,7 +1,10 @@
 """async define onboard valve-related API endpoints."""
+import logging
 from typing import Callable, Coroutine
 
 from aioguardian.helpers.command import Command
+
+_LOGGER = logging.getLogger(__name__)
 
 VALVE_STATE_MAPPING = {
     0: "default",
@@ -37,6 +40,22 @@ class Valve:
         :rtype: ``dict``
         """
         return await self._execute_command(Command.valve_close)
+
+    async def valve_halt(self) -> dict:
+        """Halt the valve.
+
+        Note that calling this method will cause the device to no longer respond to leak
+        events; therefore, it is not recommended to leave the device in a "halted" state
+        indefinitely.
+
+        :rtype: ``dict``
+        """
+        _LOGGER.warning(
+            "The device will not respond to leak events while in a halted state. It is "
+            "recommended that you call valve_close() or valve_open() as soon as "
+            "possible."
+        )
+        return await self._execute_command(Command.valve_halt)
 
     async def valve_open(self) -> dict:
         """Open the valve.

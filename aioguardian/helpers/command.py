@@ -12,5 +12,6 @@ class Command(Enum):
     valve_status = 16
     valve_open = 17
     valve_close = 18
+    valve_halt = 19
     sensor_status = 80
     factory_reset = 255
