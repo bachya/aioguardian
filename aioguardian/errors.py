@@ -1,4 +1,6 @@
 """Define exception types for aioguardian."""
+from typing import Dict
+
 from aioguardian.helpers.command import Command
 
 
@@ -20,7 +22,7 @@ class SocketError(GuardianError):
     pass
 
 
-ERROR_CODE_MAPPING = {
+ERROR_CODE_MAPPING: Dict[int, str] = {
     17: "valve_already_opened",
     18: "valve_already_closed",
     19: "valve_already_stopped",
@@ -29,7 +31,13 @@ ERROR_CODE_MAPPING = {
 
 
 def raise_on_command_error(command: Command, data: dict) -> None:
-    """Examine a data response and raise errors appropriately."""
+    """Examine a data response and raise errors appropriately.
+
+    :param command: The command that was run
+    :type command: :meth:`aioguardian.helpers.command.Command`
+    :param data: The response data from running the command
+    :type params: ``dict``
+    """
     if data.get("status") == "ok":
         return
 

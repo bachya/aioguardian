@@ -15,8 +15,8 @@ from aioguardian.helpers.command import Command
 
 _LOGGER = logging.getLogger(__name__)
 
-DEFAULT_PORT = 7777
-DEFAULT_REQUEST_TIMEOUT = 10
+DEFAULT_PORT: int = 7777
+DEFAULT_REQUEST_TIMEOUT: int = 10
 
 
 class Client:
@@ -40,19 +40,21 @@ class Client:
         """Initialize."""
         self._ip: str = ip_address
         self._port: int = port
-        self._request_timeout = request_timeout
+        self._request_timeout: int = request_timeout
         self._stream: asyncio_dgram.aio.DatagramStream = None
 
-        self.device = Device(self.execute_command)
-        self.sensor = Sensor(self.execute_command)
-        self.valve = Valve(self.execute_command)
+        self.device: Device = Device(self.execute_command)
+        self.sensor: Sensor = Sensor(self.execute_command)
+        self.valve: Valve = Valve(self.execute_command)
 
-    async def __aenter__(self):
+    async def __aenter__(self) -> "Client":
         """Define an entry point into this object via a context manager."""
         await self.connect()
         return self
 
-    async def __aexit__(self, exc_type, exc_value, traceback):
+    async def __aexit__(
+        self, exc_type: Exception, exc_value: str, traceback: str
+    ) -> None:
         """Define an exit point out of this object via a context manager."""
         self.disconnect()
 
@@ -74,9 +76,10 @@ class Client:
     ) -> dict:
         """Make a request against the Guardian device and return the response.
 
-        :param command_integer: The integer denoting the command to execute
-        :type url: ``int`` :param params: Any parameters to send along with the command
-        :type url: ``dict``
+        :param command: The command to run
+        :type command: :meth:`aioguardian.helpers.command.Command`
+        :param params: Any parameters to send along with the command
+        :type params: ``dict``
         :rtype: ``dict``
         """
         if not self._stream:

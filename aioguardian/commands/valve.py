@@ -1,12 +1,12 @@
 """async define onboard valve-related API endpoints."""
 import logging
-from typing import Callable, Coroutine
+from typing import Callable, Coroutine, Dict
 
 from aioguardian.helpers.command import Command
 
 _LOGGER = logging.getLogger(__name__)
 
-VALVE_STATE_MAPPING = {
+VALVE_STATE_MAPPING: Dict[int, str] = {
     0: "default",
     1: "start_opening",
     2: "opening",
@@ -32,7 +32,7 @@ class Valve:
 
     def __init__(self, execute_command: Callable[..., Coroutine]) -> None:
         """Initialize."""
-        self._execute_command = execute_command
+        self._execute_command: Callable[..., Coroutine] = execute_command
 
     async def valve_close(self) -> dict:
         """Close the valve.
