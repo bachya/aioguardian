@@ -27,7 +27,7 @@ class Client:
     :type port: ``int``
     """
 
-    def __init__(self, ip_address: str, *, port: int = DEFAULT_PORT,) -> None:
+    def __init__(self, ip_address: str, *, port: int = DEFAULT_PORT) -> None:
         """Initialize."""
         self._ip: str = ip_address
         self._port: int = port
