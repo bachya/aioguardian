@@ -86,6 +86,7 @@ Many commands are available:
 * `client.device.upgrade_firmware()`: initiate a firmware upgrade on the device
 * `client.sensor.sensor_status()`: get information from the device's onboard sensors
 * `client.valve.valve_close()`: close the valve
+* `client.valve.valve_halt()`: halt the valve mid-open or mid-close (be careful!)
 * `client.valve.valve_open()`: open the valve
 * `client.valve.valve_status()`: get information about the device's valve
 
