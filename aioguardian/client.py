@@ -7,8 +7,9 @@ from typing import Optional
 from async_timeout import timeout
 import asyncio_dgram
 
-from .device import Device
-from .errors import RequestError, SocketError
+from aioguardian.device import Device
+from aioguardian.errors import RequestError, SocketError
+from aioguardian.helpers.command import Command
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -65,7 +66,7 @@ class Client:
         self._stream = None
 
     async def execute_command(
-        self, command_integer: int, *, params: Optional[dict] = None
+        self, command: Command, *, params: Optional[dict] = None
     ) -> dict:
         """Make a request against the Guardian device and return the response.
 
@@ -78,19 +79,19 @@ class Client:
             raise SocketError("You aren't connected to the device yet")
 
         _params = params or {}
-        payload = {"command": command_integer, **_params}
+        payload = {"command": command.value, **_params}
 
         async with timeout(DEFAULT_REQUEST_TIMEOUT):
             try:
                 await self._stream.send(json.dumps(payload).encode())
                 data, remote_addr = await self._stream.recv()
             except asyncio.TimeoutError:
-                raise SocketError(f"Command timed out (command: {command_integer})")
+                raise SocketError(f"{command.name} command timed out")
 
         decoded_data = json.loads(data.decode())
         _LOGGER.debug("Received data from %s: %s", remote_addr, decoded_data)
 
         if decoded_data.get("status") != "ok":
-            raise RequestError(f"The API call failed: {decoded_data}")
+            raise RequestError(f"{command.name} command failed: {decoded_data}")
 
         return decoded_data

@@ -14,7 +14,8 @@ async def test_command_without_socket_connect():
     client = Client("192.168.1.100")
     with pytest.raises(SocketError) as err:
         await client.device.ping()
-        assert "You aren't connected to the device yet" in err
+
+    assert str(err.value) == "You aren't connected to the device yet"
 
 
 @pytest.mark.asyncio
@@ -26,7 +27,8 @@ async def test_connect_timeout():
         with pytest.raises(SocketError) as err:
             async with Client("192.168.1.100") as client:
                 await client.device.ping()
-            assert "Connection to device timed out" in err
+
+        assert str(err.value) == "Connection to device timed out"
 
 
 @pytest.mark.asyncio
@@ -39,4 +41,5 @@ async def test_request_timeout():
         with pytest.raises(SocketError) as err:
             async with Client("192.168.1.100") as client:
                 await client.device.ping()
-            assert "Request timed out" in err
+
+        assert str(err.value) == "ping command timed out"
