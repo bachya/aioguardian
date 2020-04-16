@@ -25,12 +25,21 @@ class Client:
     :type ip_address: ``str``
     :param port: The port to connect to
     :type port: ``int``
+    :param request_timeout: The number of seconds to wait before timing out a request
+    :type request_timeout: ``int``
     """
 
-    def __init__(self, ip_address: str, *, port: int = DEFAULT_PORT) -> None:
+    def __init__(
+        self,
+        ip_address: str,
+        *,
+        port: int = DEFAULT_PORT,
+        request_timeout: int = DEFAULT_REQUEST_TIMEOUT,
+    ) -> None:
         """Initialize."""
         self._ip: str = ip_address
         self._port: int = port
+        self._request_timeout = request_timeout
         self._stream: asyncio_dgram.aio.DatagramStream = None
 
         self.device = Device(self.execute_command)
@@ -47,7 +56,7 @@ class Client:
 
     async def connect(self) -> None:
         """Connect to the Guardian device."""
-        async with timeout(DEFAULT_REQUEST_TIMEOUT):
+        async with timeout(self._request_timeout):
             try:
                 self._stream = await asyncio_dgram.connect((self._ip, self._port))
             except asyncio.TimeoutError:
@@ -74,7 +83,7 @@ class Client:
         _params = params or {}
         payload = {"command": command.value, **_params}
 
-        async with timeout(DEFAULT_REQUEST_TIMEOUT):
+        async with timeout(self._request_timeout):
             try:
                 await self._stream.send(json.dumps(payload).encode())
                 data, remote_addr = await self._stream.recv()
