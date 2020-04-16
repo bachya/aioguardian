@@ -53,10 +53,11 @@ class Client:
 
     async def connect(self) -> None:
         """Connect to the Guardian device."""
-        try:
-            self._stream = await asyncio_dgram.connect((self._ip, self._port))
-        except asyncio.TimeoutError:
-            raise SocketError(f"Connection to device timed out")
+        async with timeout(DEFAULT_REQUEST_TIMEOUT):
+            try:
+                self._stream = await asyncio_dgram.connect((self._ip, self._port))
+            except asyncio.TimeoutError:
+                raise SocketError(f"Connection to device timed out")
 
     def disconnect(self) -> None:
         """Close the connection."""
