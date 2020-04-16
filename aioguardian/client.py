@@ -25,20 +25,11 @@ class Client:
     :type ip_address: ``str``
     :param port: The port to connect to
     :type port: ``int``
-    :param event_loop: An  ``asyncio`` event loop to attach this Client to
-    :type event_loop: ``asyncio.AbstractEventLoop``
     """
 
-    def __init__(
-        self,
-        ip_address: str,
-        *,
-        port: int = DEFAULT_PORT,
-        event_loop: Optional[asyncio.AbstractEventLoop] = None,
-    ) -> None:
+    def __init__(self, ip_address: str, *, port: int = DEFAULT_PORT) -> None:
         """Initialize."""
         self._ip: str = ip_address
-        self._loop: Optional[asyncio.AbstractEventLoop] = event_loop
         self._port: int = port
         self._stream: asyncio_dgram.aio.DatagramStream = None
 
