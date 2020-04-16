@@ -62,6 +62,11 @@ async def main() -> None:
             # _LOGGER.info(
             #     "valve_halt_response command response: %s", valve_halt_response
             # )
+
+            # valve_reset_response = await guardian.valve.valve_reset()
+            # _LOGGER.info(
+            #     "valve_reset_response command response: %s", valve_reset_response
+            # )
         except GuardianError as err:
             _LOGGER.info(err)
 
