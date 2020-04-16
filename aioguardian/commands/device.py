@@ -4,9 +4,9 @@ from typing import Callable, Coroutine
 
 from aioguardian.helpers.command import Command
 
-DEFAULT_FIRMWARE_UPGRADE_FILENAME = "latest.bin"
-DEFAULT_FIRMWARE_UPGRADE_PORT = 443
-DEFAULT_FIRMWARE_UPGRADE_URL = "https://repo.guardiancloud.services/gvc/fw"
+DEFAULT_FIRMWARE_UPGRADE_FILENAME: str = "latest.bin"
+DEFAULT_FIRMWARE_UPGRADE_PORT: int = 443
+DEFAULT_FIRMWARE_UPGRADE_URL: str = "https://repo.guardiancloud.services/gvc/fw"
 
 
 class Device:
@@ -18,7 +18,7 @@ class Device:
 
     def __init__(self, execute_command: Callable[..., Coroutine]) -> None:
         """Initialize."""
-        self._execute_command = execute_command
+        self._execute_command: Callable[..., Coroutine] = execute_command
 
     async def diagnostics(self) -> dict:
         """Retrieve diagnostics info.
@@ -68,9 +68,9 @@ class Device:
         :param url: The firmware file's URL
         :type url: ``str``
         :param port: The firmware file's port
-        :type url: ``int``
+        :type port: ``int``
         :param filename: The firmware file's filename
-        :type url: ``str``
+        :type filename: ``str``
         :rtype: ``dict``
         """
         return await self._execute_command(

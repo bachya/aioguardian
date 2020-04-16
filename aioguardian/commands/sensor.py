@@ -13,7 +13,7 @@ class Sensor:  # pylint: disable=too-few-public-methods
 
     def __init__(self, execute_command: Callable[..., Coroutine]) -> None:
         """Initialize."""
-        self._execute_command = execute_command
+        self._execute_command: Callable[..., Coroutine] = execute_command
 
     async def sensor_status(self) -> dict:
         """Retrieve status of onboard sensors (not external, paired sensors).
