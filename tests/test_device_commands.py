@@ -37,7 +37,8 @@ async def test_diagnostics_failure(mock_datagram_client):
         with pytest.raises(RequestError) as err:
             async with Client("192.168.1.100") as client:
                 _ = await client.device.diagnostics()
-            assert "error" in err
+
+    assert "diagnostics command failed" in str(err.value)
 
 
 @pytest.mark.asyncio
@@ -63,7 +64,8 @@ async def test_factory_reset_failure(mock_datagram_client):
         with pytest.raises(RequestError) as err:
             async with Client("192.168.1.100") as client:
                 _ = await client.device.factory_reset()
-            assert "error" in err
+
+    assert "factory_reset command failed" in str(err.value)
 
 
 @pytest.mark.asyncio
@@ -92,7 +94,8 @@ async def test_upgrade_firmware_failure(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 _ = await client.device.upgrade_firmware()
             client.disconnect()
-            assert "error" in err
+
+    assert "upgrade_firmware command failed" in str(err.value)
 
 
 @pytest.mark.asyncio
@@ -119,7 +122,8 @@ async def test_ping_failure(mock_datagram_client):
         with pytest.raises(RequestError) as err:
             async with Client("192.168.1.100") as client:
                 _ = await client.device.ping()
-            assert "error" in err
+
+    assert "ping command failed" in str(err.value)
 
 
 @pytest.mark.asyncio
@@ -145,4 +149,5 @@ async def test_reboot_failure(mock_datagram_client):
         with pytest.raises(RequestError) as err:
             async with Client("192.168.1.100") as client:
                 _ = await client.device.reboot()
-            assert "error" in err
+
+    assert "reboot command failed" in str(err.value)
