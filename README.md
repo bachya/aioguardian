@@ -89,6 +89,7 @@ Many commands are available:
 * `client.device.wifi_enable_ap()`: enable the device's onboard WiFi access point
 * `client.device.wifi_reset()`: reset all WiFi info
 * `client.device.wifi_status()`: get information related to the device's WiFi connections
+* `client.sensor.pair_dump()`: get information on all paired sensors
 * `client.sensor.sensor_status()`: get information from the device's onboard sensors
 * `client.valve.valve_close()`: close the valve
 * `client.valve.valve_halt()`: halt the valve mid-open or mid-close (be careful!)

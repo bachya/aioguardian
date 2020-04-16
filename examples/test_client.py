@@ -63,6 +63,12 @@ async def main() -> None:
                 "sensor_status_response command response: %s", sensor_status_response
             )
 
+            sensor_pair_dump_response = await guardian.sensor.sensor_pair_dump()
+            _LOGGER.info(
+                "sensor_pair_dump_response command response: %s",
+                sensor_pair_dump_response,
+            )
+
             # --- VALVE COMMANDS ---
             valve_status_response = await guardian.valve.valve_status()
             _LOGGER.info(
