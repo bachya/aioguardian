@@ -24,8 +24,8 @@ async def test_pair_sensor_failure(mock_datagram_client):
 
 
 @pytest.mark.asyncio
-async def test_upgrade_firmware_invalid_filename(mock_datagram_client):
-    """Test that an invalid firmware filename throws an exception."""
+async def test_pair_sensor_invalid_uid(mock_datagram_client):
+    """Test that an invalid UID throws an exception."""
     with mock_datagram_client:
         with pytest.raises(CommandError) as err:
             async with Client("192.168.1.100") as client:
