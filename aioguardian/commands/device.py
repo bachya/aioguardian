@@ -11,24 +11,24 @@ DEFAULT_FIRMWARE_UPGRADE_FILENAME: str = "latest.bin"
 DEFAULT_FIRMWARE_UPGRADE_PORT: int = 443
 DEFAULT_FIRMWARE_UPGRADE_URL: str = "https://repo.guardiancloud.services/gvc/fw"
 
-MAX_LENGTH_SSID: int = 36
-MAX_LENGTH_SSID_PASSWORD: int = 64
-
-PARAM_SSID: str = "ssid"
+PARAM_FILENAME: str = "filename"
 PARAM_PASSWORD: str = "password"
+PARAM_PORT: str = "port"
+PARAM_SSID: str = "ssid"
+PARAM_URL: str = "url"
+
+UPGRADE_FIRMWARE_PARAM_SCHEMA: vol.Schema = vol.Schema(
+    {
+        vol.Required(PARAM_URL): vol.All(vol.Url(), vol.Length(max=256)),
+        vol.Required(PARAM_PORT): int,
+        vol.Required(PARAM_FILENAME): vol.All(str, vol.Length(max=48)),
+    }
+)
 
 WIFI_CONFIGURE_PARAM_SCHEMA: vol.Schema = vol.Schema(
     {
-        vol.Required(PARAM_SSID): vol.All(
-            str,
-            vol.Length(max=MAX_LENGTH_SSID),
-            msg=f"WiFi SSID has a max length of {MAX_LENGTH_SSID}",
-        ),
-        vol.Required(PARAM_PASSWORD): vol.All(
-            str,
-            vol.Length(max=MAX_LENGTH_SSID_PASSWORD),
-            msg=f"WiFi password has a max length of {MAX_LENGTH_SSID_PASSWORD}",
-        ),
+        vol.Required(PARAM_SSID): vol.All(str, vol.Length(max=36)),
+        vol.Required(PARAM_PASSWORD): vol.All(str, vol.Length(max=64)),
     }
 )
 
@@ -97,10 +97,14 @@ class Device:
         :type filename: ``str``
         :rtype: ``dict``
         """
-        return await self._execute_command(
-            Command.upgrade_firmware,
-            params={"url": url, "port": port, "filename": filename},
-        )
+        params = {PARAM_URL: url, PARAM_PORT: port, PARAM_FILENAME: filename}
+
+        try:
+            UPGRADE_FIRMWARE_PARAM_SCHEMA(params)
+        except vol.Invalid as err:
+            raise GuardianError(f"Invalid parameters provided: {err}") from None
+
+        return await self._execute_command(Command.upgrade_firmware, params=params)
 
     async def wifi_configure(self, ssid: str, password: str) -> dict:
         """Configure the device's WiFi (i.e., connect it to an SSID).
