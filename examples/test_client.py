@@ -33,13 +33,18 @@ async def main() -> None:
             # )
 
             wifi_status_response = await guardian.device.wifi_status()
-            _LOGGER.info(
-                "wifi_status command response: %s", wifi_status_response
-            )
+            _LOGGER.info("wifi_status command response: %s", wifi_status_response)
 
             # wifi_reset_response = await guardian.device.wifi_reset()
             # _LOGGER.info(
             #     "wifi_reset command response: %s", wifi_reset_response
+            # )
+
+            # wifi_configure_response = await guardian.device.wifi_configure(
+            #     "<SSID>", "<PASSWORD>"
+            # )
+            # _LOGGER.info(
+            #     "wifi_configure command response: %s", wifi_configure_response
             # )
 
             # --- SENSOR COMMANDS ---
