@@ -1,6 +1,6 @@
-"""Run an example script to quickly test."""
+"""Run an example script to quickly test the guardian."""
+import asyncio
 import logging
-import time
 
 from aioguardian import Client
 from aioguardian.errors import GuardianError
@@ -8,36 +8,36 @@ from aioguardian.errors import GuardianError
 _LOGGER = logging.getLogger(__name__)
 
 
-def main() -> None:
+async def main() -> None:
     """Create the aiohttp session and run the example."""
     logging.basicConfig(level=logging.DEBUG)
 
-    client = Client("172.16.11.208")
-
-    start = time.time()
+    guardian = Client("172.16.11.208")
 
     try:
+        # Connect to the device:
+        await guardian.connect()
+
         # Run through various device-related commands:
-        ping_response = client.device.ping()
+        ping_response = await guardian.device.ping()
         _LOGGER.info("Ping response: %s", ping_response)
 
-        diagnostics_response = client.device.diagnostics()
+        diagnostics_response = await guardian.device.diagnostics()
         _LOGGER.info("Diagnostics response: %s", diagnostics_response)
 
-        reboot_response = client.device.reboot()
+        reboot_response = await guardian.device.reboot()
         _LOGGER.info("Reboot response: %s", reboot_response)
 
-        # factory_reset_response = client.device.factory_reset()
+        # factory_reset_response = await guardian.device.factory_reset()
         # _LOGGER.info("Factory reset response: %s", factory_reset_response)
 
-        # upgrade_firmware_response = client.device.upgrade_firmware()
+        # upgrade_firmware_response = await guardian.device.upgrade_firmware()
         # _LOGGER.info("Upgrade firmware response: %s", upgrade_firmware_response)
+
+        # Disconnect from the device:
+        guardian.disconnect()
     except GuardianError as err:
         _LOGGER.info(err)
 
-    end = time.time()
 
-    _LOGGER.info("Execution time: %s seconds", end - start)
-
-
-main()
+asyncio.run(main())
