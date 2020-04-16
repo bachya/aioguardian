@@ -63,7 +63,7 @@ async def test_upgrade_firmware_invalid_url(mock_datagram_client):
                 _ = await client.device.upgrade_firmware(url="not_real_url")
 
     assert str(err.value) == (
-        "Invalid parameters provided: expected a URL for dictionary value @ data['url']"
+        "Invalid parameters provided: Invalid URL for dictionary value @ data['url']"
     )
 
 

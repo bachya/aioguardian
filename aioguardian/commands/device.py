@@ -4,8 +4,9 @@ from typing import Callable, Coroutine
 
 import voluptuous as vol
 
-from aioguardian.errors import GuardianError
+from aioguardian.errors import CommandError
 from aioguardian.helpers.command import Command
+import aioguardian.helpers.config_validation as cv
 
 DEFAULT_FIRMWARE_UPGRADE_FILENAME: str = "latest.bin"
 DEFAULT_FIRMWARE_UPGRADE_PORT: int = 443
@@ -19,7 +20,7 @@ PARAM_URL: str = "url"
 
 UPGRADE_FIRMWARE_PARAM_SCHEMA: vol.Schema = vol.Schema(
     {
-        vol.Required(PARAM_URL): vol.All(vol.Url(), vol.Length(max=256)),
+        vol.Required(PARAM_URL): vol.All(cv.url, vol.Length(max=256)),
         vol.Required(PARAM_PORT): int,
         vol.Required(PARAM_FILENAME): vol.All(str, vol.Length(max=48)),
     }
@@ -102,7 +103,7 @@ class Device:
         try:
             UPGRADE_FIRMWARE_PARAM_SCHEMA(params)
         except vol.Invalid as err:
-            raise GuardianError(f"Invalid parameters provided: {err}") from None
+            raise CommandError(f"Invalid parameters provided: {err}") from None
 
         return await self._execute_command(Command.upgrade_firmware, params=params)
 
@@ -120,7 +121,7 @@ class Device:
         try:
             WIFI_CONFIGURE_PARAM_SCHEMA(params)
         except vol.Invalid as err:
-            raise GuardianError(f"Invalid parameters provided: {err}") from None
+            raise CommandError(f"Invalid parameters provided: {err}") from None
 
         return await self._execute_command(Command.wifi_configure, params=params)
 
