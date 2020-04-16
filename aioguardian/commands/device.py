@@ -78,6 +78,13 @@ class Device:
             params={"url": url, "port": port, "filename": filename},
         )
 
+    async def wifi_reset(self) -> dict:
+        """Erase and reset all WiFi settings.
+
+        :rtype: ``dict``
+        """
+        return await self._execute_command(Command.wifi_reset)
+
     async def wifi_status(self) -> dict:
         """Return the current WiFi status of the device.
 
