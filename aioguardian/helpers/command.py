@@ -9,4 +9,5 @@ class Command(Enum):
     diagnostics = 1
     reboot = 2
     upgrade_firmware = 4
+    sensor_status = 80
     factory_reset = 255

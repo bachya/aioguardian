@@ -1,5 +1,4 @@
 """Test commands related to the device itself."""
-from asynctest import CoroutineMock, MagicMock, patch
 import pytest
 
 from aioguardian import Client
@@ -13,7 +12,7 @@ from tests.common import load_fixture
     "command_response", [load_fixture("diagnostics_success_response.json").encode()]
 )
 async def test_diagnostics_success(mock_datagram_client):
-    """Test successfully getting diagnostics info in async mode."""
+    """Test the diagnostics command succeeding."""
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             diagnostics_response = await client.device.diagnostics()
@@ -32,7 +31,7 @@ async def test_diagnostics_success(mock_datagram_client):
     "command_response", [load_fixture("diagnostics_failure_response.json").encode()]
 )
 async def test_diagnostics_failure(mock_datagram_client):
-    """Test the diagnostics command failing in async mode."""
+    """Test the diagnostics command failing."""
     with mock_datagram_client:
         with pytest.raises(RequestError) as err:
             async with Client("192.168.1.100") as client:
@@ -46,7 +45,7 @@ async def test_diagnostics_failure(mock_datagram_client):
     "command_response", [load_fixture("factory_reset_success_response.json").encode()]
 )
 async def test_factory_reset_success(mock_datagram_client):
-    """Test successfully getting factory_reset info in async mode."""
+    """Test the factory_reset command succeeding."""
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             factory_reset_response = await client.device.factory_reset()
@@ -59,7 +58,7 @@ async def test_factory_reset_success(mock_datagram_client):
     "command_response", [load_fixture("factory_reset_failure_response.json").encode()]
 )
 async def test_factory_reset_failure(mock_datagram_client):
-    """Test the factory_reset command failing in async mode."""
+    """Test the factory_reset command failing."""
     with mock_datagram_client:
         with pytest.raises(RequestError) as err:
             async with Client("192.168.1.100") as client:
@@ -74,7 +73,7 @@ async def test_factory_reset_failure(mock_datagram_client):
     [load_fixture("upgrade_firmware_success_response.json").encode()],
 )
 async def test_upgrade_firmware_success(mock_datagram_client):
-    """Test successfully getting upgrade_firmware info in async mode."""
+    """Test the upgrade_firmware command succeeding."""
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             upgrade_firmware_response = await client.device.upgrade_firmware()
@@ -88,7 +87,7 @@ async def test_upgrade_firmware_success(mock_datagram_client):
     [load_fixture("upgrade_firmware_failure_response.json").encode()],
 )
 async def test_upgrade_firmware_failure(mock_datagram_client):
-    """Test the upgrade_firmware command failing in async mode."""
+    """Test the upgrade_firmware command failing."""
     with mock_datagram_client:
         with pytest.raises(RequestError) as err:
             async with Client("192.168.1.100") as client:
@@ -103,7 +102,7 @@ async def test_upgrade_firmware_failure(mock_datagram_client):
     "command_response", [load_fixture("ping_success_response.json").encode()]
 )
 async def test_ping_success(mock_datagram_client):
-    """Test a successful ping of the device in async mode."""
+    """Test the ping command succeeding."""
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             ping_response = await client.device.ping()
@@ -117,7 +116,7 @@ async def test_ping_success(mock_datagram_client):
     "command_response", [load_fixture("ping_failure_response.json").encode()]
 )
 async def test_ping_failure(mock_datagram_client):
-    """Test a failureful ping of the device in async mode."""
+    """Test a failured ping of the device."""
     with mock_datagram_client:
         with pytest.raises(RequestError) as err:
             async with Client("192.168.1.100") as client:
@@ -131,7 +130,7 @@ async def test_ping_failure(mock_datagram_client):
     "command_response", [load_fixture("reboot_success_response.json").encode()]
 )
 async def test_reboot_success(mock_datagram_client):
-    """Test successfully getting reboot info in async mode."""
+    """Test the reboot command succeeding."""
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             reboot_response = await client.device.reboot()
@@ -144,7 +143,7 @@ async def test_reboot_success(mock_datagram_client):
     "command_response", [load_fixture("reboot_failure_response.json").encode()]
 )
 async def test_reboot_failure(mock_datagram_client):
-    """Test the reboot command failing in async mode."""
+    """Test the reboot command failing."""
     with mock_datagram_client:
         with pytest.raises(RequestError) as err:
             async with Client("192.168.1.100") as client:

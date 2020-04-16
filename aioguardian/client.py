@@ -7,7 +7,8 @@ from typing import Optional
 from async_timeout import timeout
 import asyncio_dgram
 
-from aioguardian.device import Device
+from aioguardian.commands.device import Device
+from aioguardian.commands.sensor import Sensor
 from aioguardian.errors import RequestError, SocketError
 from aioguardian.helpers.command import Command
 
@@ -42,6 +43,7 @@ class Client:
         self._stream: asyncio_dgram.aio.DatagramStream = None
 
         self.device = Device(self.execute_command)
+        self.sensor = Sensor(self.execute_command)
 
     async def __aenter__(self):
         """Define an entry point into this object via a context manager."""
