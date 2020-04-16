@@ -32,6 +32,11 @@ async def main() -> None:
             #     "upgrade_firmware command response: %s", upgrade_firmware_response
             # )
 
+            wifi_status_response = await guardian.device.wifi_status()
+            _LOGGER.info(
+                "wifi_status command response: %s", wifi_status_response
+            )
+
             # --- SENSOR COMMANDS ---
             sensor_status_response = await guardian.sensor.sensor_status()
             _LOGGER.info(
