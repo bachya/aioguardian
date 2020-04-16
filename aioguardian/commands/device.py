@@ -124,6 +124,13 @@ class Device:
 
         return await self._execute_command(Command.wifi_configure, params=params)
 
+    async def wifi_enable_ap(self) -> dict:
+        """Enable the device's onboard WiFi access point.
+
+        :rtype: ``dict``
+        """
+        return await self._execute_command(Command.wifi_enable_ap)
+
     async def wifi_reset(self) -> dict:
         """Erase and reset all WiFi settings.
 

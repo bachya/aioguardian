@@ -85,6 +85,7 @@ Many commands are available:
 * `client.device.reboot()`: reboot the device
 * `client.device.upgrade_firmware()`: initiate a firmware upgrade on the device
 * `client.device.wifi_configure()`: connect the device to an SSID
+* `client.device.wifi_enable_ap()`: enable the device's onboard WiFi access point
 * `client.device.wifi_reset()`: reset all WiFi info
 * `client.device.wifi_status()`: get information related to the device's WiFi connections
 * `client.sensor.sensor_status()`: get information from the device's onboard sensors

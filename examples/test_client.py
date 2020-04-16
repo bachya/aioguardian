@@ -47,6 +47,11 @@ async def main() -> None:
             #     "wifi_configure command response: %s", wifi_configure_response
             # )
 
+            # wifi_enable_ap_response = await guardian.device.wifi_enable_ap()
+            # _LOGGER.info(
+            #     "wifi_enable_ap command response: %s", wifi_enable_ap_response
+            # )
+
             # --- SENSOR COMMANDS ---
             sensor_status_response = await guardian.sensor.sensor_status()
             _LOGGER.info(
