@@ -20,29 +20,23 @@ async def test_command_without_socket_connect():
 @pytest.mark.asyncio
 async def test_connect_timeout():
     """Test that a timeout during connection throws an exception."""
-    client = Client("192.168.1.100")
-
     with patch(
         "asyncio_dgram.connect", CoroutineMock(side_effect=asyncio.TimeoutError)
     ):
         with pytest.raises(SocketError) as err:
-            await client.connect()
-            await client.device.ping()
-            client.disconnect()
+            async with Client("192.168.1.100") as client:
+                await client.device.ping()
             assert "Connection to device timed out" in err
 
 
 @pytest.mark.asyncio
 async def test_request_timeout():
     """Test that a timeout during connection throws an exception."""
-    client = Client("192.168.1.100")
-
     with patch(
         "asyncio_dgram.aio.DatagramStream.send",
         CoroutineMock(side_effect=asyncio.TimeoutError),
     ):
         with pytest.raises(SocketError) as err:
-            await client.connect()
-            await client.device.ping()
-            client.disconnect()
+            async with Client("192.168.1.100") as client:
+                await client.device.ping()
             assert "Request timed out" in err
