@@ -2,11 +2,35 @@
 import asyncio
 from typing import Callable, Coroutine
 
+import voluptuous as vol
+
+from aioguardian.errors import GuardianError
 from aioguardian.helpers.command import Command
 
 DEFAULT_FIRMWARE_UPGRADE_FILENAME: str = "latest.bin"
 DEFAULT_FIRMWARE_UPGRADE_PORT: int = 443
 DEFAULT_FIRMWARE_UPGRADE_URL: str = "https://repo.guardiancloud.services/gvc/fw"
+
+MAX_LENGTH_SSID: int = 36
+MAX_LENGTH_SSID_PASSWORD: int = 64
+
+PARAM_SSID: str = "ssid"
+PARAM_PASSWORD: str = "password"
+
+WIFI_CONFIGURE_PARAM_SCHEMA: vol.Schema = vol.Schema(
+    {
+        vol.Required(PARAM_SSID): vol.All(
+            str,
+            vol.Length(max=MAX_LENGTH_SSID),
+            msg=f"WiFi SSID has a max length of {MAX_LENGTH_SSID}",
+        ),
+        vol.Required(PARAM_PASSWORD): vol.All(
+            str,
+            vol.Length(max=MAX_LENGTH_SSID_PASSWORD),
+            msg=f"WiFi password has a max length of {MAX_LENGTH_SSID_PASSWORD}",
+        ),
+    }
+)
 
 
 class Device:
@@ -61,7 +85,7 @@ class Device:
         *,
         url: str = DEFAULT_FIRMWARE_UPGRADE_URL,
         port: int = DEFAULT_FIRMWARE_UPGRADE_PORT,
-        filename: str = DEFAULT_FIRMWARE_UPGRADE_FILENAME
+        filename: str = DEFAULT_FIRMWARE_UPGRADE_FILENAME,
     ) -> dict:
         """Upgrade the firmware on the device.
 
@@ -77,6 +101,24 @@ class Device:
             Command.upgrade_firmware,
             params={"url": url, "port": port, "filename": filename},
         )
+
+    async def wifi_configure(self, ssid: str, password: str) -> dict:
+        """Configure the device's WiFi (i.e., connect it to an SSID).
+
+        :param ssid: The SSID to connect to
+        :type ssid: ``str``
+        :param password: The SSID's password
+        :type password: ``str``
+        :rtype: ``dict``
+        """
+        params = {PARAM_SSID: ssid, PARAM_PASSWORD: password}
+
+        try:
+            WIFI_CONFIGURE_PARAM_SCHEMA(params)
+        except vol.Invalid as err:
+            raise GuardianError(f"Invalid parameters provided: {err}") from None
+
+        return await self._execute_command(Command.wifi_configure, params=params)
 
     async def wifi_reset(self) -> dict:
         """Erase and reset all WiFi settings.
