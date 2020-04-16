@@ -1,2 +1,3 @@
 """Define the aioguardian package."""
-from .client import Client  # noqa
+from aioguardian.client import Client  # noqa
+from aioguardian.commands.valve import ValveState  # noqa

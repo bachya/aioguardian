@@ -1,7 +1,7 @@
 """Test commands related to the device's valve."""
 import pytest
 
-from aioguardian import Client
+from aioguardian import Client, ValveState
 from aioguardian.errors import RequestError
 
 from tests.common import load_fixture
@@ -20,7 +20,7 @@ async def test_valve_status_success(mock_datagram_client):
         assert valve_status_response["status"] == "ok"
         valve_status_response["data"]["enabled"] = False
         valve_status_response["data"]["direction"] = True
-        valve_status_response["data"]["state"] = 0
+        valve_status_response["data"]["state"] = ValveState.default
         valve_status_response["data"]["travel_count"] = 0
         valve_status_response["data"]["instantaneous_current"] = 0
         valve_status_response["data"]["instantaneous_current_ddt"] = 0
