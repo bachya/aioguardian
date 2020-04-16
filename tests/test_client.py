@@ -5,29 +5,44 @@ from asynctest import CoroutineMock, patch
 import pytest
 
 from aioguardian import Client
-from aioguardian.client import _get_event_loop
 from aioguardian.errors import SocketError
 
 
-def test_get_event_loop():
-    """Test getting the active (or a new) event loop."""
-    loop = _get_event_loop()  # pylint: disable=protected-access
-    assert isinstance(loop, asyncio.AbstractEventLoop)
-
-    # Test there being no currently running event loop generates one:
-    with patch("asyncio.get_event_loop", side_effect=RuntimeError):
-        loop = _get_event_loop()  # pylint: disable=protected-access
-        assert isinstance(loop, asyncio.AbstractEventLoop)
+@pytest.mark.asyncio
+async def test_command_without_socket_connect():
+    """Test that executing a command without an open connection throws an exception."""
+    client = Client("192.168.1.100")
+    with pytest.raises(SocketError) as err:
+        await client.device.ping()
+        assert "You aren't connected to the device yet" in err
 
 
 @pytest.mark.asyncio
-async def test_request_timeout():
-    """Test a successful ping of the device in async mode."""
-    client = Client("192.168.1.100", use_async=True)
+async def test_connect_timeout():
+    """Test that a timeout during connection throws an exception."""
+    client = Client("192.168.1.100")
 
     with patch(
         "asyncio_dgram.connect", CoroutineMock(side_effect=asyncio.TimeoutError)
     ):
         with pytest.raises(SocketError) as err:
+            await client.connect()
             await client.device.ping()
+            client.disconnect()
+            assert "Connection to device timed out" in err
+
+
+@pytest.mark.asyncio
+async def test_request_timeout():
+    """Test that a timeout during connection throws an exception."""
+    client = Client("192.168.1.100")
+
+    with patch(
+        "asyncio_dgram.aio.DatagramStream.send",
+        CoroutineMock(side_effect=asyncio.TimeoutError),
+    ):
+        with pytest.raises(SocketError) as err:
+            await client.connect()
+            await client.device.ping()
+            client.disconnect()
             assert "Request timed out" in err
