@@ -14,21 +14,29 @@ async def main() -> None:
 
     async with Client("172.16.11.208") as guardian:
         try:
-            # Run through various device-related commands:
+            # --- DEVICE COMMANDS ---
             ping_response = await guardian.device.ping()
-            _LOGGER.info("Ping response: %s", ping_response)
+            _LOGGER.info("ping command response: %s", ping_response)
 
             diagnostics_response = await guardian.device.diagnostics()
-            _LOGGER.info("Diagnostics response: %s", diagnostics_response)
+            _LOGGER.info("diagnostics command response: %s", diagnostics_response)
 
-            reboot_response = await guardian.device.reboot()
-            _LOGGER.info("Reboot response: %s", reboot_response)
+            # reboot_response = await guardian.device.reboot()
+            # _LOGGER.info("reboot command response: %s", reboot_response)
 
             # factory_reset_response = await guardian.device.factory_reset()
-            # _LOGGER.info("Factory reset response: %s", factory_reset_response)
+            # _LOGGER.info("factory_reset command response: %s", factory_reset_response)
 
             # upgrade_firmware_response = await guardian.device.upgrade_firmware()
-            # _LOGGER.info("Upgrade firmware response: %s", upgrade_firmware_response)
+            # _LOGGER.info(
+            #     "upgrade_firmware command response: %s", upgrade_firmware_response
+            # )
+
+            # --- SENSOR COMMANDS ---
+            sensor_status_response = await guardian.sensor.sensor_status()
+            _LOGGER.info(
+                "sensor_status_response command response: %s", sensor_status_response
+            )
         except GuardianError as err:
             _LOGGER.info(err)
 

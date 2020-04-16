@@ -84,6 +84,7 @@ Many commands are available:
 * `client.device.ping()`: ping the device to determine whether it can be reached
 * `client.device.reboot()`: reboot the device
 * `client.device.upgrade_firmware()`: initiate a firmware upgrade on the device
+* `client.sensor.sensor_status()`: get information from the device's onboard sensors
 
 Details on how to use each operation can be found in the docstrings for the various
 methods; similarly, the test fixtures demonstrate the various types of JSON responses
