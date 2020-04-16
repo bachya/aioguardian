@@ -1,4 +1,4 @@
-"""Test commands related to the onboard sensors."""
+"""Test the sensor_status command."""
 import pytest
 
 from aioguardian import Client
