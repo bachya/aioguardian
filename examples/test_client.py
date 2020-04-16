@@ -48,6 +48,15 @@ async def main() -> None:
             _LOGGER.info(
                 "valve_open_response command response: %s", valve_open_response
             )
+
+            # Give the valve a chance to open fully so that the valve_close command
+            # doesn't error out:
+            await asyncio.sleep(3)
+
+            valve_close_response = await guardian.valve.valve_close()
+            _LOGGER.info(
+                "valve_close_response command response: %s", valve_close_response
+            )
         except GuardianError as err:
             _LOGGER.info(err)
 
