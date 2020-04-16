@@ -89,6 +89,7 @@ Many commands are available:
 * `client.valve.valve_halt()`: halt the valve mid-open or mid-close (be careful!)
 * `client.valve.valve_open()`: open the valve
 * `client.valve.valve_status()`: get information about the device's valve
+* `client.valve.valve_reset()`: reset all valve diagnostics
 
 Details on how to use each operation can be found in the docstrings for the various
 methods; similarly, the test fixtures demonstrate the various types of JSON responses

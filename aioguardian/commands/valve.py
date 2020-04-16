@@ -64,6 +64,16 @@ class Valve:
         """
         return await self._execute_command(Command.valve_open)
 
+    async def valve_reset(self) -> dict:
+        """Reset the valve.
+
+        This fully resets system motor diagnostics including open/close count and
+        lifetime average current draw and cannot be undone.
+
+        :rtype: ``dict``
+        """
+        return await self._execute_command(Command.valve_reset)
+
     async def valve_status(self) -> dict:
         """Retrieve status of the valve.
 
