@@ -43,3 +43,17 @@ async def test_request_timeout():
                 await client.device.ping()
 
         assert str(err.value) == "ping command timed out"
+
+
+@pytest.mark.asyncio
+async def test_unknown_command():
+    """Test that an unknown command throws an exception."""
+    with patch(
+        "asyncio_dgram.aio.DatagramStream.send",
+        CoroutineMock(side_effect=asyncio.TimeoutError),
+    ):
+        with pytest.raises(SocketError) as err:
+            async with Client("192.168.1.100") as client:
+                await client.device.ping()
+
+        assert str(err.value) == "ping command timed out"

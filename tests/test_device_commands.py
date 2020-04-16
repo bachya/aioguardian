@@ -2,7 +2,7 @@
 import pytest
 
 from aioguardian import Client
-from aioguardian.errors import RequestError
+from aioguardian.errors import CommandError
 
 from tests.common import load_fixture
 
@@ -33,7 +33,7 @@ async def test_diagnostics_success(mock_datagram_client):
 async def test_diagnostics_failure(mock_datagram_client):
     """Test the diagnostics command failing."""
     with mock_datagram_client:
-        with pytest.raises(RequestError) as err:
+        with pytest.raises(CommandError) as err:
             async with Client("192.168.1.100") as client:
                 _ = await client.device.diagnostics()
 
@@ -60,7 +60,7 @@ async def test_factory_reset_success(mock_datagram_client):
 async def test_factory_reset_failure(mock_datagram_client):
     """Test the factory_reset command failing."""
     with mock_datagram_client:
-        with pytest.raises(RequestError) as err:
+        with pytest.raises(CommandError) as err:
             async with Client("192.168.1.100") as client:
                 _ = await client.device.factory_reset()
 
@@ -89,7 +89,7 @@ async def test_upgrade_firmware_success(mock_datagram_client):
 async def test_upgrade_firmware_failure(mock_datagram_client):
     """Test the upgrade_firmware command failing."""
     with mock_datagram_client:
-        with pytest.raises(RequestError) as err:
+        with pytest.raises(CommandError) as err:
             async with Client("192.168.1.100") as client:
                 _ = await client.device.upgrade_firmware()
             client.disconnect()
@@ -118,7 +118,7 @@ async def test_ping_success(mock_datagram_client):
 async def test_ping_failure(mock_datagram_client):
     """Test a failured ping of the device."""
     with mock_datagram_client:
-        with pytest.raises(RequestError) as err:
+        with pytest.raises(CommandError) as err:
             async with Client("192.168.1.100") as client:
                 _ = await client.device.ping()
 
@@ -145,7 +145,7 @@ async def test_reboot_success(mock_datagram_client):
 async def test_reboot_failure(mock_datagram_client):
     """Test the reboot command failing."""
     with mock_datagram_client:
-        with pytest.raises(RequestError) as err:
+        with pytest.raises(CommandError) as err:
             async with Client("192.168.1.100") as client:
                 _ = await client.device.reboot()
 

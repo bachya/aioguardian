@@ -2,7 +2,7 @@
 import pytest
 
 from aioguardian import Client
-from aioguardian.errors import RequestError
+from aioguardian.errors import CommandError
 
 from tests.common import load_fixture
 
@@ -34,7 +34,7 @@ async def test_valve_status_success(mock_datagram_client):
 async def test_valve_status_failure(mock_datagram_client):
     """Test the valve_status command failing."""
     with mock_datagram_client:
-        with pytest.raises(RequestError) as err:
+        with pytest.raises(CommandError) as err:
             async with Client("192.168.1.100") as client:
                 _ = await client.valve.valve_status()
 

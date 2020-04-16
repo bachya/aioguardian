@@ -10,7 +10,7 @@ import asyncio_dgram
 from aioguardian.commands.device import Device
 from aioguardian.commands.sensor import Sensor
 from aioguardian.commands.valve import Valve
-from aioguardian.errors import RequestError, SocketError
+from aioguardian.errors import SocketError, raise_on_command_error
 from aioguardian.helpers.command import Command
 
 _LOGGER = logging.getLogger(__name__)
@@ -95,7 +95,6 @@ class Client:
         decoded_data = json.loads(data.decode())
         _LOGGER.debug("Received data from %s: %s", remote_addr, decoded_data)
 
-        if decoded_data.get("status") != "ok":
-            raise RequestError(f"{command.name} command failed: {decoded_data}")
+        raise_on_command_error(command, decoded_data)
 
         return decoded_data
