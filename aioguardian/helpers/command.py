@@ -18,5 +18,6 @@ class Command(Enum):
     wifi_reset = 33
     wifi_configure = 34
     wifi_enable_ap = 35
+    wifi_disable_ap = 36
     sensor_status = 80
     factory_reset = 255

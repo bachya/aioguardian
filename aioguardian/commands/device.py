@@ -124,6 +124,13 @@ class Device:
 
         return await self._execute_command(Command.wifi_configure, params=params)
 
+    async def wifi_disable_ap(self) -> dict:
+        """Disable the device's onboard WiFi access point.
+
+        :rtype: ``dict``
+        """
+        return await self._execute_command(Command.wifi_disable_ap)
+
     async def wifi_enable_ap(self) -> dict:
         """Enable the device's onboard WiFi access point.
 
