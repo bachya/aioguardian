@@ -85,6 +85,7 @@ Many commands are available:
 * `client.device.reboot()`: reboot the device
 * `client.device.upgrade_firmware()`: initiate a firmware upgrade on the device
 * `client.sensor.sensor_status()`: get information from the device's onboard sensors
+* `client.valve.valve_open()`: open the valve
 * `client.valve.valve_status()`: get information about the device's valve
 
 Details on how to use each operation can be found in the docstrings for the various

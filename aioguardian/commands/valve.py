@@ -31,11 +31,18 @@ class Valve:  # pylint: disable=too-few-public-methods
         """Initialize."""
         self._execute_command = execute_command
 
+    async def valve_open(self) -> dict:
+        """Open the valve.
+
+        :rtype: ``dict``
+        """
+        return await self._execute_command(Command.valve_open)
+
     async def valve_status(self) -> dict:
         """Retrieve status of the valve.
 
         :rtype: ``dict``
         """
-        data = await self._execute_command(Command.valve_status)
-        data["data"]["state"] = VALVE_STATE_MAPPING[data["data"]["state"]]
-        return data
+        resp = await self._execute_command(Command.valve_status)
+        resp["data"]["state"] = VALVE_STATE_MAPPING[resp["data"]["state"]]
+        return resp
