@@ -1,4 +1,5 @@
 """async define device info-related API endpoints."""
+import asyncio
 from typing import Callable, Coroutine
 
 from aioguardian.helpers.command import Command
@@ -45,7 +46,15 @@ class Device:
 
         :rtype: ``dict``
         """
-        return await self._execute_command(Command.reboot)
+        resp = await self._execute_command(Command.reboot)
+
+        # The Guardian API docs indicate that the reboot will occur "3 seconds after
+        # command is received" – in order to guard against errors from subsequent
+        # commands while the reboot is occurring, we sleep for 3 seconds before
+        # returning the response:
+        await asyncio.sleep(3)
+
+        return resp
 
     async def upgrade_firmware(
         self,
