@@ -10,7 +10,7 @@ _LOGGER = logging.getLogger(__name__)
 
 async def main() -> None:
     """Create the aiohttp session and run the example."""
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
 
     async with Client("172.16.11.208") as guardian:
         try:
@@ -36,6 +36,12 @@ async def main() -> None:
             sensor_status_response = await guardian.sensor.sensor_status()
             _LOGGER.info(
                 "sensor_status_response command response: %s", sensor_status_response
+            )
+
+            # --- VALVE COMMANDS ---
+            valve_status_response = await guardian.valve.valve_status()
+            _LOGGER.info(
+                "valve_status_response command response: %s", valve_status_response
             )
         except GuardianError as err:
             _LOGGER.info(err)
