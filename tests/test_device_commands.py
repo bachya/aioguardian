@@ -1,4 +1,5 @@
 """Test commands related to the device itself."""
+from asynctest import CoroutineMock, patch
 import pytest
 
 from aioguardian import Client
@@ -141,7 +142,9 @@ async def test_reboot_success(mock_datagram_client):
     """Test the reboot command succeeding."""
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
-            reboot_response = await client.device.reboot()
+            # Patch asyncio.sleep so that this test doesn't take 3-ish seconds:
+            with patch("asyncio.sleep", CoroutineMock()):
+                reboot_response = await client.device.reboot()
         assert reboot_response["command"] == 2
         assert reboot_response["status"] == "ok"
 
