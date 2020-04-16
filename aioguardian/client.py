@@ -42,6 +42,15 @@ class Client:
 
         self.device = Device(self.execute_command)
 
+    async def __aenter__(self):
+        """Define an entry point into this object via a context manager."""
+        await self.connect()
+        return self
+
+    async def __aexit__(self, exc_type, exc_value, traceback):
+        """Define an exit point out of this object via a context manager."""
+        self.disconnect()
+
     async def connect(self) -> None:
         """Connect to the Guardian device."""
         try:
