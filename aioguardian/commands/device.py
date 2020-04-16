@@ -77,3 +77,10 @@ class Device:
             Command.upgrade_firmware,
             params={"url": url, "port": port, "filename": filename},
         )
+
+    async def wifi_status(self) -> dict:
+        """Return the current WiFi status of the device.
+
+        :rtype: ``dict``
+        """
+        return await self._execute_command(Command.wifi_status)
