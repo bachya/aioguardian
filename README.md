@@ -84,6 +84,7 @@ Many commands are available:
 * `client.device.ping()`: ping the device to determine whether it can be reached
 * `client.device.reboot()`: reboot the device
 * `client.device.upgrade_firmware()`: initiate a firmware upgrade on the device
+* `client.device.wifi_reset()`: reset all WiFi info
 * `client.device.wifi_status()`: get information related to the device's WiFi connections
 * `client.sensor.sensor_status()`: get information from the device's onboard sensors
 * `client.valve.valve_close()`: close the valve

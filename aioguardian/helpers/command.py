@@ -15,5 +15,6 @@ class Command(Enum):
     valve_halt = 19
     valve_reset = 20
     wifi_status = 32
+    wifi_reset = 33
     sensor_status = 80
     factory_reset = 255
