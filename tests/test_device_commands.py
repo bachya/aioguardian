@@ -37,7 +37,9 @@ async def test_diagnostics_failure(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 _ = await client.device.diagnostics()
 
-    assert "diagnostics command failed" in str(err.value)
+    assert str(err.value) == (
+        "diagnostics command failed (response: {'command': 1, 'status': 'error'})"
+    )
 
 
 @pytest.mark.asyncio
@@ -64,7 +66,9 @@ async def test_factory_reset_failure(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 _ = await client.device.factory_reset()
 
-    assert "factory_reset command failed" in str(err.value)
+    assert str(err.value) == (
+        "factory_reset command failed (response: {'command': 255, 'status': 'error'})"
+    )
 
 
 @pytest.mark.asyncio
@@ -94,7 +98,9 @@ async def test_upgrade_firmware_failure(mock_datagram_client):
                 _ = await client.device.upgrade_firmware()
             client.disconnect()
 
-    assert "upgrade_firmware command failed" in str(err.value)
+    assert str(err.value) == (
+        "upgrade_firmware command failed (response: {'command': 4, 'status': 'error'})"
+    )
 
 
 @pytest.mark.asyncio
@@ -122,7 +128,9 @@ async def test_ping_failure(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 _ = await client.device.ping()
 
-    assert "ping command failed" in str(err.value)
+    assert str(err.value) == (
+        "ping command failed (response: {'command': 0, 'status': 'error'})"
+    )
 
 
 @pytest.mark.asyncio
@@ -149,4 +157,6 @@ async def test_reboot_failure(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 _ = await client.device.reboot()
 
-    assert "reboot command failed" in str(err.value)
+    assert str(err.value) == (
+        "reboot command failed (response: {'command': 2, 'status': 'error'})"
+    )
