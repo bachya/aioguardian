@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+REPO_PATH="$( dirname "$( cd "$(dirname "$0")" ; pwd -P )" )"
+
 if [ -z "$1" ]; then
     echo "Usage: script/release [patch | minor | major]"
     exit 1
