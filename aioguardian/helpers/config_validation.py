@@ -6,7 +6,7 @@ import voluptuous as vol
 
 
 def alphanumeric(value: Any) -> str:
-    """Validate an URL."""
+    """Validate that a string is alphanumeric only."""
     str_value = str(value)
 
     if str_value.isalnum():
@@ -16,7 +16,7 @@ def alphanumeric(value: Any) -> str:
 
 
 def url(value: Any) -> str:
-    """Validate an URL."""
+    """Validate that a string is a URL."""
     url_in = str(value)
 
     if urlparse(url_in).scheme in ["http", "https"]:

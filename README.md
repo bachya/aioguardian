@@ -13,6 +13,7 @@
 
 - [Installation](#installation)
 - [Python Versions](#python-versions)
+- [Documentation](#documentation)
 - [Usage](#usage)
 - [Commands](#commands)
 - [Contributing](#contributing)
@@ -30,6 +31,10 @@ pip install aioguardian
 * Python 3.6
 * Python 3.7
 * Python 3.8 
+
+# Documentation
+
+Complete documentation can be found here: http://aioguardian.readthedocs.io
 
 # Usage
 
@@ -76,6 +81,7 @@ Many commands are available:
 * `client.device.diagnostics()`: return diagnostics info from the device
 * `client.device.factory_reset()`: perform a factory reset of the device
 * `client.device.ping()`: ping the device to determine whether it can be reached
+* `client.device.publish_state()`: publish the device state to the Guardian cloud
 * `client.device.reboot()`: reboot the device
 * `client.device.upgrade_firmware()`: initiate a firmware upgrade on the device
 * `client.device.wifi_configure()`: connect the device to an SSID
@@ -89,12 +95,11 @@ Many commands are available:
 * `client.valve.valve_close()`: close the valve
 * `client.valve.valve_halt()`: halt the valve mid-open or mid-close (be careful!)
 * `client.valve.valve_open()`: open the valve
-* `client.valve.valve_status()`: get information about the device's valve
 * `client.valve.valve_reset()`: reset all valve diagnostics
+* `client.valve.valve_status()`: get information about the device's valve
 
-Details on how to use each operation can be found in the docstrings for the various
-methods; similarly, the test fixtures demonstrate the various types of JSON responses
-you can anticipate.
+Response payload samples for each of these commands can be found in the
+[`fixtures` folder](/tree/dev/tests/fixtures).
 
 # Contributing
 

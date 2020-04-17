@@ -15,10 +15,10 @@ PAIR_SENSOR_PARAM_SCHEMA: vol.Schema = vol.Schema(
 
 
 class Sensor:
-    """Define the manager object.
+    """Define an object to manage sensor-related commands.
 
     Note that this class shouldn't be instantiated directly; it will be instantiated as
-    appropriate when creating a :meth:`aioguardian.client.Client`.
+    appropriate when creating a :meth:`aioguardian.Client`.
     """
 
     def __init__(self, execute_command: Callable[..., Coroutine]) -> None:

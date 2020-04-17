@@ -35,10 +35,10 @@ WIFI_CONFIGURE_PARAM_SCHEMA: vol.Schema = vol.Schema(
 
 
 class Device:
-    """Define the manager object.
+    """Define an object to manage device-related commands.
 
     Note that this class shouldn't be instantiated directly; it will be instantiated as
-    appropriate when creating a :meth:`aioguardian.client.Client`.
+    appropriate when creating a :meth:`aioguardian.Client`.
     """
 
     def __init__(self, execute_command: Callable[..., Coroutine]) -> None:
@@ -115,7 +115,7 @@ class Device:
         return await self._execute_command(Command.upgrade_firmware, params=params)
 
     async def wifi_configure(self, ssid: str, password: str) -> dict:
-        """Configure the device's WiFi (i.e., connect it to an SSID).
+        """Configure the device to a wireless network.
 
         :param ssid: The SSID to connect to
         :type ssid: ``str``
