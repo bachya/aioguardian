@@ -19,6 +19,8 @@ fi
 # Temporarily uninstall pre-commit hooks so that we can push to dev and master:
 pre-commit uninstall
 
+old_version="$(poetry version | awk -F' ' '{ print $2 }')"
+
 case "$1" in
     patch)
         poetry version patch
@@ -38,6 +40,11 @@ esac
 # Update the PyPI package version:
 new_version="$(poetry version | awk -F' ' '{ print $2 }')"
 git add pyproject.toml
+
+# Update the docs version:
+sphinx_conf=$(sed "s/$old_version/$new_version/g" "$REPO_PATH/docs/conf.py")
+echo "$sphinx_conf" > "$REPO_PATH/docs/conf.py"
+git add docs/conf.py
 
 # Commit, tag, and push:
 git commit -m "Bump version to $new_version"
