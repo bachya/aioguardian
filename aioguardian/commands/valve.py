@@ -24,10 +24,10 @@ VALVE_STATE_MAPPING: Dict[int, str] = {
 
 
 class Valve:
-    """Define the manager object.
+    """Define an object to manage valve-related commands.
 
     Note that this class shouldn't be instantiated directly; it will be instantiated as
-    appropriate when creating a :meth:`aioguardian.client.Client`.
+    appropriate when creating a :meth:`aioguardian.Client`.
     """
 
     def __init__(self, execute_command: Callable[..., Coroutine]) -> None:

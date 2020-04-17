@@ -1,4 +1,4 @@
-"""Define exception types for aioguardian."""
+"""Define exception types for ``aioguardian``."""
 from typing import Dict
 
 from aioguardian.helpers.command import Command
@@ -30,7 +30,7 @@ ERROR_CODE_MAPPING: Dict[int, str] = {
 }
 
 
-def raise_on_command_error(command: Command, data: dict) -> None:
+def _raise_on_command_error(command: Command, data: dict) -> None:
     """Examine a data response and raise errors appropriately.
 
     :param command: The command that was run

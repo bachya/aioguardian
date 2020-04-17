@@ -10,7 +10,7 @@ import asyncio_dgram
 from aioguardian.commands.device import Device
 from aioguardian.commands.sensor import Sensor
 from aioguardian.commands.valve import Valve
-from aioguardian.errors import SocketError, raise_on_command_error
+from aioguardian.errors import SocketError, _raise_on_command_error
 from aioguardian.helpers.command import Command
 
 _LOGGER = logging.getLogger(__name__)
@@ -20,7 +20,7 @@ DEFAULT_REQUEST_TIMEOUT: int = 10
 
 
 class Client:
-    """Define the client object.
+    """Define the class that can send commands to a Guardian device.
 
     :param ip_address: The IP address or FQDN of the Guardian device
     :type ip_address: ``str``
@@ -43,9 +43,9 @@ class Client:
         self._request_timeout: int = request_timeout
         self._stream: asyncio_dgram.aio.DatagramStream = None
 
-        self.device: Device = Device(self.execute_command)
-        self.sensor: Sensor = Sensor(self.execute_command)
-        self.valve: Valve = Valve(self.execute_command)
+        self.device: Device = Device(self._execute_command)
+        self.sensor: Sensor = Sensor(self._execute_command)
+        self.valve: Valve = Valve(self._execute_command)
 
     async def __aenter__(self) -> "Client":
         """Define an entry point into this object via a context manager."""
@@ -58,20 +58,7 @@ class Client:
         """Define an exit point out of this object via a context manager."""
         self.disconnect()
 
-    async def connect(self) -> None:
-        """Connect to the Guardian device."""
-        async with timeout(self._request_timeout):
-            try:
-                self._stream = await asyncio_dgram.connect((self._ip, self._port))
-            except asyncio.TimeoutError:
-                raise SocketError(f"Connection to device timed out")
-
-    def disconnect(self) -> None:
-        """Close the connection."""
-        self._stream.close()
-        self._stream = None
-
-    async def execute_command(
+    async def _execute_command(
         self, command: Command, *, params: Optional[dict] = None
     ) -> dict:
         """Make a request against the Guardian device and return the response.
@@ -98,6 +85,19 @@ class Client:
         decoded_data = json.loads(data.decode())
         _LOGGER.debug("Received data from %s: %s", remote_addr, decoded_data)
 
-        raise_on_command_error(command, decoded_data)
+        _raise_on_command_error(command, decoded_data)
 
         return decoded_data
+
+    async def connect(self) -> None:
+        """Connect to the Guardian device."""
+        async with timeout(self._request_timeout):
+            try:
+                self._stream = await asyncio_dgram.connect((self._ip, self._port))
+            except asyncio.TimeoutError:
+                raise SocketError(f"Connection to device timed out")
+
+    def disconnect(self) -> None:
+        """Close the connection."""
+        self._stream.close()
+        self._stream = None
