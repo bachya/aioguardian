@@ -66,6 +66,13 @@ class Device:
         """
         return await self._execute_command(Command.ping)
 
+    async def publish_state(self) -> dict:
+        """Publish the device's complete state to the Guardian cloud.
+
+        :rtype: ``dict``
+        """
+        return await self._execute_command(Command.publish_state)
+
     async def reboot(self) -> dict:
         """Reboot the device.
 
