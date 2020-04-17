@@ -13,6 +13,7 @@
 
 - [Installation](#installation)
 - [Python Versions](#python-versions)
+- [Documentation](#documentation)
 - [Usage](#usage)
 - [Commands](#commands)
 - [Contributing](#contributing)
@@ -30,6 +31,10 @@ pip install aioguardian
 * Python 3.6
 * Python 3.7
 * Python 3.8 
+
+# Documentation
+
+Complete documentation can be found here: http://aioguardian.readthedocs.io
 
 # Usage
 
@@ -95,8 +100,6 @@ Many commands are available:
 
 Response payload samples for each of these commands can be found in the
 [`fixtures` folder](/tree/dev/tests/fixtures).
-
-Complete documentation can be found here: http://aioguardian.readthedocs.io
 
 # Contributing
 
