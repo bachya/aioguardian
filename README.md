@@ -41,9 +41,7 @@ from aioguardian.errors import GuardianError
 
 
 async with Client("192.168.1.100") as client:
-    # Run various commands:
     await client.device.ping()
-    await client.device.diagnostics()
 
 
 asyncio.run(main())
@@ -59,17 +57,11 @@ from aioguardian import Client
 from aioguardian.errors import GuardianError
 
 
-# Create a client with the IP address or hostname of your Guardian device:
 client = Client("192.168.1.100")
 
-# Connect to the device:
 await client.connect()
-
-# Run various commands:
 await client.device.ping()
-await client.device.diagnostics()
-
-# Disconnect from the device – notice that this is a regular method:
+# Notice that disconnection is via a regular method, not a coroutine:
 client.disconnect()
 
 
