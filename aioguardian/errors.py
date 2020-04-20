@@ -11,7 +11,7 @@ class GuardianError(Exception):
 
 
 class CommandError(GuardianError):
-    """Define an general error for commands with issues."""
+    """Define an error related to commands (invalid commands, invalid params, etc.)."""
 
     pass
 

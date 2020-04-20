@@ -15,7 +15,7 @@ Client
 Command Classes
 ---------------
 
-The classes should not be instantiated directly; rather, the exist as properties of a
+The classes should not be instantiated directly; rather, they exist as properties of a
 :meth:`aioguardian.Client` class:
 
 * ``client.device`` is an instance of :meth:`aioguardian.commands.device.Device`.
