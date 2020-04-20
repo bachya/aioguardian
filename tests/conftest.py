@@ -6,13 +6,13 @@ import pytest
 
 @pytest.fixture()
 def command_response():
-    """Define an IP address for the Guardian device."""
+    """Define a fixture for the JSON response payload of a command."""
     return MagicMock()
 
 
 @pytest.fixture()
 def mock_datagram_client(command_response, remote_addr):
-    """Define a mocked datagram client that successfully returns responses."""
+    """Define a mocked datagram client."""
     mock_datagram_client = MagicMock()
     mock_datagram_client.connect = CoroutineMock()
     mock_datagram_client.recv = CoroutineMock(
