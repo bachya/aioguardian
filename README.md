@@ -100,7 +100,7 @@ Many commands are available:
 * `client.valve.valve_status()`: get information about the device's valve
 
 Response payload samples for each of these commands can be found in the
-[`fixtures` folder](/tree/dev/tests/fixtures).
+[`fixtures` folder](https://github.com/bachya/aioguardian/tree/dev/tests/fixtures).
 
 # Contributing
 
