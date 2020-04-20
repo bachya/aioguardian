@@ -2,7 +2,7 @@
 import asyncio
 import json
 import logging
-from typing import Optional
+from typing import Optional, TracebackType, Type
 
 from async_timeout import timeout
 import asyncio_dgram
@@ -53,7 +53,10 @@ class Client:
         return self
 
     async def __aexit__(
-        self, exc_type: Exception, exc_value: str, traceback: str
+        self,
+        exc_type: Optional[Type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
     ) -> None:
         """Define an exit point out of this object via a context manager."""
         self.disconnect()
