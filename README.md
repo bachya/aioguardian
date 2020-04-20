@@ -46,7 +46,7 @@ from aioguardian.errors import GuardianError
 
 
 async with Client("192.168.1.100") as client:
-    # Run various commands
+    # ...run commands...
 
 
 asyncio.run(main())
@@ -64,11 +64,12 @@ from aioguardian.errors import GuardianError
 
 client = Client("192.168.1.100")
 
+# Note that disconnection is accomplished via a coroutine:
 await client.connect()
 
-# Run various commands
+# ...run commands...
 
-# Notice that disconnection is via a regular method, not a coroutine:
+# Note that disconnection is accomplished via a regular method:
 client.disconnect()
 
 

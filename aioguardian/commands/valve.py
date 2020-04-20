@@ -26,8 +26,9 @@ VALVE_STATE_MAPPING: Dict[int, str] = {
 class Valve:
     """Define an object to manage valve-related commands.
 
-    Note that this class shouldn't be instantiated directly; it will be instantiated as
-    appropriate when creating a :meth:`aioguardian.Client`.
+    Note that this class shouldn't be instantiated directly; an instance of it will
+    automatically be added to the :meth:`Client <aioguardian.Client>` (as
+    ``client.valve``).
     """
 
     def __init__(self, execute_command: Callable[..., Coroutine]) -> None:
@@ -67,8 +68,8 @@ class Valve:
     async def valve_reset(self) -> dict:
         """Reset the valve.
 
-        This fully resets system motor diagnostics including open/close count and
-        lifetime average current draw and cannot be undone.
+        This fully resets system motor diagnostics (including open/close count and
+        lifetime average current draw) and cannot be undone.
 
         :rtype: ``dict``
         """

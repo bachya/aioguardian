@@ -37,8 +37,9 @@ WIFI_CONFIGURE_PARAM_SCHEMA: vol.Schema = vol.Schema(
 class Device:
     """Define an object to manage device-related commands.
 
-    Note that this class shouldn't be instantiated directly; it will be instantiated as
-    appropriate when creating a :meth:`aioguardian.Client`.
+    Note that this class shouldn't be instantiated directly; an instance of it will
+    automatically be added to the :meth:`Client <aioguardian.Client>` (as
+    ``client.device``).
     """
 
     def __init__(self, execute_command: Callable[..., Coroutine]) -> None:

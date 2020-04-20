@@ -22,7 +22,8 @@ Get Up and Running
 ------------------
 
 Getting up and running with ``aioguardian`` is very simple! Merely create a
-:meth:`Client <aioguardian.Client>` class with the IP address of the device:
+:meth:`Client <aioguardian.Client>` class with the IP address of the device and get to
+work:
 
 .. code:: python
 
@@ -34,17 +35,16 @@ Getting up and running with ``aioguardian`` is very simple! Merely create a
     async def main():
         client = Client("<IP ADDRESS>")
 
+        # Note that disconnection is accomplished via a coroutine:
         await client.connect()
 
         # ...run commands...
 
+        # Note that disconnection is accomplished via a regular method:
         client.disconnect()
 
 
     asyncio.run(main())
-
-
-...and you can run any of the :doc:`commands <../commands>` listed in these docs.
 
 If you would prefer, the :meth:`Client <aioguardian.Client>` class also comes with a
 context manager that handles connection/disconnection for you:
