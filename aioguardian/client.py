@@ -2,7 +2,8 @@
 import asyncio
 import json
 import logging
-from typing import Optional, TracebackType, Type
+from types import TracebackType
+from typing import Optional, Type
 
 from async_timeout import timeout
 import asyncio_dgram
