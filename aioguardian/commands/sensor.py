@@ -26,18 +26,22 @@ class Sensor:
         """Initialize."""
         self._execute_command: Callable[..., Coroutine] = execute_command
 
-    async def pair_dump(self) -> dict:
+    async def pair_dump(self, *, silent: bool = True) -> dict:
         """Dump information on all paired sensors.
 
+        :param silent: If ``True``, silence "beep" tones associated with this command
+        :type silent: ``bool``
         :rtype: ``dict``
         """
-        return await self._execute_command(Command.pair_dump)
+        return await self._execute_command(Command.pair_dump, silent=silent)
 
-    async def pair_sensor(self, uid: str) -> dict:
+    async def pair_sensor(self, uid: str, *, silent: bool = True) -> dict:
         """Pair a new sensor to the device.
 
         :param uid: The UID of the sensor to pair
         :type uid: ``str``
+        :param silent: If ``True``, silence "beep" tones associated with this command
+        :type silent: ``bool``
         :rtype: ``dict``
         """
         params = {PARAM_UID: uid}
@@ -47,11 +51,15 @@ class Sensor:
         except vol.Invalid as err:
             raise CommandError(f"Invalid parameters provided: {err}") from None
 
-        return await self._execute_command(Command.pair_sensor, params=params)
+        return await self._execute_command(
+            Command.pair_sensor, params=params, silent=silent
+        )
 
-    async def sensor_status(self) -> dict:
+    async def sensor_status(self, *, silent: bool = True) -> dict:
         """Retrieve status of onboard sensors (not external, paired sensors).
 
+        :param silent: If ``True``, silence "beep" tones associated with this command
+        :type silent: ``bool``
         :rtype: ``dict``
         """
-        return await self._execute_command(Command.sensor_status)
+        return await self._execute_command(Command.sensor_status, silent=silent)

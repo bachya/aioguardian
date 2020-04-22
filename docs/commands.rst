@@ -1,5 +1,5 @@
-Supported Commands
-==================
+Commands
+========
 
 ``aioguardian`` supports the following commands:
 
@@ -17,8 +17,34 @@ Supported Commands
 * :meth:`client.sensor.pair_dump() <aioguardian.commands.sensor.Sensor.pair_dump>`: get information on all paired sensors
 * :meth:`client.sensor.pair_sensor() <aioguardian.commands.sensor.Sensor.pair_sensor>`: pair a new sensor to the device
 * :meth:`client.sensor.sensor_status() <aioguardian.commands.sensor.Sensor.sensor_status>`: get information from the device's onboard sensors
-* :meth:`client.valve.valve_close() <aioguardian.commands.valve.Valve.close>`: close the valve
-* :meth:`client.valve.valve_halt() <aioguardian.commands.valve.Valve.halt>`: halt the valve mid-open or mid-close (be careful!)
-* :meth:`client.valve.valve_open() <aioguardian.commands.valve.Valve.open>`: open the valve
-* :meth:`client.valve.valve_reset() <aioguardian.commands.valve.Valve.reset>`: reset all valve diagnostics
+* :meth:`client.valve.valve_close() <aioguardian.commands.valve.Valve.valve_close>`: close the valve
+* :meth:`client.valve.valve_halt() <aioguardian.commands.valve.Valve.valve_halt>`: halt the valve mid-open or mid-close (be careful!)
+* :meth:`client.valve.valve_open() <aioguardian.commands.valve.Valve.valve_open>`: open the valve
+* :meth:`client.valve.valve_reset() <aioguardian.commands.valve.Valve.valve_reset>`: reset all valve diagnostics
 * :meth:`client.valve.valve_status() <aioguardian.commands.valve.Valve.valve_status>`: get information about the device's valve
+
+Dealing with "Beeps"
+--------------------
+
+Under normal operation, the device will emit a series of "beep" tones alongside certain
+actions. As this can be a bit much, by default, ``aioguardian`` suppresses these tones
+for commands that don't affect the valve's status. Should this behavior not be
+desirable, many command methods accept a ``silent`` argument.
+
+For example, to execute
+:meth:`client.device.ping() <aioguardian.commands.device.Device.ping>` and allow these
+tones to play:
+
+.. code:: python
+
+  import asyncio
+
+    from aioguardian import Client
+
+
+    async def main():
+        async with Client("<IP ADDRESS>") as client:
+            await client.device.ping(silent=False)
+
+
+    asyncio.run(main())

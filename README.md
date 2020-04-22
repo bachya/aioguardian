@@ -14,8 +14,6 @@
 - [Installation](#installation)
 - [Python Versions](#python-versions)
 - [Documentation](#documentation)
-- [Usage](#usage)
-- [Commands](#commands)
 - [Contributing](#contributing)
 
 # Installation
@@ -35,72 +33,6 @@ pip install aioguardian
 # Documentation
 
 Complete documentation can be found here: http://aioguardian.readthedocs.io
-
-# Usage
-
-```python
-import asyncio
-
-from aioguardian import Client
-from aioguardian.errors import GuardianError
-
-
-async with Client("192.168.1.100") as client:
-    # ...run commands...
-
-
-asyncio.run(main())
-```
-
-If the mood should strike you, you can manually instantiate a `Client` object and manage
-connection to and disconnection from the device yourself:
-
-```python
-import asyncio
-
-from aioguardian import Client
-from aioguardian.errors import GuardianError
-
-
-client = Client("192.168.1.100")
-
-# Note that disconnection is accomplished via a coroutine:
-await client.connect()
-
-# ...run commands...
-
-# Note that disconnection is accomplished via a regular method:
-client.disconnect()
-
-
-asyncio.run(main())
-```
-## Commands
-
-Many commands are available:
-
-* `client.device.diagnostics()`: return diagnostics info from the device
-* `client.device.factory_reset()`: perform a factory reset of the device
-* `client.device.ping()`: ping the device to determine whether it can be reached
-* `client.device.publish_state()`: publish the device state to the Guardian cloud
-* `client.device.reboot()`: reboot the device
-* `client.device.upgrade_firmware()`: initiate a firmware upgrade on the device
-* `client.device.wifi_configure()`: connect the device to an SSID
-* `client.device.wifi_disable_ap()`: disable the device's onboard WiFi access point
-* `client.device.wifi_enable_ap()`: enable the device's onboard WiFi access point
-* `client.device.wifi_reset()`: reset all WiFi info
-* `client.device.wifi_status()`: get information related to the device's WiFi connections
-* `client.sensor.pair_dump()`: get information on all paired sensors
-* `client.sensor.pair_sensor()`: pair a new sensor to the device
-* `client.sensor.sensor_status()`: get information from the device's onboard sensors
-* `client.valve.valve_close()`: close the valve
-* `client.valve.valve_halt()`: halt the valve mid-open or mid-close (be careful!)
-* `client.valve.valve_open()`: open the valve
-* `client.valve.valve_reset()`: reset all valve diagnostics
-* `client.valve.valve_status()`: get information about the device's valve
-
-Response payload samples for each of these commands can be found in the
-[`fixtures` folder](https://github.com/bachya/aioguardian/tree/dev/tests/fixtures).
 
 # Contributing
 

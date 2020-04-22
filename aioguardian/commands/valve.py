@@ -65,21 +65,42 @@ class Valve:
         """
         return await self._execute_command(Command.valve_open)
 
-    async def valve_reset(self) -> dict:
+    async def valve_reset(self, *, silent: bool = True) -> dict:
         """Reset the valve.
 
         This fully resets system motor diagnostics (including open/close count and
         lifetime average current draw) and cannot be undone.
 
+        :param silent: If ``True``, silence "beep" tones associated with this command
+        :type silent: ``bool``
         :rtype: ``dict``
         """
-        return await self._execute_command(Command.valve_reset)
+        return await self._execute_command(Command.valve_reset, silent=silent)
 
-    async def valve_status(self) -> dict:
+    async def valve_status(self, *, silent: bool = True) -> dict:
         """Retrieve status of the valve.
 
+        In the payload that is returned, the ``state`` attribute of the valve can be any
+        one of the following:
+
+            * ``closed``
+            * ``closing``
+            * ``default``
+            * ``finish_closing``
+            * ``finish_opening``
+            * ``free_spin``
+            * ``halted``
+            * ``opened``
+            * ``opening``
+            * ``stalled``
+            * ``start_closing``
+            * ``start_halt``
+            * ``start_opening``
+
+        :param silent: If ``True``, silence "beep" tones associated with this command
+        :type silent: ``bool``
         :rtype: ``dict``
         """
-        resp = await self._execute_command(Command.valve_status)
+        resp = await self._execute_command(Command.valve_status, silent=silent)
         resp["data"]["state"] = VALVE_STATE_MAPPING[resp["data"]["state"]]
         return resp

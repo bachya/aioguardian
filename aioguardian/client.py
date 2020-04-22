@@ -63,7 +63,7 @@ class Client:
         self.disconnect()
 
     async def _execute_command(
-        self, command: Command, *, params: Optional[dict] = None
+        self, command: Command, *, params: Optional[dict] = None, silent: bool = True
     ) -> dict:
         """Make a request against the Guardian device and return the response.
 
@@ -77,7 +77,7 @@ class Client:
             raise SocketError("You aren't connected to the device yet")
 
         _params = params or {}
-        payload = {"command": command.value, **_params}
+        payload = {"command": command.value, "silent": silent, **_params}
 
         async with timeout(self._request_timeout):
             try:
