@@ -23,6 +23,10 @@ Commands
 * :meth:`client.valve.valve_reset() <aioguardian.commands.valve.Valve.valve_reset>`: reset all valve diagnostics
 * :meth:`client.valve.valve_status() <aioguardian.commands.valve.Valve.valve_status>`: get information about the device's valve
 
+You can learn more about the response payloads of these commands by looking at the
+`fixtures folder <https://github.com/bachya/aioguardian/tree/dev/tests/fixtures>`_
+in the GitHub repo.
+
 Dealing with "Beeps"
 --------------------
 
