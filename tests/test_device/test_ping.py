@@ -35,3 +35,18 @@ async def test_ping_success(mock_datagram_client):
         assert ping_response["command"] == 0
         assert ping_response["status"] == "ok"
         assert ping_response["data"]["uid"] == "ABCDEF123456"
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "command_response", [load_fixture("ping_success_silent_response.json").encode()]
+)
+async def test_ping_silent_success(mock_datagram_client):
+    """Test the ping command succeeding."""
+    with mock_datagram_client:
+        async with Client("192.168.1.100") as client:
+            ping_response = await client.device.ping()
+        assert ping_response["command"] == 0
+        assert ping_response["status"] == "ok"
+        assert ping_response["silent"] is True
+        assert ping_response["data"]["uid"] == "ABCDEF123456"
