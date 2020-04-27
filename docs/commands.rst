@@ -1,7 +1,10 @@
 Commands
 ========
 
-``aioguardian`` supports the following commands:
+``aioguardian`` supports all of the commands provided by the official Guardian API.
+
+Supported Commands
+------------------
 
 * :meth:`client.device.diagnostics() <aioguardian.commands.device.Device.diagnostics>`: return diagnostics info from the device
 * :meth:`client.device.factory_reset() <aioguardian.commands.device.Device.factory_reset>`: perform a factory reset of the device
@@ -26,6 +29,34 @@ Commands
 You can learn more about the response payloads of these commands by looking at the
 `fixtures folder <https://github.com/bachya/aioguardian/tree/dev/tests/fixtures>`_
 in the GitHub repo.
+
+Executing Raw Commands
+----------------------
+
+If you should ever need to quickly test commands via their integer command code, the
+:meth:`Client <aioguardian.Client>` object's
+:meth:`execute_raw_command() <aioguardian.Client.execute_raw_command>` can be
+used:
+
+.. code:: python
+
+  import asyncio
+
+    from aioguardian import Client
+
+
+    async def main():
+        async with Client("<IP ADDRESS>") as client:
+            # Get sensor status, which is command 80:
+            status = await client.execute_raw_command(80)
+
+
+    asyncio.run(main())
+
+
+You can see the command-code-to-command mapping by examining the
+:meth:`Command <aioguardian.helpers.command.Command>` helper.
+
 
 Dealing with "Beeps"
 --------------------

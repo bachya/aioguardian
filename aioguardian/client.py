@@ -11,7 +11,7 @@ import asyncio_dgram
 from aioguardian.commands.device import Device
 from aioguardian.commands.sensor import Sensor
 from aioguardian.commands.valve import Valve
-from aioguardian.errors import SocketError, _raise_on_command_error
+from aioguardian.errors import CommandError, SocketError, _raise_on_command_error
 from aioguardian.helpers.command import Command
 
 _LOGGER = logging.getLogger(__name__)
@@ -67,10 +67,12 @@ class Client:
     ) -> dict:
         """Make a request against the Guardian device and return the response.
 
-        :param command: The command to run
+        :param command: The command to execute
         :type command: :meth:`aioguardian.helpers.command.Command`
         :param params: Any parameters to send along with the command
         :type params: ``dict``
+        :param silent: If ``True``, silence "beep" tones associated with this command
+        :type silent: ``bool``
         :rtype: ``dict``
         """
         if not self._stream:
@@ -105,3 +107,26 @@ class Client:
         """Close the connection."""
         self._stream.close()
         self._stream = None
+
+    async def execute_raw_command(
+        self, command_code: int, *, params: Optional[dict] = None, silent: bool = True
+    ) -> dict:
+        """Execute a command via its integer-based command code.
+
+        A mapping of command-code-to-command can be seen in the
+        :meth:`Command <aioguardian.helpers.command.Command>` helper.
+
+        :param command: The command code to execute
+        :type command: ``int``
+        :param params: Any parameters to send along with the command
+        :type params: ``dict``
+        :param silent: If ``True``, silence "beep" tones associated with this command
+        :type silent: ``bool``
+        :rtype: ``dict``
+        """
+        try:
+            command = Command(command_code)
+        except ValueError:
+            raise CommandError(f"Unknown command code: {command_code}")
+
+        return await self._execute_command(command, params=params, silent=silent)

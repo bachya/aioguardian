@@ -14,11 +14,8 @@ the `Guardian line of water valves and sensors from Elexa <http://getguardian.co
 .. toctree::
    :maxdepth: 3
 
-   intro
    usage
    commands
    api
 
-* :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
