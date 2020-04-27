@@ -35,5 +35,6 @@ async def test_reboot_success(mock_datagram_client):
             # Patch asyncio.sleep so that this test doesn't take 3-ish seconds:
             with patch("asyncio.sleep", CoroutineMock()):
                 reboot_response = await client.device.reboot()
+
         assert reboot_response["command"] == 2
         assert reboot_response["status"] == "ok"

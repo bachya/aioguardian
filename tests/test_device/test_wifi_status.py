@@ -32,6 +32,7 @@ async def test_wifi_status_success(mock_datagram_client):
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             wifi_status_response = await client.device.wifi_status()
+
         assert wifi_status_response["command"] == 32
         assert wifi_status_response["status"] == "ok"
         assert wifi_status_response["data"]["station_connected"] is True

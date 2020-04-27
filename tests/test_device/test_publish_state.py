@@ -33,5 +33,6 @@ async def test_publish_state_success(mock_datagram_client):
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             publish_state_response = await client.device.publish_state()
+
         assert publish_state_response["command"] == 65
         assert publish_state_response["status"] == "ok"

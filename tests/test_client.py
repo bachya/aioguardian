@@ -42,6 +42,7 @@ async def test_raw_command_success(mock_datagram_client):
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             ping_response = await client.execute_raw_command(0)
+
         assert ping_response["command"] == 0
         assert ping_response["status"] == "ok"
         assert ping_response["data"]["uid"] == "ABCDEF123456"

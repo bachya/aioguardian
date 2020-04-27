@@ -32,5 +32,6 @@ async def test_wifi_enable_ap_success(mock_datagram_client):
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             wifi_enable_ap_response = await client.device.wifi_enable_ap()
+
         assert wifi_enable_ap_response["command"] == 35
         assert wifi_enable_ap_response["status"] == "ok"
