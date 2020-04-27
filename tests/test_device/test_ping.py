@@ -32,6 +32,7 @@ async def test_ping_success(mock_datagram_client):
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             ping_response = await client.device.ping()
+
         assert ping_response["command"] == 0
         assert ping_response["status"] == "ok"
         assert ping_response["data"]["uid"] == "ABCDEF123456"
@@ -46,6 +47,7 @@ async def test_ping_silent_success(mock_datagram_client):
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             ping_response = await client.device.ping()
+
         assert ping_response["command"] == 0
         assert ping_response["status"] == "ok"
         assert ping_response["silent"] is True

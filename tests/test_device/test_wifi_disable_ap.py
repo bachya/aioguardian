@@ -32,5 +32,6 @@ async def test_wifi_disable_ap_success(mock_datagram_client):
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             wifi_disable_ap_response = await client.device.wifi_disable_ap()
+
         assert wifi_disable_ap_response["command"] == 36
         assert wifi_disable_ap_response["status"] == "ok"

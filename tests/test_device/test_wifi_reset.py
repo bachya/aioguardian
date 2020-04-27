@@ -32,5 +32,6 @@ async def test_wifi_reset_success(mock_datagram_client):
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             wifi_reset_response = await client.device.wifi_reset()
+
         assert wifi_reset_response["command"] == 33
         assert wifi_reset_response["status"] == "ok"

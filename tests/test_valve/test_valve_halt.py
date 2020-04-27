@@ -30,6 +30,7 @@ async def test_valve_halt_success(caplog, mock_datagram_client):
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             valve_halt_response = await client.valve.valve_halt()
+
         assert valve_halt_response["command"] == 19
         assert any(
             "The device will not respond to leak events" in e.message

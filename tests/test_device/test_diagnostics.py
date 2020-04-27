@@ -32,6 +32,7 @@ async def test_diagnostics_success(mock_datagram_client):
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             diagnostics_response = await client.device.diagnostics()
+
         assert diagnostics_response["command"] == 1
         assert diagnostics_response["status"] == "ok"
         assert diagnostics_response["data"]["codename"] == "gvc1"

@@ -77,5 +77,6 @@ async def test_upgrade_firmware_success(mock_datagram_client):
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             upgrade_firmware_response = await client.device.upgrade_firmware()
+
         assert upgrade_firmware_response["command"] == 4
         assert upgrade_firmware_response["status"] == "ok"

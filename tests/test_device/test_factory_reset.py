@@ -32,5 +32,6 @@ async def test_factory_reset_success(mock_datagram_client):
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             factory_reset_response = await client.device.factory_reset()
+
         assert factory_reset_response["command"] == 255
         assert factory_reset_response["status"] == "ok"

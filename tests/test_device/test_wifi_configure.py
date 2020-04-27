@@ -67,5 +67,6 @@ async def test_wifi_configure_success(mock_datagram_client):
             wifi_configure_response = await client.device.wifi_configure(
                 "My_Network", "password123"
             )
+
         assert wifi_configure_response["command"] == 34
         assert wifi_configure_response["status"] == "ok"

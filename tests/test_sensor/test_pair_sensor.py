@@ -46,5 +46,6 @@ async def test_pair_sensor_success(mock_datagram_client):
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             pair_sensor_response = await client.sensor.pair_sensor("abc123")
+
         assert pair_sensor_response["command"] == 49
         assert pair_sensor_response["status"] == "ok"

@@ -32,6 +32,7 @@ async def test_valve_status_success(mock_datagram_client):
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             valve_status_response = await client.valve.valve_status()
+
         assert valve_status_response["command"] == 16
         assert valve_status_response["status"] == "ok"
         valve_status_response["data"]["enabled"] = False
