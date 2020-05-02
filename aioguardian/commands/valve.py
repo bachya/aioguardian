@@ -102,8 +102,5 @@ class Valve:
         :rtype: ``dict``
         """
         resp = await self._execute_command(Command.valve_status, silent=silent)
-        try:
-            resp["data"]["state"] = VALVE_STATE_MAPPING[resp["data"]["state"]]
-        except KeyError:
-            _LOGGER.error(resp)
+        resp["data"]["state"] = VALVE_STATE_MAPPING[resp["data"]["state"]]
         return resp
