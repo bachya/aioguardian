@@ -98,4 +98,7 @@ async def test_wrong_response(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 await client.device.wifi_status()
 
-        assert str(err.value) == "Sent command 32, but got response for command 0"
+        assert (
+            str(err.value)
+            == 'Sent command "wifi_status", but got response for command "ping"'
+        )
