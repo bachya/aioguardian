@@ -100,5 +100,5 @@ async def test_wrong_response(mock_datagram_client):
 
         assert (
             str(err.value)
-            == "Sent command wifi_status, but got response for command ping"
+            == "Sent wifi_status command, but got response for ping command"
         )

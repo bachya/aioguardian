@@ -33,8 +33,8 @@ def _raise_on_command_error(command: Command, data: dict) -> None:
     if data["command"] != command.value:
         received_command = get_command_from_code(data["command"])
         raise CommandError(
-            f"Sent command {command.name}, but got response for "
-            f"command {received_command.name}"
+            f"Sent {command.name} command, but got response for "
+            f"{received_command.name} command"
         )
 
     # If we're okay, we're okay:
