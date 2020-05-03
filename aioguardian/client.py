@@ -11,7 +11,7 @@ import asyncio_dgram
 from aioguardian.commands.device import Device
 from aioguardian.commands.sensor import Sensor
 from aioguardian.commands.valve import Valve
-from aioguardian.errors import SocketError, _raise_on_command_error
+from aioguardian.errors import ERROR_CODE_MAPPING, CommandError, SocketError
 from aioguardian.helpers.command import Command, get_command_from_code
 
 _LOGGER = logging.getLogger(__name__)
@@ -126,3 +126,34 @@ class Client:
         """
         command = get_command_from_code(command_code)
         return await self._execute_command(command, params=params, silent=silent)
+
+
+def _raise_on_command_error(command: Command, data: dict) -> None:
+    """Examine a data response and raise errors appropriately.
+
+    :param command: The command that was run
+    :type command: :meth:`aioguardian.helpers.command.Command`
+    :param data: The response data from running the command
+    :type params: ``dict``
+    """
+    # The device API has a bug where it can sporadically return data for a command other
+    # than the one that was submitted; if we detect this, raise:
+    if data["command"] != command.value:
+        received_command = get_command_from_code(data["command"])
+        raise CommandError(
+            f'Sent command "{command.name}", but got response for '
+            f'command "{received_command.name}"'
+        )
+
+    # If we're okay, we're okay:
+    if data.get("status") == "ok":
+        return
+
+    # If we know exactly why the command failed, raise that error:
+    if data.get("error_code") in ERROR_CODE_MAPPING:
+        raise CommandError(
+            f"{command.name} command failed: {ERROR_CODE_MAPPING[data['error_code']]}"
+        )
+
+    # Last resort, return a generic error with the response payload:
+    raise CommandError(f"{command.name} command failed (response: {data})")
