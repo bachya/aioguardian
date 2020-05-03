@@ -1,7 +1,8 @@
 """Define exception types for ``aioguardian``."""
-from typing import Dict
+from typing import TYPE_CHECKING, Dict
 
-from aioguardian.helpers.command import Command
+if TYPE_CHECKING:
+    from aioguardian.helpers.command import Command
 
 
 class GuardianError(Exception):
@@ -30,7 +31,7 @@ ERROR_CODE_MAPPING: Dict[int, str] = {
 }
 
 
-def _raise_on_command_error(command: Command, data: dict) -> None:
+def _raise_on_command_error(command: "Command", data: dict) -> None:
     """Examine a data response and raise errors appropriately.
 
     :param command: The command that was run
@@ -38,12 +39,23 @@ def _raise_on_command_error(command: Command, data: dict) -> None:
     :param data: The response data from running the command
     :type params: ``dict``
     """
+    # The device has a bug where it can sporadically return data for a command other
+    # than the one that was submitted; if we detect this, raise:
+    if data["command"] != command.value:
+        raise CommandError(
+            f"Sent command {command.value}, but got response for "
+            f"command {data['command']}"
+        )
+
+    # If we're okay, we're okay:
     if data.get("status") == "ok":
         return
 
+    # If we know exactly why the command failed, raise that error:
     if data.get("error_code") in ERROR_CODE_MAPPING:
         raise CommandError(
             f"{command.name} command failed: {ERROR_CODE_MAPPING[data['error_code']]}"
         )
 
+    # Last resort, return a generic error with the response payload:
     raise CommandError(f"{command.name} command failed (response: {data})")

@@ -11,8 +11,8 @@ import asyncio_dgram
 from aioguardian.commands.device import Device
 from aioguardian.commands.sensor import Sensor
 from aioguardian.commands.valve import Valve
-from aioguardian.errors import CommandError, SocketError, _raise_on_command_error
-from aioguardian.helpers.command import Command
+from aioguardian.errors import SocketError, _raise_on_command_error
+from aioguardian.helpers.command import Command, get_command_from_code
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -91,12 +91,6 @@ class Client:
         decoded_data = json.loads(data.decode())
         _LOGGER.debug("Received data from %s: %s", remote_addr, decoded_data)
 
-        if decoded_data["command"] != command.value:
-            raise CommandError(
-                f"Sent command {command.value}, but got response for "
-                f"command {decoded_data['command']}"
-            )
-
         _raise_on_command_error(command, decoded_data)
 
         return decoded_data
@@ -130,9 +124,5 @@ class Client:
         :type silent: ``bool``
         :rtype: ``dict``
         """
-        try:
-            command = Command(command_code)
-        except ValueError:
-            raise CommandError(f"Unknown command code: {command_code}")
-
+        command = get_command_from_code(command_code)
         return await self._execute_command(command, params=params, silent=silent)
