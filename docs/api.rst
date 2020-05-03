@@ -12,10 +12,10 @@ Client
 .. autoclass:: Client
    :members:
 
-Command Helper
---------------
+Command Helpers
+---------------
 
-.. autoclass:: aioguardian.helpers.command.Command
+.. automodule:: aioguardian.helpers.command
    :members:
    :undoc-members:
 
