@@ -85,3 +85,17 @@ async def test_unknown_raw_command(mock_datagram_client):
                 await client.execute_raw_command(999)
 
         assert str(err.value) == "Unknown command code: 999"
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "command_response", [load_fixture("ping_success_response.json").encode()]
+)
+async def test_wrong_response(mock_datagram_client):
+    """Test the case when the device returns a response other than the command."""
+    with mock_datagram_client:
+        with pytest.raises(CommandError) as err:
+            async with Client("192.168.1.100") as client:
+                await client.device.wifi_status()
+
+        assert str(err.value) == "Sent command 32, but got response for command 0"
