@@ -1,7 +1,6 @@
 """Define exception types for ``aioguardian``."""
 from typing import Dict
 
-
 ERROR_CODE_MAPPING: Dict[int, str] = {
     17: "valve_already_opened",
     18: "valve_already_closed",
