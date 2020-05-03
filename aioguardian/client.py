@@ -91,6 +91,12 @@ class Client:
         decoded_data = json.loads(data.decode())
         _LOGGER.debug("Received data from %s: %s", remote_addr, decoded_data)
 
+        if decoded_data["command"] != command.value:
+            raise CommandError(
+                f"Sent command {command.value}, but got response for "
+                f"command {decoded_data['command']}"
+            )
+
         _raise_on_command_error(command, decoded_data)
 
         return decoded_data
