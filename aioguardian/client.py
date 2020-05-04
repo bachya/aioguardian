@@ -112,12 +112,12 @@ class Client:
         _params = params or {}
         payload = {"command": command.value, "silent": silent, **_params}
 
-        async with timeout(self._request_timeout):
-            try:
+        try:
+            async with timeout(self._request_timeout):
                 await self._stream.send(json.dumps(payload).encode())
                 data, remote_addr = await self._stream.recv()
-            except asyncio.TimeoutError:
-                raise SocketError(f"{command.name} command timed out")
+        except asyncio.TimeoutError:
+            raise SocketError(f"{command.name} command timed out")
 
         decoded_data = json.loads(data.decode())
         _LOGGER.debug("Received data from %s: %s", remote_addr, decoded_data)
@@ -128,11 +128,11 @@ class Client:
 
     async def connect(self) -> None:
         """Connect to the Guardian device."""
-        async with timeout(self._request_timeout):
-            try:
+        try:
+            async with timeout(self._request_timeout):
                 self._stream = await asyncio_dgram.connect((self._ip, self._port))
-            except asyncio.TimeoutError:
-                raise SocketError(f"Connection to device timed out")
+        except asyncio.TimeoutError:
+            raise SocketError(f"Connection to device timed out")
 
     def disconnect(self) -> None:
         """Close the connection."""
