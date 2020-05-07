@@ -16,6 +16,7 @@ from aioguardian.helpers.command import Command, get_command_from_code
 
 _LOGGER = logging.getLogger(__name__)
 
+DEFAULT_COMMAND_RETRIES: int = 3
 DEFAULT_PORT: int = 7777
 DEFAULT_REQUEST_TIMEOUT: int = 10
 
@@ -50,6 +51,8 @@ class Client:  # pylint: disable=too-many-instance-attributes
     :type port: ``int``
     :param request_timeout: The number of seconds to wait before timing out a request
     :type request_timeout: ``int``
+    :param command_retries: The number of attempts to retry a command that times out
+    :type command_retries: ``int``
     """
 
     def __init__(
@@ -58,14 +61,15 @@ class Client:  # pylint: disable=too-many-instance-attributes
         *,
         port: int = DEFAULT_PORT,
         request_timeout: int = DEFAULT_REQUEST_TIMEOUT,
+        command_retries: int = DEFAULT_COMMAND_RETRIES,
     ) -> None:
         """Initialize."""
-        # Since device communication happens over a single UDP port, concurrent
-        # operations can return faulty data (or time out); we use a lock so the
-        # user doesn't have to know anything about that:
-        self._lock: asyncio.Lock = asyncio.Lock()
-
+        self._command_retries = command_retries
         self._ip: str = ip_address
+        # Since device communication happens over a single UDP port, concurrent
+        # operations can return faulty data; we use a lock so the user doesn't have to
+        # know anything about that:
+        self._lock: asyncio.Lock = asyncio.Lock()
         self._port: int = port
         self._request_timeout: int = request_timeout
         self._stream: asyncio_dgram.aio.DatagramStream = None
@@ -107,11 +111,19 @@ class Client:  # pylint: disable=too-many-instance-attributes
         _params = params or {}
         payload = {"command": command.value, "silent": silent, **_params}
 
-        try:
-            async with self._lock, timeout(self._request_timeout):
-                await self._stream.send(json.dumps(payload).encode())
-                data, remote_addr = await self._stream.recv()
-        except asyncio.TimeoutError:
+        retry = 0
+
+        while retry < self._command_retries:
+            try:
+                async with self._lock, timeout(self._request_timeout):
+                    await self._stream.send(json.dumps(payload).encode())
+                    data, remote_addr = await self._stream.recv()
+                    break
+            except asyncio.TimeoutError:
+                _LOGGER.info("%s command timed out; trying again", command.name)
+                retry += 1
+                await asyncio.sleep(1)
+        else:
             raise SocketError(f"{command.name} command timed out")
 
         decoded_data = json.loads(data.decode())
