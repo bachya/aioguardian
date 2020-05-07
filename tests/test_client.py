@@ -5,9 +5,40 @@ from asynctest import CoroutineMock, patch
 import pytest
 
 from aioguardian import Client
-from aioguardian.errors import CommandError, SocketError
+from aioguardian.errors import SocketError
 
 from tests.common import load_fixture
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "recv_response", [CoroutineMock(side_effect=asyncio.TimeoutError)]
+)
+async def test_command_timeout(mock_datagram_client):
+    """Test that a timeout during command execution throws an exception."""
+    with mock_datagram_client, patch("asyncio.sleep"):
+        with pytest.raises(SocketError) as err:
+            async with Client("192.168.1.100") as client:
+                await client.device.ping()
+
+        assert str(err.value) == "ping command timed out"
+
+
+@pytest.mark.asyncio
+async def test_command_timeout_successful_retry(mock_datagram_client):
+    """Test that a timeout during command execution throws an exception."""
+    with mock_datagram_client, patch("asyncio.sleep"):
+        mock_datagram_client.recv.side_effect = [
+            asyncio.TimeoutError,
+            (load_fixture("ping_success_response.json").encode(), "192.168.1.100"),
+        ]
+
+        async with Client("192.168.1.100") as client:
+            ping_response = await client.device.ping()
+
+        assert ping_response["command"] == 0
+        assert ping_response["status"] == "ok"
+        assert ping_response["data"]["uid"] == "ABCDEF123456"
 
 
 @pytest.mark.asyncio
@@ -46,17 +77,3 @@ async def test_raw_command_success(mock_datagram_client):
         assert ping_response["command"] == 0
         assert ping_response["status"] == "ok"
         assert ping_response["data"]["uid"] == "ABCDEF123456"
-
-
-@pytest.mark.asyncio
-async def test_request_timeout():
-    """Test that a timeout during command execution throws an exception."""
-    with patch(
-        "asyncio_dgram.aio.DatagramStream.send",
-        CoroutineMock(side_effect=asyncio.TimeoutError),
-    ):
-        with pytest.raises(SocketError) as err:
-            async with Client("192.168.1.100") as client:
-                await client.device.ping()
-
-        assert str(err.value) == "ping command timed out"
