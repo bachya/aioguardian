@@ -28,16 +28,6 @@ def _raise_on_command_error(command: Command, data: dict) -> None:
     :param data: The response data from running the command
     :type params: ``dict``
     """
-    # The device API has a bug where it can sporadically return data for a command other
-    # than the one that was submitted; if we detect this, raise:
-    if data["command"] != command.value:
-        received_command = get_command_from_code(data["command"])
-        raise CommandError(
-            f"Sent {command.name} command, but got response for "
-            f"{received_command.name} command"
-        )
-
-    # If we're okay, we're okay:
     if data.get("status") == "ok":
         return
 
@@ -51,7 +41,7 @@ def _raise_on_command_error(command: Command, data: dict) -> None:
     raise CommandError(f"{command.name} command failed (response: {data})")
 
 
-class Client:
+class Client:  # pylint: disable=too-many-instance-attributes
     """Define the class that can send commands to a Guardian device.
 
     :param ip_address: The IP address or FQDN of the Guardian device
@@ -70,6 +60,11 @@ class Client:
         request_timeout: int = DEFAULT_REQUEST_TIMEOUT,
     ) -> None:
         """Initialize."""
+        # Since device communication happens over a single UDP port, concurrent
+        # operations can return faulty data (or time out); we use a lock so the
+        # user doesn't have to know anything about that:
+        self._lock: asyncio.Lock = asyncio.Lock()
+
         self._ip: str = ip_address
         self._port: int = port
         self._request_timeout: int = request_timeout
@@ -113,7 +108,7 @@ class Client:
         payload = {"command": command.value, "silent": silent, **_params}
 
         try:
-            async with timeout(self._request_timeout):
+            async with self._lock, timeout(self._request_timeout):
                 await self._stream.send(json.dumps(payload).encode())
                 data, remote_addr = await self._stream.recv()
         except asyncio.TimeoutError:
