@@ -11,7 +11,7 @@ import asyncio_dgram
 from aioguardian.commands.device import Device
 from aioguardian.commands.sensor import Sensor
 from aioguardian.commands.valve import Valve
-from aioguardian.errors import ERROR_CODE_MAPPING, CommandError, SocketError
+from aioguardian.errors import SocketError, _raise_on_command_error
 from aioguardian.helpers.command import Command, get_command_from_code
 
 _LOGGER = logging.getLogger(__name__)
@@ -19,27 +19,6 @@ _LOGGER = logging.getLogger(__name__)
 DEFAULT_COMMAND_RETRIES: int = 3
 DEFAULT_PORT: int = 7777
 DEFAULT_REQUEST_TIMEOUT: int = 10
-
-
-def _raise_on_command_error(command: Command, data: dict) -> None:
-    """Examine a data response and raise errors appropriately.
-
-    :param command: The command that was run
-    :type command: :meth:`aioguardian.helpers.command.Command`
-    :param data: The response data from running the command
-    :type params: ``dict``
-    """
-    if data.get("status") == "ok":
-        return
-
-    # If we know exactly why the command failed, raise that error:
-    if data.get("error_code") in ERROR_CODE_MAPPING:
-        raise CommandError(
-            f"{command.name} command failed: {ERROR_CODE_MAPPING[data['error_code']]}"
-        )
-
-    # Last resort, return a generic error with the response payload:
-    raise CommandError(f"{command.name} command failed (response: {data})")
 
 
 class Client:  # pylint: disable=too-many-instance-attributes
