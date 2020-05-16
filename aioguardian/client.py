@@ -118,7 +118,7 @@ class Client:  # pylint: disable=too-many-instance-attributes
             async with timeout(self._request_timeout):
                 self._stream = await asyncio_dgram.connect((self._ip, self._port))
         except asyncio.TimeoutError:
-            raise SocketError(f"Connection to device timed out")
+            raise SocketError("Connection to device timed out")
 
     def disconnect(self) -> None:
         """Close the connection."""
