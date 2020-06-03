@@ -24,7 +24,7 @@ class Command(Enum):
     pair_dump = 48
     pair_sensor = 49
     publish_state = 65
-    sensor_status = 80
+    vc_sensor_status = 80
     factory_reset = 255
 
 
