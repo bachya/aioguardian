@@ -19,7 +19,7 @@ Supported Commands
 * :meth:`client.device.wifi_status() <aioguardian.commands.device.Device.wifi_status>`: get information related to the device's WiFi connections
 * :meth:`client.sensor.pair_dump() <aioguardian.commands.sensor.Sensor.pair_dump>`: get information on all paired sensors
 * :meth:`client.sensor.pair_sensor() <aioguardian.commands.sensor.Sensor.pair_sensor>`: pair a new sensor to the device
-* :meth:`client.sensor.sensor_status() <aioguardian.commands.sensor.Sensor.sensor_status>`: get information from the device's onboard sensors
+* :meth:`client.sensor.vc_sensor_status() <aioguardian.commands.sensor.Sensor.vc_sensor_status>`: get information from the device's onboard sensors
 * :meth:`client.valve.valve_close() <aioguardian.commands.valve.Valve.valve_close>`: close the valve
 * :meth:`client.valve.valve_halt() <aioguardian.commands.valve.Valve.valve_halt>`: halt the valve mid-open or mid-close (be careful!)
 * :meth:`client.valve.valve_open() <aioguardian.commands.valve.Valve.valve_open>`: open the valve

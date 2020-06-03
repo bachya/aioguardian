@@ -55,11 +55,11 @@ class Sensor:
             Command.pair_sensor, params=params, silent=silent
         )
 
-    async def sensor_status(self, *, silent: bool = True) -> dict:
-        """Retrieve status of onboard sensors (not external, paired sensors).
+    async def vc_sensor_status(self, *, silent: bool = True) -> dict:
+        """Retrieve status of the valve controller sensors.
 
         :param silent: If ``True``, silence "beep" tones associated with this command
         :type silent: ``bool``
         :rtype: ``dict``
         """
-        return await self._execute_command(Command.sensor_status, silent=silent)
+        return await self._execute_command(Command.vc_sensor_status, silent=silent)

@@ -55,9 +55,9 @@ async def main() -> None:
             # )
 
             # --- SENSOR COMMANDS ---
-            sensor_status_response = await guardian.sensor.sensor_status()
+            vc_sensor_status_response = await guardian.sensor.vc_sensor_status()
             _LOGGER.info(
-                "sensor_status_response command response: %s", sensor_status_response
+                "vc_sensor_status_response command response: %s", vc_sensor_status_response
             )
 
             pair_dump_response = await guardian.sensor.pair_dump()
