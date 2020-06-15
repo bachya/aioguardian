@@ -20,7 +20,7 @@ async def test_reboot_failure(mock_datagram_client):
                 _ = await client.system.reboot()
 
     assert str(err.value) == (
-        "reboot command failed (response: {'command': 2, 'status': 'error'})"
+        "system_reboot command failed (response: {'command': 2, 'status': 'error'})"
     )
 
 

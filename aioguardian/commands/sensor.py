@@ -33,7 +33,7 @@ class SensorCommands:
         :type silent: ``bool``
         :rtype: ``dict``
         """
-        return await self._execute_command(Command.pair_dump, silent=silent)
+        return await self._execute_command(Command.sensor_pair_dump, silent=silent)
 
     async def pair_sensor(self, uid: str, *, silent: bool = True) -> dict:
         """Pair a new sensor to the device.
@@ -52,7 +52,7 @@ class SensorCommands:
             raise CommandError(f"Invalid parameters provided: {err}") from None
 
         return await self._execute_command(
-            Command.pair_sensor, params=params, silent=silent
+            Command.sensor_pair_sensor, params=params, silent=silent
         )
 
     async def unpair_sensor(self, uid: str, *, silent: bool = True) -> dict:
@@ -72,5 +72,5 @@ class SensorCommands:
             raise CommandError(f"Invalid parameters provided: {err}") from None
 
         return await self._execute_command(
-            Command.unpair_sensor, params=params, silent=silent
+            Command.sensor_unpair_sensor, params=params, silent=silent
         )

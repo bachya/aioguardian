@@ -21,7 +21,8 @@ async def test_upgrade_firmware_failure(mock_datagram_client):
             client.disconnect()
 
     assert str(err.value) == (
-        "upgrade_firmware command failed (response: {'command': 4, 'status': 'error'})"
+        "system_upgrade_firmware command failed "
+        "(response: {'command': 4, 'status': 'error'})"
     )
 
 

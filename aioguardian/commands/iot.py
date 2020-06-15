@@ -23,4 +23,4 @@ class IOTCommands:  # pylint: disable=too-few-public-methods
         :type silent: ``bool``
         :rtype: ``dict``
         """
-        return await self._execute_command(Command.publish_state, silent=silent)
+        return await self._execute_command(Command.iot_publish_state, silent=silent)

@@ -44,7 +44,7 @@ class SystemCommands:
         :type silent: ``bool``
         :rtype: ``dict``
         """
-        return await self._execute_command(Command.diagnostics, silent=silent)
+        return await self._execute_command(Command.system_diagnostics, silent=silent)
 
     async def factory_reset(self, *, silent: bool = True) -> dict:
         """Perform a factory reset on the device.
@@ -53,7 +53,7 @@ class SystemCommands:
         :type silent: ``bool``
         :rtype: ``dict``
         """
-        return await self._execute_command(Command.factory_reset, silent=silent)
+        return await self._execute_command(Command.system_factory_reset, silent=silent)
 
     async def onboard_sensor_status(self, *, silent: bool = True) -> dict:
         """Retrieve status of the valve controller's onboard sensors.
@@ -62,7 +62,9 @@ class SystemCommands:
         :type silent: ``bool``
         :rtype: ``dict``
         """
-        return await self._execute_command(Command.onboard_sensor_status, silent=silent)
+        return await self._execute_command(
+            Command.system_onboard_sensor_status, silent=silent
+        )
 
     async def ping(self, *, silent: bool = True) -> dict:
         """Ping the device.
@@ -71,7 +73,7 @@ class SystemCommands:
         :type silent: ``bool``
         :rtype: ``dict``
         """
-        return await self._execute_command(Command.ping, silent=silent)
+        return await self._execute_command(Command.system_ping, silent=silent)
 
     async def reboot(self, *, silent: bool = True) -> dict:
         """Reboot the device.
@@ -80,7 +82,7 @@ class SystemCommands:
         :type silent: ``bool``
         :rtype: ``dict``
         """
-        resp = await self._execute_command(Command.reboot, silent=silent)
+        resp = await self._execute_command(Command.system_reboot, silent=silent)
 
         # The Guardian API docs indicate that the reboot will occur "3 seconds after
         # command is received" – in order to guard against errors from subsequent
@@ -118,5 +120,5 @@ class SystemCommands:
             raise CommandError(f"Invalid parameters provided: {err}") from None
 
         return await self._execute_command(
-            Command.upgrade_firmware, params=params, silent=silent
+            Command.system_upgrade_firmware, params=params, silent=silent
         )
