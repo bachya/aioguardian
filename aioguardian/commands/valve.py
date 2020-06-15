@@ -1,4 +1,4 @@
-"""async define onboard valve-related API endpoints."""
+"""Define valve commands."""
 import logging
 from typing import Callable, Coroutine, Dict
 
@@ -23,8 +23,8 @@ VALVE_STATE_MAPPING: Dict[int, str] = {
 }
 
 
-class Valve:
-    """Define an object to manage valve-related commands.
+class ValveCommands:
+    """Define an object to manage valve commands.
 
     Note that this class shouldn't be instantiated directly; an instance of it will
     automatically be added to the :meth:`Client <aioguardian.Client>` (as
@@ -35,14 +35,14 @@ class Valve:
         """Initialize."""
         self._execute_command: Callable[..., Coroutine] = execute_command
 
-    async def valve_close(self) -> dict:
+    async def close(self) -> dict:
         """Close the valve.
 
         :rtype: ``dict``
         """
         return await self._execute_command(Command.valve_close)
 
-    async def valve_halt(self) -> dict:
+    async def halt(self) -> dict:
         """Halt the valve.
 
         Note that calling this method will cause the device to no longer respond to leak
@@ -58,14 +58,14 @@ class Valve:
         )
         return await self._execute_command(Command.valve_halt)
 
-    async def valve_open(self) -> dict:
+    async def open(self) -> dict:
         """Open the valve.
 
         :rtype: ``dict``
         """
         return await self._execute_command(Command.valve_open)
 
-    async def valve_reset(self, *, silent: bool = True) -> dict:
+    async def reset(self, *, silent: bool = True) -> dict:
         """Reset the valve.
 
         This fully resets system motor diagnostics (including open/close count and
@@ -77,7 +77,7 @@ class Valve:
         """
         return await self._execute_command(Command.valve_reset, silent=silent)
 
-    async def valve_status(self, *, silent: bool = True) -> dict:
+    async def status(self, *, silent: bool = True) -> dict:
         """Retrieve status of the valve.
 
         In the payload that is returned, the ``state`` attribute of the valve can be any

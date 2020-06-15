@@ -1,4 +1,4 @@
-"""Test the valve_close command."""
+"""Test the close command."""
 import pytest
 
 from aioguardian import Client
@@ -11,12 +11,12 @@ from tests.common import load_fixture
 @pytest.mark.parametrize(
     "command_response", [load_fixture("valve_close_failure_response.json").encode()]
 )
-async def test_valve_close_failure(mock_datagram_client):
+async def test_close_failure(mock_datagram_client):
     """Test the valve_close command failing."""
     with mock_datagram_client:
         with pytest.raises(CommandError) as err:
             async with Client("192.168.1.100") as client:
-                _ = await client.valve.valve_close()
+                _ = await client.valve.close()
 
     assert str(err.value) == "valve_close command failed: valve_already_closed"
 
@@ -25,10 +25,10 @@ async def test_valve_close_failure(mock_datagram_client):
 @pytest.mark.parametrize(
     "command_response", [load_fixture("valve_close_success_response.json").encode()]
 )
-async def test_valve_close_success(mock_datagram_client):
+async def test_close_success(mock_datagram_client):
     """Test the valve_close command succeeding."""
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
-            valve_close_response = await client.valve.valve_close()
+            valve_close_response = await client.valve.close()
 
         assert valve_close_response["command"] == 18

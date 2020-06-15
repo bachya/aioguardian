@@ -16,7 +16,7 @@ async def test_ping_failure(mock_datagram_client):
     with mock_datagram_client:
         with pytest.raises(CommandError) as err:
             async with Client("192.168.1.100") as client:
-                _ = await client.device.ping()
+                _ = await client.system.ping()
 
     assert str(err.value) == (
         "ping command failed (response: {'command': 0, 'status': 'error'})"
@@ -31,7 +31,7 @@ async def test_ping_success(mock_datagram_client):
     """Test the ping command succeeding."""
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
-            ping_response = await client.device.ping()
+            ping_response = await client.system.ping()
 
         assert ping_response["command"] == 0
         assert ping_response["status"] == "ok"
@@ -46,7 +46,7 @@ async def test_ping_silent_success(mock_datagram_client):
     """Test the ping command succeeding."""
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
-            ping_response = await client.device.ping()
+            ping_response = await client.system.ping()
 
         assert ping_response["command"] == 0
         assert ping_response["status"] == "ok"

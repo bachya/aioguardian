@@ -1,1 +1,1 @@
-"""Define tests related to the valve."""
+"""Define tests for valve commands."""

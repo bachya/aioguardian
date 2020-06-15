@@ -19,7 +19,7 @@ async def test_command_timeout(mock_datagram_client):
     with mock_datagram_client, patch("asyncio.sleep"):
         with pytest.raises(SocketError) as err:
             async with Client("192.168.1.100") as client:
-                await client.device.ping()
+                await client.system.ping()
 
         assert str(err.value) == "ping command timed out"
 
@@ -34,7 +34,7 @@ async def test_command_timeout_successful_retry(mock_datagram_client):
         ]
 
         async with Client("192.168.1.100") as client:
-            ping_response = await client.device.ping()
+            ping_response = await client.system.ping()
 
         assert ping_response["command"] == 0
         assert ping_response["status"] == "ok"
@@ -46,7 +46,7 @@ async def test_command_without_socket_connect():
     """Test that executing a command without an open connection throws an exception."""
     client = Client("192.168.1.100")
     with pytest.raises(SocketError) as err:
-        await client.device.ping()
+        await client.system.ping()
 
     assert str(err.value) == "You aren't connected to the device yet"
 
@@ -59,7 +59,7 @@ async def test_connect_timeout():
     ):
         with pytest.raises(SocketError) as err:
             async with Client("192.168.1.100") as client:
-                await client.device.ping()
+                await client.system.ping()
 
         assert str(err.value) == "Connection to device timed out"
 

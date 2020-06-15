@@ -6,25 +6,26 @@ Commands
 Supported Commands
 ------------------
 
-* :meth:`client.device.diagnostics() <aioguardian.commands.device.Device.diagnostics>`: return diagnostics info from the device
-* :meth:`client.device.factory_reset() <aioguardian.commands.device.Device.factory_reset>`: perform a factory reset of the device
-* :meth:`client.device.ping() <aioguardian.commands.device.Device.ping>`: ping the device to determine whether it can be reached
-* :meth:`client.device.publish_state() <aioguardian.commands.device.Device.publish_state>`: publish the device state to the Guardian cloud
-* :meth:`client.device.reboot() <aioguardian.commands.device.Device.reboot>`: reboot the device
-* :meth:`client.device.upgrade_firmware() <aioguardian.commands.device.Device.upgrade_firmware>`: initiate a firmware upgrade on the device
-* :meth:`client.device.wifi_configure() <aioguardian.commands.device.Device.wifi_configure>`: connect the device to an SSID
-* :meth:`client.device.wifi_disable_ap() <aioguardian.commands.device.Device.wifi_disable_ap>`: disable the device's onboard WiFi access point
-* :meth:`client.device.wifi_enable_ap() <aioguardian.commands.device.Device.wifi_enable_ap>`: enable the device's onboard WiFi access point
-* :meth:`client.device.wifi_reset() <aioguardian.commands.device.Device.wifi_reset>`: reset all WiFi info
-* :meth:`client.device.wifi_status() <aioguardian.commands.device.Device.wifi_status>`: get information related to the device's WiFi connections
-* :meth:`client.sensor.pair_dump() <aioguardian.commands.sensor.Sensor.pair_dump>`: get information on all paired sensors
-* :meth:`client.sensor.pair_sensor() <aioguardian.commands.sensor.Sensor.pair_sensor>`: pair a new sensor to the device
-* :meth:`client.sensor.vc_sensor_status() <aioguardian.commands.sensor.Sensor.vc_sensor_status>`: get information from the device's onboard sensors
-* :meth:`client.valve.valve_close() <aioguardian.commands.valve.Valve.valve_close>`: close the valve
-* :meth:`client.valve.valve_halt() <aioguardian.commands.valve.Valve.valve_halt>`: halt the valve mid-open or mid-close (be careful!)
-* :meth:`client.valve.valve_open() <aioguardian.commands.valve.Valve.valve_open>`: open the valve
-* :meth:`client.valve.valve_reset() <aioguardian.commands.valve.Valve.valve_reset>`: reset all valve diagnostics
-* :meth:`client.valve.valve_status() <aioguardian.commands.valve.Valve.valve_status>`: get information about the device's valve
+* :meth:`client.iot.publish_state() <aioguardian.commands.iot.IOTCommands.publish_state>`: publish the device state to the Guardian cloud
+* :meth:`client.sensor.pair_dump() <aioguardian.commands.sensor.SensorCommands.pair_dump>`: get information on all paired sensors
+* :meth:`client.sensor.pair_sensor() <aioguardian.commands.sensor.SensorCommands.pair_sensor>`: pair a new sensor to the device
+* :meth:`client.sensor.unpair_sensor() <aioguardian.commands.sensor.SensorCommands.unpair_sensor>`: unpair a sensor from the device
+* :meth:`client.system.diagnostics() <aioguardian.commands.system.SystemCommands.diagnostics>`: return diagnostics info from the device
+* :meth:`client.system.factory_reset() <aioguardian.commands.system.SystemCommands.factory_reset>`: perform a factory reset of the device
+* :meth:`client.system.onboard_sensor_status() <aioguardian.commands.system.SystemCommands.onboard_sensor_status>`: get information from the device's onboard sensors
+* :meth:`client.system.ping() <aioguardian.commands.system.SystemCommands.ping>`: ping the device to determine whether it can be reached
+* :meth:`client.system.reboot() <aioguardian.commands.system.SystemCommands.reboot>`: reboot the device
+* :meth:`client.system.upgrade_firmware() <aioguardian.commands.system.SystemCommands.upgrade_firmware>`: initiate a firmware upgrade on the device
+* :meth:`client.valve.close() <aioguardian.commands.valve.ValveCommands.close>`: close the valve
+* :meth:`client.valve.halt() <aioguardian.commands.valve.ValveCommands.halt>`: halt the valve mid-open or mid-close (be careful!)
+* :meth:`client.valve.open() <aioguardian.commands.valve.ValveCommands.open>`: open the valve
+* :meth:`client.valve.reset() <aioguardian.commands.valve.ValveCommands.reset>`: reset all valve diagnostics
+* :meth:`client.valve.status() <aioguardian.commands.valve.ValveCommands.status>`: get information about the device's valve
+* :meth:`client.wifi.configure() <aioguardian.commands.wifi.WiFiCommands.configure>`: connect the device to an SSID
+* :meth:`client.wifi.disable_ap() <aioguardian.commands.wifi.WiFiCommands.disable_ap>`: disable the device's onboard WiFi access point
+* :meth:`client.wifi.enable_ap() <aioguardian.commands.wifi.WiFiCommands.enable_ap>`: enable the device's onboard WiFi access point
+* :meth:`client.wifi.reset() <aioguardian.commands.wifi.WiFiCommands.reset>`: reset all WiFi info
+* :meth:`client.wifi.status() <aioguardian.commands.wifi.WiFiCommands.status>`: get information related to the device's WiFi connections
 
 You can learn more about the response payloads of these commands by looking at the
 `fixtures folder <https://github.com/bachya/aioguardian/tree/dev/tests/fixtures>`_
@@ -67,7 +68,7 @@ for commands that don't affect the valve's status. Should this behavior not be
 desirable, many command methods accept a ``silent`` argument.
 
 For example, to execute
-:meth:`client.device.ping() <aioguardian.commands.device.Device.ping>` and allow these
+:meth:`client.system.ping() <aioguardian.commands.system.SystemCommands.ping>` and allow these
 tones to play:
 
 .. code:: python
@@ -79,7 +80,7 @@ tones to play:
 
     async def main():
         async with Client("<IP ADDRESS>") as client:
-            await client.device.ping(silent=False)
+            await client.system.ping(silent=False)
 
 
     asyncio.run(main())

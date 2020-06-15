@@ -1,1 +1,1 @@
-"""Define tests related to the sensors."""
+"""Define tests for sensor commands."""

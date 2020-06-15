@@ -1,4 +1,4 @@
-"""async define device info-related API endpoints."""
+"""Define system commands."""
 import asyncio
 from typing import Callable, Coroutine
 
@@ -13,9 +13,7 @@ DEFAULT_FIRMWARE_UPGRADE_PORT: int = 443
 DEFAULT_FIRMWARE_UPGRADE_URL: str = "https://repo.guardiancloud.services/gvc/fw"
 
 PARAM_FILENAME: str = "filename"
-PARAM_PASSWORD: str = "password"
 PARAM_PORT: str = "port"
-PARAM_SSID: str = "ssid"
 PARAM_URL: str = "url"
 
 UPGRADE_FIRMWARE_PARAM_SCHEMA: vol.Schema = vol.Schema(
@@ -26,20 +24,13 @@ UPGRADE_FIRMWARE_PARAM_SCHEMA: vol.Schema = vol.Schema(
     }
 )
 
-WIFI_CONFIGURE_PARAM_SCHEMA: vol.Schema = vol.Schema(
-    {
-        vol.Required(PARAM_SSID): vol.All(str, vol.Length(max=36)),
-        vol.Required(PARAM_PASSWORD): vol.All(str, vol.Length(max=64)),
-    }
-)
 
-
-class Device:
-    """Define an object to manage device-related commands.
+class SystemCommands:
+    """Define an object to manage system commands.
 
     Note that this class shouldn't be instantiated directly; an instance of it will
     automatically be added to the :meth:`Client <aioguardian.Client>` (as
-    ``client.device``).
+    ``client.system``).
     """
 
     def __init__(self, execute_command: Callable[..., Coroutine]) -> None:
@@ -64,6 +55,15 @@ class Device:
         """
         return await self._execute_command(Command.factory_reset, silent=silent)
 
+    async def onboard_sensor_status(self, *, silent: bool = True) -> dict:
+        """Retrieve status of the valve controller's onboard sensors.
+
+        :param silent: If ``True``, silence "beep" tones associated with this command
+        :type silent: ``bool``
+        :rtype: ``dict``
+        """
+        return await self._execute_command(Command.onboard_sensor_status, silent=silent)
+
     async def ping(self, *, silent: bool = True) -> dict:
         """Ping the device.
 
@@ -72,15 +72,6 @@ class Device:
         :rtype: ``dict``
         """
         return await self._execute_command(Command.ping, silent=silent)
-
-    async def publish_state(self, *, silent: bool = True) -> dict:
-        """Publish the device's complete state to the Guardian cloud.
-
-        :param silent: If ``True``, silence "beep" tones associated with this command
-        :type silent: ``bool``
-        :rtype: ``dict``
-        """
-        return await self._execute_command(Command.publish_state, silent=silent)
 
     async def reboot(self, *, silent: bool = True) -> dict:
         """Reboot the device.
@@ -129,63 +120,3 @@ class Device:
         return await self._execute_command(
             Command.upgrade_firmware, params=params, silent=silent
         )
-
-    async def wifi_configure(
-        self, ssid: str, password: str, *, silent: bool = True
-    ) -> dict:
-        """Configure the device to a wireless network.
-
-        :param ssid: The SSID to connect to
-        :type ssid: ``str``
-        :param password: The SSID's password
-        :type password: ``str``
-        :param silent: If ``True``, silence "beep" tones associated with this command
-        :type silent: ``bool``
-        :rtype: ``dict``
-        """
-        params = {PARAM_SSID: ssid, PARAM_PASSWORD: password}
-
-        try:
-            WIFI_CONFIGURE_PARAM_SCHEMA(params)
-        except vol.Invalid as err:
-            raise CommandError(f"Invalid parameters provided: {err}") from None
-
-        return await self._execute_command(
-            Command.wifi_configure, params=params, silent=silent
-        )
-
-    async def wifi_disable_ap(self, *, silent: bool = True) -> dict:
-        """Disable the device's onboard WiFi access point.
-
-        :param silent: If ``True``, silence "beep" tones associated with this command
-        :type silent: ``bool``
-        :rtype: ``dict``
-        """
-        return await self._execute_command(Command.wifi_disable_ap, silent=silent)
-
-    async def wifi_enable_ap(self, *, silent: bool = True) -> dict:
-        """Enable the device's onboard WiFi access point.
-
-        :param silent: If ``True``, silence "beep" tones associated with this command
-        :type silent: ``bool``
-        :rtype: ``dict``
-        """
-        return await self._execute_command(Command.wifi_enable_ap, silent=silent)
-
-    async def wifi_reset(self, *, silent: bool = True) -> dict:
-        """Erase and reset all WiFi settings.
-
-        :param silent: If ``True``, silence "beep" tones associated with this command
-        :type silent: ``bool``
-        :rtype: ``dict``
-        """
-        return await self._execute_command(Command.wifi_reset, silent=silent)
-
-    async def wifi_status(self, *, silent: bool = True) -> dict:
-        """Return the current WiFi status of the device.
-
-        :param silent: If ``True``, silence "beep" tones associated with this command
-        :type silent: ``bool``
-        :rtype: ``dict``
-        """
-        return await self._execute_command(Command.wifi_status, silent=silent)
