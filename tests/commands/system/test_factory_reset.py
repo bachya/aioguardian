@@ -19,7 +19,8 @@ async def test_factory_reset_failure(mock_datagram_client):
                 _ = await client.system.factory_reset()
 
     assert str(err.value) == (
-        "factory_reset command failed (response: {'command': 255, 'status': 'error'})"
+        "system_factory_reset command failed "
+        "(response: {'command': 255, 'status': 'error'})"
     )
 
 

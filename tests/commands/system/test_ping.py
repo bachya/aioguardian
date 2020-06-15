@@ -19,7 +19,7 @@ async def test_ping_failure(mock_datagram_client):
                 _ = await client.system.ping()
 
     assert str(err.value) == (
-        "ping command failed (response: {'command': 0, 'status': 'error'})"
+        "system_ping command failed (response: {'command': 0, 'status': 'error'})"
     )
 
 

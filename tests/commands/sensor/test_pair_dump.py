@@ -19,7 +19,7 @@ async def test_pair_dump_failure(mock_datagram_client):
                 _ = await client.sensor.pair_dump()
 
     assert str(err.value) == (
-        "pair_dump command failed (response: {'command': 48, 'status': 'error'})"
+        "sensor_pair_dump command failed (response: {'command': 48, 'status': 'error'})"
     )
 
 

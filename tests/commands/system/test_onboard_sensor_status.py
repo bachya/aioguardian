@@ -37,5 +37,6 @@ async def test_onboard_sensor_status_failure(mock_datagram_client):
                 _ = await client.system.onboard_sensor_status()
 
     assert str(err.value) == (
-        "onboard_sensor_status command failed (response: {'command': 80, 'status': 'error'})"
+        "system_onboard_sensor_status command failed "
+        "(response: {'command': 80, 'status': 'error'})"
     )

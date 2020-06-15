@@ -19,7 +19,8 @@ async def test_unpair_sensor_failure(mock_datagram_client):
                 _ = await client.sensor.unpair_sensor("abc123")
 
     assert str(err.value) == (
-        "unpair_sensor command failed (response: {'command': 50, 'status': 'error'})"
+        "sensor_unpair_sensor command failed "
+        "(response: {'command': 50, 'status': 'error'})"
     )
 
 

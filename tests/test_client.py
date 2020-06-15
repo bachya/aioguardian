@@ -21,7 +21,7 @@ async def test_command_timeout(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 await client.system.ping()
 
-        assert str(err.value) == "ping command timed out"
+        assert str(err.value) == "system_ping command timed out"
 
 
 @pytest.mark.asyncio

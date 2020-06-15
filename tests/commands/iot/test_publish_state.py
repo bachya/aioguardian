@@ -20,7 +20,8 @@ async def test_publish_state_failure(mock_datagram_client):
             client.disconnect()
 
     assert str(err.value) == (
-        "publish_state command failed (response: {'command': 65, 'status': 'error'})"
+        "iot_publish_state command failed "
+        "(response: {'command': 65, 'status': 'error'})"
     )
 
 

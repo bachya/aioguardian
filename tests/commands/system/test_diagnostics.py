@@ -19,7 +19,8 @@ async def test_diagnostics_failure(mock_datagram_client):
                 _ = await client.system.diagnostics()
 
     assert str(err.value) == (
-        "diagnostics command failed (response: {'command': 1, 'status': 'error'})"
+        "system_diagnostics command failed "
+        "(response: {'command': 1, 'status': 'error'})"
     )
 
 
