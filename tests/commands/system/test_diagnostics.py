@@ -16,7 +16,7 @@ async def test_diagnostics_failure(mock_datagram_client):
     with mock_datagram_client:
         with pytest.raises(CommandError) as err:
             async with Client("192.168.1.100") as client:
-                _ = await client.device.diagnostics()
+                _ = await client.system.diagnostics()
 
     assert str(err.value) == (
         "diagnostics command failed (response: {'command': 1, 'status': 'error'})"
@@ -31,7 +31,7 @@ async def test_diagnostics_success(mock_datagram_client):
     """Test the diagnostics command succeeding."""
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
-            diagnostics_response = await client.device.diagnostics()
+            diagnostics_response = await client.system.diagnostics()
 
         assert diagnostics_response["command"] == 1
         assert diagnostics_response["status"] == "ok"

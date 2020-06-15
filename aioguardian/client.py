@@ -8,9 +8,11 @@ from typing import Optional, Type
 from async_timeout import timeout
 import asyncio_dgram
 
-from aioguardian.commands.device import Device
-from aioguardian.commands.sensor import Sensor
-from aioguardian.commands.valve import Valve
+from aioguardian.commands.iot import IOTCommands
+from aioguardian.commands.sensor import SensorCommands
+from aioguardian.commands.system import SystemCommands
+from aioguardian.commands.valve import ValveCommands
+from aioguardian.commands.wifi import WiFiCommands
 from aioguardian.errors import SocketError, _raise_on_command_error
 from aioguardian.helpers.command import Command, get_command_from_code
 
@@ -53,9 +55,11 @@ class Client:  # pylint: disable=too-many-instance-attributes
         self._request_timeout: int = request_timeout
         self._stream: asyncio_dgram.aio.DatagramStream = None
 
-        self.device: Device = Device(self._execute_command)
-        self.sensor: Sensor = Sensor(self._execute_command)
-        self.valve: Valve = Valve(self._execute_command)
+        self.iot: IOTCommands = IOTCommands(self._execute_command)
+        self.sensor: SensorCommands = SensorCommands(self._execute_command)
+        self.system: SystemCommands = SystemCommands(self._execute_command)
+        self.valve: ValveCommands = ValveCommands(self._execute_command)
+        self.wifi: WiFiCommands = WiFiCommands(self._execute_command)
 
     async def __aenter__(self) -> "Client":
         """Define an entry point into this object via a context manager."""

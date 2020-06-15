@@ -23,8 +23,9 @@ class Command(Enum):
     wifi_disable_ap = 36
     pair_dump = 48
     pair_sensor = 49
+    unpair_sensor = 50
     publish_state = 65
-    vc_sensor_status = 80
+    onboard_sensor_status = 80
     factory_reset = 255
 
 
@@ -38,7 +39,7 @@ def get_command_from_name(command_name: str) -> Command:
     try:
         command = Command[command_name]
     except KeyError:
-        raise CommandError(f"Unknown command name: {command_name}")
+        raise CommandError(f"Unknown command name: {command_name}") from None
     return command
 
 
@@ -52,5 +53,5 @@ def get_command_from_code(command_code: int) -> Command:
     try:
         command = Command(command_code)
     except ValueError:
-        raise CommandError(f"Unknown command code: {command_code}")
+        raise CommandError(f"Unknown command code: {command_code}") from None
     return command

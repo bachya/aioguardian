@@ -17,7 +17,7 @@ async def test_reboot_failure(mock_datagram_client):
     with mock_datagram_client:
         with pytest.raises(CommandError) as err:
             async with Client("192.168.1.100") as client:
-                _ = await client.device.reboot()
+                _ = await client.system.reboot()
 
     assert str(err.value) == (
         "reboot command failed (response: {'command': 2, 'status': 'error'})"
@@ -34,7 +34,7 @@ async def test_reboot_success(mock_datagram_client):
         async with Client("192.168.1.100") as client:
             # Patch asyncio.sleep so that this test doesn't take 3-ish seconds:
             with patch("asyncio.sleep", CoroutineMock()):
-                reboot_response = await client.device.reboot()
+                reboot_response = await client.system.reboot()
 
         assert reboot_response["command"] == 2
         assert reboot_response["status"] == "ok"

@@ -1,4 +1,4 @@
-"""Test the valve_status command."""
+"""Test the status command."""
 import pytest
 
 from aioguardian import Client
@@ -11,12 +11,12 @@ from tests.common import load_fixture
 @pytest.mark.parametrize(
     "command_response", [load_fixture("valve_status_failure_response.json").encode()]
 )
-async def test_valve_status_failure(mock_datagram_client):
+async def test_status_failure(mock_datagram_client):
     """Test the valve_status command failing."""
     with mock_datagram_client:
         with pytest.raises(CommandError) as err:
             async with Client("192.168.1.100") as client:
-                _ = await client.valve.valve_status()
+                _ = await client.valve.status()
 
     assert str(err.value) == (
         "valve_status command failed (response: {'command': 16, 'status': 'error'})"
@@ -27,11 +27,11 @@ async def test_valve_status_failure(mock_datagram_client):
 @pytest.mark.parametrize(
     "command_response", [load_fixture("valve_status_success_response.json").encode()]
 )
-async def test_valve_status_success(mock_datagram_client):
+async def test_status_success(mock_datagram_client):
     """Test the valve_status command succeeding."""
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
-            valve_status_response = await client.valve.valve_status()
+            valve_status_response = await client.valve.status()
 
         assert valve_status_response["command"] == 16
         assert valve_status_response["status"] == "ok"

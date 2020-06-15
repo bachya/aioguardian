@@ -1,4 +1,4 @@
-"""async define onboard sensor-related API endpoints."""
+"""Define sensor commands."""
 from typing import Callable, Coroutine
 
 import voluptuous as vol
@@ -14,8 +14,8 @@ PAIR_SENSOR_PARAM_SCHEMA: vol.Schema = vol.Schema(
 )
 
 
-class Sensor:
-    """Define an object to manage sensor-related commands.
+class SensorCommands:
+    """Define an object to manage sensor commands.
 
     Note that this class shouldn't be instantiated directly; an instance of it will
     automatically be added to the :meth:`Client <aioguardian.Client>` (as
@@ -55,11 +55,22 @@ class Sensor:
             Command.pair_sensor, params=params, silent=silent
         )
 
-    async def vc_sensor_status(self, *, silent: bool = True) -> dict:
-        """Retrieve status of the valve controller sensors.
+    async def unpair_sensor(self, uid: str, *, silent: bool = True) -> dict:
+        """Unpair a sensor from the device.
 
+        :param uid: The UID of the sensor to unpair
+        :type uid: ``str``
         :param silent: If ``True``, silence "beep" tones associated with this command
         :type silent: ``bool``
         :rtype: ``dict``
         """
-        return await self._execute_command(Command.vc_sensor_status, silent=silent)
+        params = {PARAM_UID: uid}
+
+        try:
+            PAIR_SENSOR_PARAM_SCHEMA(params)
+        except vol.Invalid as err:
+            raise CommandError(f"Invalid parameters provided: {err}") from None
+
+        return await self._execute_command(
+            Command.unpair_sensor, params=params, silent=silent
+        )

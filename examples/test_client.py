@@ -35,29 +35,29 @@ async def main() -> None:
             #     "upgrade_firmware command response: %s", upgrade_firmware_response
             # )
 
-            wifi_status_response = await guardian.device.wifi_status()
+            wifi_status_response = await guardian.wifi.status()
             _LOGGER.info("wifi_status command response: %s", wifi_status_response)
 
-            # wifi_reset_response = await guardian.device.wifi_reset()
+            # wifi_reset_response = await guardian.wifi.reset()
             # _LOGGER.info("wifi_reset command response: %s", wifi_reset_response)
 
-            # wifi_configure_response = await guardian.device.wifi_configure(
+            # wifi_configure_response = await guardian.wifi.configure(
             #     "<SSID>", "<PASSWORD>"
             # )
             # _LOGGER.info("wifi_configure command response: %s", wifi_configure_response)
 
-            # wifi_enable_ap_response = await guardian.device.wifi_enable_ap()
+            # wifi_enable_ap_response = await guardian.wifi.enable_ap()
             # _LOGGER.info("wifi_enable_ap command response: %s", wifi_enable_ap_response)
 
-            # wifi_disable_ap_response = await guardian.device.wifi_disable_ap()
+            # wifi_disable_ap_response = await guardian.wifi.disable_ap()
             # _LOGGER.info(
             #     "wifi_disable_ap command response: %s", wifi_disable_ap_response
             # )
 
             # --- SENSOR COMMANDS ---
-            vc_sensor_status_response = await guardian.sensor.vc_sensor_status()
+            onboard_sensor_status = await guardian.sensor.onboard_sensor_status()
             _LOGGER.info(
-                "vc_sensor_status_response command response: %s", vc_sensor_status_response
+                "onboard_sensor_status command response: %s", onboard_sensor_status
             )
 
             pair_dump_response = await guardian.sensor.pair_dump()
@@ -67,12 +67,12 @@ async def main() -> None:
             # _LOGGER.info("pair_response command response: %s", pair_sensor_response)
 
             # --- VALVE COMMANDS ---
-            valve_status_response = await guardian.valve.valve_status()
+            valve_status_response = await guardian.valve.status()
             _LOGGER.info(
                 "valve_status_response command response: %s", valve_status_response
             )
 
-            valve_open_response = await guardian.valve.valve_open()
+            valve_open_response = await guardian.valve.open()
             _LOGGER.info(
                 "valve_open_response command response: %s", valve_open_response
             )
@@ -81,17 +81,17 @@ async def main() -> None:
             # doesn't error out:
             await asyncio.sleep(3)
 
-            valve_close_response = await guardian.valve.valve_close()
+            valve_close_response = await guardian.valve.close()
             _LOGGER.info(
                 "valve_close_response command response: %s", valve_close_response
             )
 
-            # valve_halt_response = await guardian.valve.valve_halt()
+            # valve_halt_response = await guardian.valve.halt()
             # _LOGGER.info(
             #     "valve_halt_response command response: %s", valve_halt_response
             # )
 
-            # valve_reset_response = await guardian.valve.valve_reset()
+            # valve_reset_response = await guardian.valve.reset()
             # _LOGGER.info(
             #     "valve_reset_response command response: %s", valve_reset_response
             # )
