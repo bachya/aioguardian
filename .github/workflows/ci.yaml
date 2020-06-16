@@ -24,6 +24,7 @@ jobs:
           - "3.6"
           - "3.7"
           - "3.8"
+          - "3.9"
 
     steps:
       - uses: actions/checkout@v2
@@ -32,6 +33,9 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           architecture: x64
+          include:
+            - python: 3.9
+              experimental: true
 
       - run: |
           python -m venv venv
