@@ -18,9 +18,10 @@ async def test_configure_failure(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 _ = await client.wifi.configure("My_Network", "password123")
 
-    assert str(err.value) == (
-        "wifi_configure command failed (response: {'command': 34, 'status': 'error'})"
-    )
+        assert str(err.value) == (
+            "wifi_configure command failed "
+            "(response: {'command': 34, 'status': 'error'})"
+        )
 
 
 @pytest.mark.asyncio
@@ -34,10 +35,10 @@ async def test_configure_invalid_password(mock_datagram_client):
                     "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
                 )
 
-    assert str(err.value) == (
-        "Invalid parameters provided: length of value must be at most 64 for "
-        "dictionary value @ data['password']"
-    )
+        assert str(err.value) == (
+            "Invalid parameters provided: length of value must be at most 64 for "
+            "dictionary value @ data['password']"
+        )
 
 
 @pytest.mark.asyncio
@@ -50,10 +51,10 @@ async def test_configure_invalid_ssid(mock_datagram_client):
                     "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "password123"
                 )
 
-    assert str(err.value) == (
-        "Invalid parameters provided: length of value must be at most 36 for "
-        "dictionary value @ data['ssid']"
-    )
+        assert str(err.value) == (
+            "Invalid parameters provided: length of value must be at most 36 for "
+            "dictionary value @ data['ssid']"
+        )
 
 
 @pytest.mark.asyncio

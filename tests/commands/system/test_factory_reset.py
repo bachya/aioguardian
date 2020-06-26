@@ -18,10 +18,10 @@ async def test_factory_reset_failure(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 _ = await client.system.factory_reset()
 
-    assert str(err.value) == (
-        "system_factory_reset command failed "
-        "(response: {'command': 255, 'status': 'error'})"
-    )
+        assert str(err.value) == (
+            "system_factory_reset command failed "
+            "(response: {'command': 255, 'status': 'error'})"
+        )
 
 
 @pytest.mark.asyncio

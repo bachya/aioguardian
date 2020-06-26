@@ -9,7 +9,7 @@ import aioguardian.helpers.config_validation as cv
 
 PARAM_UID = "uid"
 
-PAIR_SENSOR_PARAM_SCHEMA: vol.Schema = vol.Schema(
+PAIRED_SENSOR_UID_SCHEMA: vol.Schema = vol.Schema(
     {vol.Required(PARAM_UID): vol.All(cv.alphanumeric, vol.Length(max=12))}
 )
 
@@ -47,12 +47,32 @@ class SensorCommands:
         params = {PARAM_UID: uid}
 
         try:
-            PAIR_SENSOR_PARAM_SCHEMA(params)
+            PAIRED_SENSOR_UID_SCHEMA(params)
         except vol.Invalid as err:
             raise CommandError(f"Invalid parameters provided: {err}") from None
 
         return await self._execute_command(
             Command.sensor_pair_sensor, params=params, silent=silent
+        )
+
+    async def paired_sensor_status(self, uid: str, *, silent: bool = True) -> dict:
+        """Get the status (leak, temperature, etc.) of a paired sensor.
+
+        :param uid: The UID of the sensor to pair
+        :type uid: ``str``
+        :param silent: If ``True``, silence "beep" tones associated with this command
+        :type silent: ``bool``
+        :rtype: ``dict``
+        """
+        params = {PARAM_UID: uid}
+
+        try:
+            PAIRED_SENSOR_UID_SCHEMA(params)
+        except vol.Invalid as err:
+            raise CommandError(f"Invalid parameters provided: {err}") from None
+
+        return await self._execute_command(
+            Command.sensor_paired_sensor_status, params=params, silent=silent
         )
 
     async def unpair_sensor(self, uid: str, *, silent: bool = True) -> dict:
@@ -67,7 +87,7 @@ class SensorCommands:
         params = {PARAM_UID: uid}
 
         try:
-            PAIR_SENSOR_PARAM_SCHEMA(params)
+            PAIRED_SENSOR_UID_SCHEMA(params)
         except vol.Invalid as err:
             raise CommandError(f"Invalid parameters provided: {err}") from None
 

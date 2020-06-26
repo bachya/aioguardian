@@ -18,7 +18,7 @@ async def test_open_failure(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 _ = await client.valve.open()
 
-    assert str(err.value) == "valve_open command failed: valve_moving"
+        assert str(err.value) == "valve_open command failed: valve_moving"
 
 
 @pytest.mark.asyncio

@@ -18,9 +18,10 @@ async def test_pair_dump_failure(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 _ = await client.sensor.pair_dump()
 
-    assert str(err.value) == (
-        "sensor_pair_dump command failed (response: {'command': 48, 'status': 'error'})"
-    )
+        assert str(err.value) == (
+            "sensor_pair_dump command failed "
+            "(response: {'command': 48, 'status': 'error'})"
+        )
 
 
 @pytest.mark.asyncio
@@ -35,3 +36,7 @@ async def test_pair_dump_success(mock_datagram_client):
 
         assert pair_dump_response["command"] == 48
         assert pair_dump_response["status"] == "ok"
+        assert pair_dump_response["data"] == {
+            "pair_count": 1,
+            "paired_uids": ["6309FB799CDE"],
+        }

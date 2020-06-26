@@ -18,10 +18,10 @@ async def test_unpair_sensor_failure(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 _ = await client.sensor.unpair_sensor("abc123")
 
-    assert str(err.value) == (
-        "sensor_unpair_sensor command failed "
-        "(response: {'command': 50, 'status': 'error'})"
-    )
+        assert str(err.value) == (
+            "sensor_unpair_sensor command failed "
+            "(response: {'command': 50, 'status': 'error'})"
+        )
 
 
 @pytest.mark.asyncio
@@ -32,10 +32,10 @@ async def test_unpair_sensor_invalid_uid(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 _ = await client.sensor.unpair_sensor("$@&*!@--")
 
-    assert str(err.value) == (
-        "Invalid parameters provided: String is not alphanumeric for dictionary value "
-        "@ data['uid']"
-    )
+        assert str(err.value) == (
+            "Invalid parameters provided: String is not alphanumeric for dictionary "
+            "value @ data['uid']"
+        )
 
 
 @pytest.mark.asyncio

@@ -7,8 +7,9 @@ Supported Commands
 ------------------
 
 * :meth:`client.iot.publish_state() <aioguardian.commands.iot.IOTCommands.publish_state>`: publish the device state to the Guardian cloud
-* :meth:`client.sensor.pair_dump() <aioguardian.commands.sensor.SensorCommands.pair_dump>`: get information on all paired sensors
+* :meth:`client.sensor.pair_dump() <aioguardian.commands.sensor.SensorCommands.pair_dump>`: dump the UIDs of all paired sensors
 * :meth:`client.sensor.pair_sensor() <aioguardian.commands.sensor.SensorCommands.pair_sensor>`: pair a new sensor to the device
+* :meth:`client.sensor.paired_sensor_status() <aioguardian.commands.sensor.SensorCommands.paired_sensor_status>`: get information from a paired sensor
 * :meth:`client.sensor.unpair_sensor() <aioguardian.commands.sensor.SensorCommands.unpair_sensor>`: unpair a sensor from the device
 * :meth:`client.system.diagnostics() <aioguardian.commands.system.SystemCommands.diagnostics>`: return diagnostics info from the device
 * :meth:`client.system.factory_reset() <aioguardian.commands.system.SystemCommands.factory_reset>`: perform a factory reset of the device
@@ -26,6 +27,8 @@ Supported Commands
 * :meth:`client.wifi.enable_ap() <aioguardian.commands.wifi.WiFiCommands.enable_ap>`: enable the device's onboard WiFi access point
 * :meth:`client.wifi.reset() <aioguardian.commands.wifi.WiFiCommands.reset>`: reset all WiFi info
 * :meth:`client.wifi.status() <aioguardian.commands.wifi.WiFiCommands.status>`: get information related to the device's WiFi connections
+
+*Note:* Not all commands are supported on all firmwares. If a particular command is not working on your valve controller, please ensure you have the latest device firmware before filing an ``aioguardian`` bug.
 
 You can learn more about the response payloads of these commands by looking at the
 `fixtures folder <https://github.com/bachya/aioguardian/tree/dev/tests/fixtures>`_

@@ -18,9 +18,9 @@ async def test_reset_failure(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 _ = await client.wifi.reset()
 
-    assert str(err.value) == (
-        "wifi_reset command failed (response: {'command': 33, 'status': 'error'})"
-    )
+        assert str(err.value) == (
+            "wifi_reset command failed (response: {'command': 33, 'status': 'error'})"
+        )
 
 
 @pytest.mark.asyncio

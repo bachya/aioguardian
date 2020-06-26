@@ -20,10 +20,10 @@ async def test_upgrade_firmware_failure(mock_datagram_client):
                 _ = await client.system.upgrade_firmware()
             client.disconnect()
 
-    assert str(err.value) == (
-        "system_upgrade_firmware command failed "
-        "(response: {'command': 4, 'status': 'error'})"
-    )
+        assert str(err.value) == (
+            "system_upgrade_firmware command failed "
+            "(response: {'command': 4, 'status': 'error'})"
+        )
 
 
 @pytest.mark.asyncio
@@ -36,10 +36,10 @@ async def test_upgrade_firmware_invalid_filename(mock_datagram_client):
                     filename="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
                 )
 
-    assert str(err.value) == (
-        "Invalid parameters provided: length of value must be at most 48 for "
-        "dictionary value @ data['filename']"
-    )
+        assert str(err.value) == (
+            "Invalid parameters provided: length of value must be at most 48 for "
+            "dictionary value @ data['filename']"
+        )
 
 
 @pytest.mark.asyncio
@@ -50,9 +50,10 @@ async def test_upgrade_firmware_invalid_port(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 _ = await client.system.upgrade_firmware(port="WHOOPS")
 
-    assert str(err.value) == (
-        "Invalid parameters provided: expected int for dictionary value @ data['port']"
-    )
+        assert str(err.value) == (
+            "Invalid parameters provided: expected int for dictionary value @ "
+            "data['port']"
+        )
 
 
 @pytest.mark.asyncio
@@ -63,9 +64,10 @@ async def test_upgrade_firmware_invalid_url(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 _ = await client.system.upgrade_firmware(url="not_real_url")
 
-    assert str(err.value) == (
-        "Invalid parameters provided: Invalid URL for dictionary value @ data['url']"
-    )
+        assert str(err.value) == (
+            "Invalid parameters provided: Invalid URL for dictionary value @ "
+            "data['url']"
+        )
 
 
 @pytest.mark.asyncio

@@ -19,9 +19,9 @@ async def test_reboot_failure(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 _ = await client.system.reboot()
 
-    assert str(err.value) == (
-        "system_reboot command failed (response: {'command': 2, 'status': 'error'})"
-    )
+        assert str(err.value) == (
+            "system_reboot command failed (response: {'command': 2, 'status': 'error'})"
+        )
 
 
 @pytest.mark.asyncio
