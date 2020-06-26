@@ -26,7 +26,9 @@ class Command(Enum):
     wifi_configure = 34
     wifi_disable_ap = 36
     wifi_enable_ap = 35
+    wifi_list = 38
     wifi_reset = 33
+    wifi_scan = 37
     wifi_status = 32
 
 

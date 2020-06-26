@@ -1,0 +1,17 @@
+{
+  "command": 38,
+  "status": "ok",
+  "silent": true,
+  "data": {
+    "record_count": 1,
+    "records": [
+      {
+        "bssid": "60:31:97:BE:53:5D",
+        "rssi": -89,
+        "channel": 1,
+        "authmode": 4,
+        "ssid": "CenturyLink0526"
+      }
+    ]
+  }
+}
