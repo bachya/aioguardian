@@ -34,11 +34,12 @@ async def test_list_success(caplog, mock_datagram_client):
             await client.wifi.scan()
             wifi_list_response = await client.wifi.list()
 
-        assert not any(
+        assert all(
             "Returning cached SSIDs; run wifi_scan first for up-to-date data"
-            in e.message
+            not in e.message
             for e in caplog.records
         )
+
 
         assert wifi_list_response["command"] == 38
         assert wifi_list_response["status"] == "ok"
