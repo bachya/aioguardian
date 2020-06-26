@@ -19,7 +19,7 @@ use_parentheses = true
 
 [tool.poetry]
 name = "aioguardian"
-version = "0.2.3"
+version = "1.0.0"
 description = "A Python3 library for Elexa Guardian water valves and sensors"
 readme = "README.md"
 authors = ["Aaron Bach <bachya1208@gmail.com>"]
