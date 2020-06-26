@@ -20,8 +20,7 @@ async def test_onboard_sensor_status_success(mock_datagram_client):
 
         assert onboard_sensor_status["command"] == 80
         assert onboard_sensor_status["status"] == "ok"
-        assert onboard_sensor_status["data"]["temperature"] == 71
-        assert onboard_sensor_status["data"]["wet"] is False
+        assert onboard_sensor_status["data"] == {"temperature": 71, "wet": False}
 
 
 @pytest.mark.asyncio
@@ -36,7 +35,7 @@ async def test_onboard_sensor_status_failure(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 _ = await client.system.onboard_sensor_status()
 
-    assert str(err.value) == (
-        "system_onboard_sensor_status command failed "
-        "(response: {'command': 80, 'status': 'error'})"
-    )
+        assert str(err.value) == (
+            "system_onboard_sensor_status command failed "
+            "(response: {'command': 80, 'status': 'error'})"
+        )

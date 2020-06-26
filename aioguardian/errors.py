@@ -5,6 +5,8 @@ if TYPE_CHECKING:
     from aioguardian.helpers.command import Command
 
 ERROR_CODE_MAPPING: Dict[int, str] = {
+    3: "sensor_not_paired",
+    5: "sensor_error_loading",
     17: "valve_already_opened",
     18: "valve_already_closed",
     19: "valve_already_stopped",

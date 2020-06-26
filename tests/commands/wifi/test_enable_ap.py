@@ -18,9 +18,10 @@ async def test_enable_ap_failure(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 _ = await client.wifi.enable_ap()
 
-    assert str(err.value) == (
-        "wifi_enable_ap command failed (response: {'command': 35, 'status': 'error'})"
-    )
+        assert str(err.value) == (
+            "wifi_enable_ap command failed "
+            "(response: {'command': 35, 'status': 'error'})"
+        )
 
 
 @pytest.mark.asyncio

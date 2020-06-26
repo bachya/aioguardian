@@ -18,9 +18,9 @@ async def test_status_failure(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 _ = await client.valve.status()
 
-    assert str(err.value) == (
-        "valve_status command failed (response: {'command': 16, 'status': 'error'})"
-    )
+        assert str(err.value) == (
+            "valve_status command failed (response: {'command': 16, 'status': 'error'})"
+        )
 
 
 @pytest.mark.asyncio
@@ -35,10 +35,12 @@ async def test_status_success(mock_datagram_client):
 
         assert valve_status_response["command"] == 16
         assert valve_status_response["status"] == "ok"
-        valve_status_response["data"]["enabled"] = False
-        valve_status_response["data"]["direction"] = True
-        valve_status_response["data"]["state"] = "default"
-        valve_status_response["data"]["travel_count"] = 0
-        valve_status_response["data"]["instantaneous_current"] = 0
-        valve_status_response["data"]["instantaneous_current_ddt"] = 0
-        valve_status_response["data"]["average_current"] = 34
+        assert valve_status_response["data"] == {
+            "enabled": False,
+            "direction": True,
+            "state": "default",
+            "travel_count": 0,
+            "instantaneous_current": 0,
+            "instantaneous_current_ddt": 0,
+            "average_current": 34,
+        }

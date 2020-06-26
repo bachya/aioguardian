@@ -18,10 +18,10 @@ async def test_diagnostics_failure(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 _ = await client.system.diagnostics()
 
-    assert str(err.value) == (
-        "system_diagnostics command failed "
-        "(response: {'command': 1, 'status': 'error'})"
-    )
+        assert str(err.value) == (
+            "system_diagnostics command failed "
+            "(response: {'command': 1, 'status': 'error'})"
+        )
 
 
 @pytest.mark.asyncio
@@ -36,9 +36,11 @@ async def test_diagnostics_success(mock_datagram_client):
 
         assert diagnostics_response["command"] == 1
         assert diagnostics_response["status"] == "ok"
-        assert diagnostics_response["data"]["codename"] == "gvc1"
-        assert diagnostics_response["data"]["uid"] == "ABCDEF123456"
-        assert diagnostics_response["data"]["uptime"] == 41
-        assert diagnostics_response["data"]["firmware"] == "0.20.9-beta+official.ef3"
-        assert diagnostics_response["data"]["rf_modem_firmware"] == "4.0.0"
-        assert diagnostics_response["data"]["available_heap"] == 34456
+        assert diagnostics_response["data"] == {
+            "codename": "gvc1",
+            "uid": "ABCDEF123456",
+            "uptime": 41,
+            "firmware": "0.20.9-beta+official.ef3",
+            "rf_modem_firmware": "4.0.0",
+            "available_heap": 34456,
+        }

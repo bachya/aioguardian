@@ -18,7 +18,7 @@ async def test_close_failure(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 _ = await client.valve.close()
 
-    assert str(err.value) == "valve_close command failed: valve_already_closed"
+        assert str(err.value) == "valve_close command failed: valve_already_closed"
 
 
 @pytest.mark.asyncio

@@ -10,6 +10,7 @@ class Command(Enum):
     iot_publish_state = 65
     sensor_pair_dump = 48
     sensor_pair_sensor = 49
+    sensor_paired_sensor_status = 51
     sensor_unpair_sensor = 50
     system_diagnostics = 1
     system_factory_reset = 255

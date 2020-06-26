@@ -18,10 +18,10 @@ async def test_reset_failure(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 _ = await client.valve.reset()
 
-    assert (
-        str(err.value)
-        == "valve_reset command failed (response: {'command': 20, 'status': 'error'})"
-    )
+        assert (
+            str(err.value) == "valve_reset command failed "
+            "(response: {'command': 20, 'status': 'error'})"
+        )
 
 
 @pytest.mark.asyncio

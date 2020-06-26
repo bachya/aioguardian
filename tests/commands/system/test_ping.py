@@ -18,9 +18,9 @@ async def test_ping_failure(mock_datagram_client):
             async with Client("192.168.1.100") as client:
                 _ = await client.system.ping()
 
-    assert str(err.value) == (
-        "system_ping command failed (response: {'command': 0, 'status': 'error'})"
-    )
+        assert str(err.value) == (
+            "system_ping command failed (response: {'command': 0, 'status': 'error'})"
+        )
 
 
 @pytest.mark.asyncio
@@ -35,7 +35,7 @@ async def test_ping_success(mock_datagram_client):
 
         assert ping_response["command"] == 0
         assert ping_response["status"] == "ok"
-        assert ping_response["data"]["uid"] == "ABCDEF123456"
+        assert ping_response["data"] == {"uid": "ABCDEF123456"}
 
 
 @pytest.mark.asyncio
@@ -51,4 +51,4 @@ async def test_ping_silent_success(mock_datagram_client):
         assert ping_response["command"] == 0
         assert ping_response["status"] == "ok"
         assert ping_response["silent"] is True
-        assert ping_response["data"]["uid"] == "ABCDEF123456"
+        assert ping_response["data"] == {"uid": "ABCDEF123456"}
