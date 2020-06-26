@@ -25,7 +25,9 @@ Supported Commands
 * :meth:`client.wifi.configure() <aioguardian.commands.wifi.WiFiCommands.configure>`: connect the device to an SSID
 * :meth:`client.wifi.disable_ap() <aioguardian.commands.wifi.WiFiCommands.disable_ap>`: disable the device's onboard WiFi access point
 * :meth:`client.wifi.enable_ap() <aioguardian.commands.wifi.WiFiCommands.enable_ap>`: enable the device's onboard WiFi access point
+* :meth:`client.wifi.list() <aioguardian.commands.wifi.WiFiCommands.list>`: list nearby WiFi SSIDs
 * :meth:`client.wifi.reset() <aioguardian.commands.wifi.WiFiCommands.reset>`: reset all WiFi info
+* :meth:`client.wifi.scan() <aioguardian.commands.wifi.WiFiCommands.scan>`: scan for nearby WiFi SSIDs
 * :meth:`client.wifi.status() <aioguardian.commands.wifi.WiFiCommands.status>`: get information related to the device's WiFi connections
 
 *Note:* Not all commands are supported on all firmwares. If a particular command is not working on your valve controller, please ensure you have the latest device firmware before filing an ``aioguardian`` bug.
