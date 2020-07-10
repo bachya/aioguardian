@@ -2,7 +2,7 @@
 import pytest
 
 from aioguardian import Client
-from aioguardian.errors import CommandError, GuardianError
+from aioguardian.errors import GuardianError
 
 from tests.common import load_fixture
 
@@ -10,20 +10,18 @@ from tests.common import load_fixture
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
     "command_response",
-    [load_fixture("upgrade_firmware_failure_response.json").encode()],
+    [load_fixture("upgrade_firmware_success_response.json").encode()],
 )
-async def test_upgrade_firmware_failure(mock_datagram_client):
-    """Test the upgrade_firmware command failing."""
+async def test_upgrade_firmware_custom_parameters(mock_datagram_client):
+    """Test that valid custom parameters work."""
     with mock_datagram_client:
-        with pytest.raises(CommandError) as err:
-            async with Client("192.168.1.100") as client:
-                _ = await client.system.upgrade_firmware()
-            client.disconnect()
+        async with Client("192.168.1.100") as client:
+            upgrade_firmware_response = await client.system.upgrade_firmware(
+                url="https://firmware.com", port=8080, filename="123.bin"
+            )
 
-        assert str(err.value) == (
-            "system_upgrade_firmware command failed "
-            "(response: {'command': 4, 'status': 'error'})"
-        )
+        assert upgrade_firmware_response["command"] == 4
+        assert upgrade_firmware_response["status"] == "ok"
 
 
 @pytest.mark.asyncio
