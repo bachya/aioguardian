@@ -35,12 +35,12 @@ work:
     async def main():
         client = Client("<IP ADDRESS>")
 
-        # Note that disconnection is accomplished via a coroutine:
+        # Note that connecting to the Guardian is accomplished via a coroutine:
         await client.connect()
 
         # ...run commands...
 
-        # Note that disconnection is accomplished via a regular method:
+        # Note that disconnecting from the Guardian is accomplished via a regular method:
         client.disconnect()
 
 
