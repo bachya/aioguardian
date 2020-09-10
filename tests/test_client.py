@@ -1,19 +1,17 @@
 """Test generic client characteristics."""
 import asyncio
 
-from asynctest import CoroutineMock, patch
 import pytest
 
 from aioguardian import Client
 from aioguardian.errors import SocketError
 
+from tests.async_mock import AsyncMock, patch
 from tests.common import load_fixture
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize(
-    "recv_response", [CoroutineMock(side_effect=asyncio.TimeoutError)]
-)
+@pytest.mark.parametrize("recv_response", [AsyncMock(side_effect=asyncio.TimeoutError)])
 async def test_command_timeout(mock_datagram_client):
     """Test that a timeout during command execution throws an exception."""
     with mock_datagram_client, patch("asyncio.sleep"):
@@ -54,9 +52,7 @@ async def test_command_without_socket_connect():
 @pytest.mark.asyncio
 async def test_connect_timeout():
     """Test that a timeout during connection throws an exception."""
-    with patch(
-        "asyncio_dgram.connect", CoroutineMock(side_effect=asyncio.TimeoutError)
-    ):
+    with patch("asyncio_dgram.connect", AsyncMock(side_effect=asyncio.TimeoutError)):
         with pytest.raises(SocketError) as err:
             async with Client("192.168.1.100") as client:
                 await client.system.ping()
