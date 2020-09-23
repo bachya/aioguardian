@@ -1,7 +1,8 @@
 """Define generic fixtures for tests."""
 # pylint: disable=redefined-outer-name
-from asynctest import CoroutineMock, MagicMock, patch
 import pytest
+
+from tests.async_mock import AsyncMock, MagicMock, patch
 
 
 @pytest.fixture()
@@ -14,9 +15,9 @@ def command_response():
 def mock_datagram_client(recv_response):
     """Define a mocked datagram client."""
     mock_datagram_client = MagicMock()
-    mock_datagram_client.connect = CoroutineMock()
+    mock_datagram_client.connect = AsyncMock()
     mock_datagram_client.recv = recv_response
-    mock_datagram_client.send = CoroutineMock()
+    mock_datagram_client.send = AsyncMock()
     mock_datagram_client.close = MagicMock()
 
     with patch("asyncio_dgram.connect", return_value=mock_datagram_client):
@@ -26,7 +27,7 @@ def mock_datagram_client(recv_response):
 @pytest.fixture()
 def recv_response(command_response, remote_addr_response):
     """Define a response from the socket."""
-    return CoroutineMock(return_value=(command_response, remote_addr_response))
+    return AsyncMock(return_value=(command_response, remote_addr_response))
 
 
 @pytest.fixture()
