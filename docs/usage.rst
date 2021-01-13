@@ -17,6 +17,7 @@ Python Versions
 * Python 3.6
 * Python 3.7
 * Python 3.8
+* Python 3.9
 
 Get Up and Running
 ------------------

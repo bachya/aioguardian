@@ -1,6 +1,6 @@
 [build-system]
 requires = ["setuptools >= 35.0.2", "wheel >= 0.29.0", "poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+build-backend = "poetry.core.masonry.api"
 
 [tool.isort]
 combine_as_imports = true
@@ -19,7 +19,7 @@ use_parentheses = true
 
 [tool.poetry]
 name = "aioguardian"
-version = "1.0.4"
+version = "1.0.5"
 description = "A Python3 library for Elexa Guardian water valves and sensors"
 readme = "README.md"
 authors = ["Aaron Bach <bachya1208@gmail.com>"]
@@ -32,6 +32,7 @@ classifiers = [
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
 ]

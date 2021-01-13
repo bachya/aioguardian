@@ -42,7 +42,7 @@ repos:
           - toml
         files: ^(aioguardian|tests)/.+\.py$
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v0.761
+    rev: v0.790
     hooks:
       - id: mypy
         files: ^aioguardian/.+\.py$
@@ -65,4 +65,4 @@ repos:
       - id: shellcheck
         args:
           - --format=json
-        files: script/*
+        files: ^script/.+
