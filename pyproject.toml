@@ -38,7 +38,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-aiohttp = "^3.6.2"
+aiohttp = "^3.7.4"
 async_timeout = "^3.0.1"
 asyncio_dgram = "^1.0.1"
 python = "^3.6.1"
