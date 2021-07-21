@@ -1,6 +1,4 @@
 """Define a client object to interact with a Guardian device."""
-from __future__ import annotations
-
 import asyncio
 import json
 import logging
@@ -63,7 +61,7 @@ class Client:  # pylint: disable=too-many-instance-attributes
         self.valve = ValveCommands(self._execute_command)
         self.wifi = WiFiCommands(self._execute_command)
 
-    async def __aenter__(self) -> Client:
+    async def __aenter__(self) -> "Client":
         """Define an entry point into this object via a context manager."""
         await self.connect()
         return self
