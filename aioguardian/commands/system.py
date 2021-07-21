@@ -1,6 +1,6 @@
 """Define system commands."""
 import asyncio
-from typing import Any, Callable, Coroutine, Dict
+from typing import Any, Awaitable, Callable, Dict, Optional, Union, cast
 
 import voluptuous as vol
 
@@ -29,56 +29,60 @@ class SystemCommands:
     ``client.system``).
     """
 
-    def __init__(self, execute_command: Callable[..., Coroutine]) -> None:
+    def __init__(self, execute_command: Callable[..., Awaitable]) -> None:
         """Initialize."""
-        self._execute_command: Callable[..., Coroutine] = execute_command
+        self._execute_command: Callable = execute_command
 
-    async def diagnostics(self, *, silent: bool = True) -> dict:
+    async def diagnostics(self, *, silent: bool = True) -> Dict[str, Any]:
         """Retrieve diagnostics info.
 
         :param silent: If ``True``, silence "beep" tones associated with this command
         :type silent: ``bool``
         :rtype: ``dict``
         """
-        return await self._execute_command(Command.system_diagnostics, silent=silent)
+        data = await self._execute_command(Command.system_diagnostics, silent=silent)
+        return cast(Dict[str, Any], data)
 
-    async def factory_reset(self, *, silent: bool = True) -> dict:
+    async def factory_reset(self, *, silent: bool = True) -> Dict[str, Any]:
         """Perform a factory reset on the device.
 
         :param silent: If ``True``, silence "beep" tones associated with this command
         :type silent: ``bool``
         :rtype: ``dict``
         """
-        return await self._execute_command(Command.system_factory_reset, silent=silent)
+        data = await self._execute_command(Command.system_factory_reset, silent=silent)
+        return cast(Dict[str, Any], data)
 
-    async def onboard_sensor_status(self, *, silent: bool = True) -> dict:
+    async def onboard_sensor_status(self, *, silent: bool = True) -> Dict[str, Any]:
         """Retrieve status of the valve controller's onboard sensors.
 
         :param silent: If ``True``, silence "beep" tones associated with this command
         :type silent: ``bool``
         :rtype: ``dict``
         """
-        return await self._execute_command(
+        data = await self._execute_command(
             Command.system_onboard_sensor_status, silent=silent
         )
+        return cast(Dict[str, Any], data)
 
-    async def ping(self, *, silent: bool = True) -> dict:
+    async def ping(self, *, silent: bool = True) -> Dict[str, Any]:
         """Ping the device.
 
         :param silent: If ``True``, silence "beep" tones associated with this command
         :type silent: ``bool``
         :rtype: ``dict``
         """
-        return await self._execute_command(Command.system_ping, silent=silent)
+        data = await self._execute_command(Command.system_ping, silent=silent)
+        return cast(Dict[str, Any], data)
 
-    async def reboot(self, *, silent: bool = True) -> dict:
+    async def reboot(self, *, silent: bool = True) -> Dict[str, Any]:
         """Reboot the device.
 
         :param silent: If ``True``, silence "beep" tones associated with this command
         :type silent: ``bool``
         :rtype: ``dict``
         """
-        resp = await self._execute_command(Command.system_reboot, silent=silent)
+        data = await self._execute_command(Command.system_reboot, silent=silent)
 
         # The Guardian API docs indicate that the reboot will occur "3 seconds after
         # command is received" – in order to guard against errors from subsequent
@@ -86,16 +90,16 @@ class SystemCommands:
         # returning the response:
         await asyncio.sleep(3)
 
-        return resp
+        return cast(Dict[str, Any], data)
 
     async def upgrade_firmware(
         self,
         *,
-        url: str = None,
-        port: int = None,
-        filename: str = None,
+        url: Optional[str] = None,
+        port: Optional[int] = None,
+        filename: Optional[str] = None,
         silent: bool = True,
-    ) -> dict:
+    ) -> Dict[str, Any]:
         """Upgrade the firmware on the device.
 
         :param url: The firmware file's optional URL
@@ -108,7 +112,7 @@ class SystemCommands:
         :type silent: ``bool``
         :rtype: ``dict``
         """
-        params: Dict[str, Any] = {}
+        params: Dict[str, Union[int, str]] = {}
         if url:
             params["url"] = url
         if port:
@@ -121,6 +125,7 @@ class SystemCommands:
         except vol.Invalid as err:
             raise CommandError(f"Invalid parameters provided: {err}") from None
 
-        return await self._execute_command(
+        data = await self._execute_command(
             Command.system_upgrade_firmware, params=params, silent=silent
         )
+        return cast(Dict[str, Any], data)

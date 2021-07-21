@@ -3,7 +3,7 @@ import asyncio
 import json
 import logging
 from types import TracebackType
-from typing import Optional, Type
+from typing import Any, Dict, Optional, Type, cast
 
 from async_timeout import timeout
 import asyncio_dgram
@@ -46,20 +46,20 @@ class Client:  # pylint: disable=too-many-instance-attributes
     ) -> None:
         """Initialize."""
         self._command_retries = command_retries
-        self._ip: str = ip_address
+        self._ip = ip_address
         # Since device communication happens over a single UDP port, concurrent
         # operations can return faulty data; we use a lock so the user doesn't have to
         # know anything about that:
         self._lock: asyncio.Lock = asyncio.Lock()
-        self._port: int = port
-        self._request_timeout: int = request_timeout
+        self._port = port
+        self._request_timeout = request_timeout
         self._stream: asyncio_dgram.aio.DatagramStream = None
 
-        self.iot: IOTCommands = IOTCommands(self._execute_command)
-        self.sensor: SensorCommands = SensorCommands(self._execute_command)
-        self.system: SystemCommands = SystemCommands(self._execute_command)
-        self.valve: ValveCommands = ValveCommands(self._execute_command)
-        self.wifi: WiFiCommands = WiFiCommands(self._execute_command)
+        self.iot = IOTCommands(self._execute_command)
+        self.sensor = SensorCommands(self._execute_command)
+        self.system = SystemCommands(self._execute_command)
+        self.valve = ValveCommands(self._execute_command)
+        self.wifi = WiFiCommands(self._execute_command)
 
     async def __aenter__(self) -> "Client":
         """Define an entry point into this object via a context manager."""
@@ -77,7 +77,7 @@ class Client:  # pylint: disable=too-many-instance-attributes
 
     async def _execute_command(
         self, command: Command, *, params: Optional[dict] = None, silent: bool = True
-    ) -> dict:
+    ) -> Dict[str, Any]:
         """Make a request against the Guardian device and return the response.
 
         :param command: The command to execute
@@ -114,7 +114,7 @@ class Client:  # pylint: disable=too-many-instance-attributes
 
         _raise_on_command_error(command, decoded_data)
 
-        return decoded_data
+        return cast(Dict[str, Any], decoded_data)
 
     async def connect(self) -> None:
         """Connect to the Guardian device."""
@@ -122,7 +122,7 @@ class Client:  # pylint: disable=too-many-instance-attributes
             async with timeout(self._request_timeout):
                 self._stream = await asyncio_dgram.connect((self._ip, self._port))
         except asyncio.TimeoutError:
-            raise SocketError("Connection to device timed out")
+            raise SocketError("Connection to device timed out") from None
 
     def disconnect(self) -> None:
         """Close the connection."""
@@ -131,7 +131,7 @@ class Client:  # pylint: disable=too-many-instance-attributes
 
     async def execute_raw_command(
         self, command_code: int, *, params: Optional[dict] = None, silent: bool = True
-    ) -> dict:
+    ) -> Dict[str, Any]:
         """Execute a command via its integer-based command code.
 
         A mapping of command-code-to-command can be seen in the

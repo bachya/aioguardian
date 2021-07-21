@@ -1,5 +1,5 @@
 """Define IOT commands."""
-from typing import Callable, Coroutine
+from typing import Any, Awaitable, Callable, Dict, cast
 
 from aioguardian.helpers.command import Command
 
@@ -12,15 +12,16 @@ class IOTCommands:  # pylint: disable=too-few-public-methods
     ``client.iot``).
     """
 
-    def __init__(self, execute_command: Callable[..., Coroutine]) -> None:
+    def __init__(self, execute_command: Callable[..., Awaitable]) -> None:
         """Initialize."""
-        self._execute_command: Callable[..., Coroutine] = execute_command
+        self._execute_command = execute_command
 
-    async def publish_state(self, *, silent: bool = True) -> dict:
+    async def publish_state(self, *, silent: bool = True) -> Dict[str, Any]:
         """Publish the device's complete state to the Guardian cloud.
 
         :param silent: If ``True``, silence "beep" tones associated with this command
         :type silent: ``bool``
         :rtype: ``dict``
         """
-        return await self._execute_command(Command.iot_publish_state, silent=silent)
+        data = await self._execute_command(Command.iot_publish_state, silent=silent)
+        return cast(Dict[str, Any], data)
