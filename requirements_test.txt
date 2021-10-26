@@ -1,6 +1,7 @@
 aiohttp>=3.7.4post0
 aresponses==1.1.2
 asyncio_dgram==2.0.0
+asynctest==0.13.0
 pytest-aiohttp==0.3.0
 pytest-cov==3.0.0
 pytest==6.2.5
