@@ -62,15 +62,15 @@ classifiers = [
 aiohttp = "^3.7.4post0"
 async_timeout = ">=3.0.1,<5.0.0"
 asyncio_dgram = "^2.0.0"
-docutils = "<0.18"
+docutils = "<0.19"
 python = "^3.6.1"
 voluptuous = ">=0.11.7,<0.13.0"
 
 [tool.poetry.dev-dependencies]
-Sphinx = "^3.0.0"
+Sphinx = "^4.0.0"
 asynctest = "^0.13.0"
 pre-commit = "^2.0.1"
 pytest = "^6.2.5"
 pytest-aiohttp = "^0.3.0"
 pytest-cov = "^3.0.0"
-sphinx-rtd-theme = "^0.4.3"
+sphinx-rtd-theme = "^1.0.0"
