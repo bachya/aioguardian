@@ -61,7 +61,6 @@ classifiers = [
 [tool.poetry.dependencies]
 aiohttp = ">=3.8.0"
 asyncio_dgram = "^2.0.0"
-docutils = "<0.19"
 python = "^3.6.1"
 voluptuous = ">=0.11.7"
 
