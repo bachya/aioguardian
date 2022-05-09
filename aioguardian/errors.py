@@ -1,7 +1,10 @@
 """Define exception types for ``aioguardian``."""
 from __future__ import annotations
 
-from aioguardian.helpers.command import Command
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from aioguardian.helpers.command import Command
 
 ERROR_CODE_MAPPING = {
     3: "sensor_not_paired",

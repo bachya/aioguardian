@@ -21,8 +21,6 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - "3.6"
-          - "3.7"
           - "3.8"
           - "3.9"
           - "3.10"
@@ -36,9 +34,8 @@ jobs:
           architecture: x64
 
       - run: |
-          python -m venv venv
-          venv/bin/pip install -r requirements_test.txt
-          venv/bin/py.test tests/
+          pip install nox==2022.1.7 poetry==1.1.13
+          nox -rs tests
 
   coverage:
 
@@ -55,14 +52,8 @@ jobs:
           architecture: x64
 
       - run: |
-          python -m venv venv
-          venv/bin/pip install -r requirements_test.txt
-          venv/bin/py.test \
-            -s \
-            --verbose \
-            --cov-report term-missing \
-            --cov-report xml \
-            --cov=aioguardian tests
+          pip install nox==2022.1.7 poetry==1.1.13
+          nox -rs coverage
 
       - uses: codecov/codecov-action@v3
         with:
