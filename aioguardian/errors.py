@@ -1,10 +1,9 @@
 """Define exception types for ``aioguardian``."""
-from typing import TYPE_CHECKING, Dict
+from __future__ import annotations
 
-if TYPE_CHECKING:
-    from aioguardian.helpers.command import Command
+from aioguardian.helpers.command import Command
 
-ERROR_CODE_MAPPING: Dict[int, str] = {
+ERROR_CODE_MAPPING = {
     3: "sensor_not_paired",
     5: "sensor_error_loading",
     17: "valve_already_opened",
@@ -32,7 +31,7 @@ class SocketError(GuardianError):
     pass
 
 
-def _raise_on_command_error(command: "Command", data: dict) -> None:
+def _raise_on_command_error(command: Command, data: dict) -> None:
     """Examine a data response and raise errors appropriately.
 
     :param command: The command that was run

@@ -1,9 +1,11 @@
 """Define a client object to interact with a Guardian device."""
+from __future__ import annotations
+
 import asyncio
 import json
 import logging
 from types import TracebackType
-from typing import Any, Dict, Optional, Type, cast
+from typing import Any, Dict, cast
 
 from async_timeout import timeout
 import asyncio_dgram
@@ -68,16 +70,16 @@ class Client:  # pylint: disable=too-many-instance-attributes
 
     async def __aexit__(
         self,
-        exc_type: Optional[Type[BaseException]],
-        exc_val: Optional[BaseException],
-        exc_tb: Optional[TracebackType],
+        exc_type: BaseException | None,
+        exc_val: BaseException | None,
+        exc_tb: TracebackType | None,
     ) -> None:
         """Define an exit point out of this object via a context manager."""
         self.disconnect()
 
     async def _execute_command(
-        self, command: Command, *, params: Optional[dict] = None, silent: bool = True
-    ) -> Dict[str, Any]:
+        self, command: Command, *, params: dict | None = None, silent: bool = True
+    ) -> dict[str, Any]:
         """Make a request against the Guardian device and return the response.
 
         :param command: The command to execute
@@ -130,8 +132,8 @@ class Client:  # pylint: disable=too-many-instance-attributes
         self._stream = None
 
     async def execute_raw_command(
-        self, command_code: int, *, params: Optional[dict] = None, silent: bool = True
-    ) -> Dict[str, Any]:
+        self, command_code: int, *, params: dict | None = None, silent: bool = True
+    ) -> dict[str, Any]:
         """Execute a command via its integer-based command code.
 
         A mapping of command-code-to-command can be seen in the
