@@ -128,8 +128,9 @@ class Client:  # pylint: disable=too-many-instance-attributes
 
     def disconnect(self) -> None:
         """Close the connection."""
-        self._stream.close()
-        self._stream = None
+        if self._stream:
+            self._stream.close()
+            self._stream = None
 
     async def execute_raw_command(
         self, command_code: int, *, params: dict | None = None, silent: bool = True
