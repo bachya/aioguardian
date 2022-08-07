@@ -1,0 +1,218 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	/23d50b5/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+Contributions to `aioguardian`	AUTHORS.md	/^# Contributions to `aioguardian`$/;"	c
+Owners	AUTHORS.md	/^## Owners$/;"	s	chapter:Contributions to `aioguardian`
+🚰 aioguardian: A Python3 library for Elexa Guardian devices	README.md	/^# 🚰 aioguardian: A Python3 library for Elexa Guardian devices$/;"	c
+Installation	README.md	/^# Installation$/;"	c
+Python Versions	README.md	/^# Python Versions$/;"	c
+Documentation	README.md	/^# Documentation$/;"	c
+Contributing	README.md	/^# Contributing$/;"	c
+_LOGGER	aioguardian/client.py	/^_LOGGER = logging.getLogger(__name__)$/;"	v
+DEFAULT_COMMAND_RETRIES	aioguardian/client.py	/^DEFAULT_COMMAND_RETRIES: int = 3$/;"	v	typeref:typename:int
+DEFAULT_PORT	aioguardian/client.py	/^DEFAULT_PORT: int = 7777$/;"	v	typeref:typename:int
+DEFAULT_REQUEST_TIMEOUT	aioguardian/client.py	/^DEFAULT_REQUEST_TIMEOUT: int = 10$/;"	v	typeref:typename:int
+Client	aioguardian/client.py	/^class Client:  # pylint: disable=too-many-instance-attributes$/;"	c
+__init__	aioguardian/client.py	/^    def __init__($/;"	m	class:Client	typeref:typename:None
+__aenter__	aioguardian/client.py	/^    async def __aenter__(self) -> "Client":$/;"	m	class:Client	typeref:typename:"Client"
+__aexit__	aioguardian/client.py	/^    async def __aexit__($/;"	m	class:Client	typeref:typename:None
+_execute_command	aioguardian/client.py	/^    async def _execute_command($/;"	m	class:Client	typeref:typename:dict[str,Any]
+connect	aioguardian/client.py	/^    async def connect(self) -> None:$/;"	m	class:Client	typeref:typename:None
+disconnect	aioguardian/client.py	/^    def disconnect(self) -> None:$/;"	m	class:Client	typeref:typename:None
+execute_raw_command	aioguardian/client.py	/^    async def execute_raw_command($/;"	m	class:Client	typeref:typename:dict[str,Any]
+IOTCommands	aioguardian/commands/iot.py	/^class IOTCommands:  # pylint: disable=too-few-public-methods$/;"	c
+__init__	aioguardian/commands/iot.py	/^    def __init__(self, execute_command: Callable[..., Awaitable]) -> None:$/;"	m	class:IOTCommands	typeref:typename:None
+publish_state	aioguardian/commands/iot.py	/^    async def publish_state(self, *, silent: bool = True) -> Dict[str, Any]:$/;"	m	class:IOTCommands	typeref:typename:Dict[str,Any]
+vol	aioguardian/commands/sensor.py	/^import voluptuous as vol$/;"	I	nameref:module:voluptuous
+cv	aioguardian/commands/sensor.py	/^import aioguardian.helpers.config_validation as cv$/;"	I	nameref:module:aioguardian.helpers.config_validation
+PARAM_UID	aioguardian/commands/sensor.py	/^PARAM_UID = "uid"$/;"	v
+PAIRED_SENSOR_UID_SCHEMA	aioguardian/commands/sensor.py	/^PAIRED_SENSOR_UID_SCHEMA: vol.Schema = vol.Schema($/;"	v	typeref:typename:vol.Schema
+SensorCommands	aioguardian/commands/sensor.py	/^class SensorCommands:$/;"	c
+__init__	aioguardian/commands/sensor.py	/^    def __init__(self, execute_command: Callable[..., Awaitable]) -> None:$/;"	m	class:SensorCommands	typeref:typename:None
+pair_dump	aioguardian/commands/sensor.py	/^    async def pair_dump(self, *, silent: bool = True) -> Dict[str, Any]:$/;"	m	class:SensorCommands	typeref:typename:Dict[str,Any]
+pair_sensor	aioguardian/commands/sensor.py	/^    async def pair_sensor(self, uid: str, *, silent: bool = True) -> Dict[str, Any]:$/;"	m	class:SensorCommands	typeref:typename:Dict[str,Any]
+paired_sensor_status	aioguardian/commands/sensor.py	/^    async def paired_sensor_status($/;"	m	class:SensorCommands	typeref:typename:Dict[str,Any]
+unpair_sensor	aioguardian/commands/sensor.py	/^    async def unpair_sensor(self, uid: str, *, silent: bool = True) -> Dict[str, Any]:$/;"	m	class:SensorCommands	typeref:typename:Dict[str,Any]
+vol	aioguardian/commands/system.py	/^import voluptuous as vol$/;"	I	nameref:module:voluptuous
+cv	aioguardian/commands/system.py	/^import aioguardian.helpers.config_validation as cv$/;"	I	nameref:module:aioguardian.helpers.config_validation
+PARAM_FILENAME	aioguardian/commands/system.py	/^PARAM_FILENAME: str = "filename"$/;"	v	typeref:typename:str
+PARAM_PORT	aioguardian/commands/system.py	/^PARAM_PORT: str = "port"$/;"	v	typeref:typename:str
+PARAM_URL	aioguardian/commands/system.py	/^PARAM_URL: str = "url"$/;"	v	typeref:typename:str
+UPGRADE_FIRMWARE_PARAM_SCHEMA	aioguardian/commands/system.py	/^UPGRADE_FIRMWARE_PARAM_SCHEMA: vol.Schema = vol.Schema($/;"	v	typeref:typename:vol.Schema
+SystemCommands	aioguardian/commands/system.py	/^class SystemCommands:$/;"	c
+__init__	aioguardian/commands/system.py	/^    def __init__(self, execute_command: Callable[..., Awaitable]) -> None:$/;"	m	class:SystemCommands	typeref:typename:None
+diagnostics	aioguardian/commands/system.py	/^    async def diagnostics(self, *, silent: bool = True) -> Dict[str, Any]:$/;"	m	class:SystemCommands	typeref:typename:Dict[str,Any]
+factory_reset	aioguardian/commands/system.py	/^    async def factory_reset(self, *, silent: bool = True) -> Dict[str, Any]:$/;"	m	class:SystemCommands	typeref:typename:Dict[str,Any]
+onboard_sensor_status	aioguardian/commands/system.py	/^    async def onboard_sensor_status(self, *, silent: bool = True) -> Dict[str, Any]:$/;"	m	class:SystemCommands	typeref:typename:Dict[str,Any]
+ping	aioguardian/commands/system.py	/^    async def ping(self, *, silent: bool = True) -> Dict[str, Any]:$/;"	m	class:SystemCommands	typeref:typename:Dict[str,Any]
+reboot	aioguardian/commands/system.py	/^    async def reboot(self, *, silent: bool = True) -> Dict[str, Any]:$/;"	m	class:SystemCommands	typeref:typename:Dict[str,Any]
+upgrade_firmware	aioguardian/commands/system.py	/^    async def upgrade_firmware($/;"	m	class:SystemCommands	typeref:typename:Dict[str,Any]
+_LOGGER	aioguardian/commands/valve.py	/^_LOGGER = logging.getLogger(__name__)$/;"	v
+VALVE_STATE_MAPPING	aioguardian/commands/valve.py	/^VALVE_STATE_MAPPING = {$/;"	v
+ValveCommands	aioguardian/commands/valve.py	/^class ValveCommands:$/;"	c
+__init__	aioguardian/commands/valve.py	/^    def __init__(self, execute_command: Callable[..., Awaitable]) -> None:$/;"	m	class:ValveCommands	typeref:typename:None
+close	aioguardian/commands/valve.py	/^    async def close(self) -> Dict[str, Any]:$/;"	m	class:ValveCommands	typeref:typename:Dict[str,Any]
+halt	aioguardian/commands/valve.py	/^    async def halt(self) -> Dict[str, Any]:$/;"	m	class:ValveCommands	typeref:typename:Dict[str,Any]
+open	aioguardian/commands/valve.py	/^    async def open(self) -> Dict[str, Any]:$/;"	m	class:ValveCommands	typeref:typename:Dict[str,Any]
+reset	aioguardian/commands/valve.py	/^    async def reset(self, *, silent: bool = True) -> Dict[str, Any]:$/;"	m	class:ValveCommands	typeref:typename:Dict[str,Any]
+status	aioguardian/commands/valve.py	/^    async def status(self, *, silent: bool = True) -> Dict[str, Any]:$/;"	m	class:ValveCommands	typeref:typename:Dict[str,Any]
+vol	aioguardian/commands/wifi.py	/^import voluptuous as vol$/;"	I	nameref:module:voluptuous
+_LOGGER	aioguardian/commands/wifi.py	/^_LOGGER = logging.getLogger(__name__)$/;"	v
+PARAM_PASSWORD	aioguardian/commands/wifi.py	/^PARAM_PASSWORD: str = "password"$/;"	v	typeref:typename:str
+PARAM_SSID	aioguardian/commands/wifi.py	/^PARAM_SSID: str = "ssid"$/;"	v	typeref:typename:str
+WIFI_CONFIGURE_PARAM_SCHEMA	aioguardian/commands/wifi.py	/^WIFI_CONFIGURE_PARAM_SCHEMA: vol.Schema = vol.Schema($/;"	v	typeref:typename:vol.Schema
+WiFiCommands	aioguardian/commands/wifi.py	/^class WiFiCommands:$/;"	c
+__init__	aioguardian/commands/wifi.py	/^    def __init__(self, execute_command: Callable[..., Awaitable]) -> None:$/;"	m	class:WiFiCommands	typeref:typename:None
+configure	aioguardian/commands/wifi.py	/^    async def configure($/;"	m	class:WiFiCommands	typeref:typename:Dict[str,Any]
+disable_ap	aioguardian/commands/wifi.py	/^    async def disable_ap(self, *, silent: bool = True) -> Dict[str, Any]:$/;"	m	class:WiFiCommands	typeref:typename:Dict[str,Any]
+enable_ap	aioguardian/commands/wifi.py	/^    async def enable_ap(self, *, silent: bool = True) -> Dict[str, Any]:$/;"	m	class:WiFiCommands	typeref:typename:Dict[str,Any]
+list	aioguardian/commands/wifi.py	/^    async def list(self, *, silent: bool = True) -> Dict[str, Any]:$/;"	m	class:WiFiCommands	typeref:typename:Dict[str,Any]
+reset	aioguardian/commands/wifi.py	/^    async def reset(self, *, silent: bool = True) -> Dict[str, Any]:$/;"	m	class:WiFiCommands	typeref:typename:Dict[str,Any]
+scan	aioguardian/commands/wifi.py	/^    async def scan(self, *, silent: bool = True) -> Dict[str, Any]:$/;"	m	class:WiFiCommands	typeref:typename:Dict[str,Any]
+status	aioguardian/commands/wifi.py	/^    async def status(self, *, silent: bool = True) -> Dict[str, Any]:$/;"	m	class:WiFiCommands	typeref:typename:Dict[str,Any]
+ERROR_CODE_MAPPING	aioguardian/errors.py	/^ERROR_CODE_MAPPING = {$/;"	v
+GuardianError	aioguardian/errors.py	/^class GuardianError(Exception):$/;"	c
+CommandError	aioguardian/errors.py	/^class CommandError(GuardianError):$/;"	c
+SocketError	aioguardian/errors.py	/^class SocketError(GuardianError):$/;"	c
+_raise_on_command_error	aioguardian/errors.py	/^def _raise_on_command_error(command: Command, data: dict) -> None:$/;"	f	typeref:typename:None
+Command	aioguardian/helpers/command.py	/^class Command(Enum):$/;"	c
+iot_publish_state	aioguardian/helpers/command.py	/^    iot_publish_state = 65$/;"	v	class:Command
+sensor_pair_dump	aioguardian/helpers/command.py	/^    sensor_pair_dump = 48$/;"	v	class:Command
+sensor_pair_sensor	aioguardian/helpers/command.py	/^    sensor_pair_sensor = 49$/;"	v	class:Command
+sensor_paired_sensor_status	aioguardian/helpers/command.py	/^    sensor_paired_sensor_status = 51$/;"	v	class:Command
+sensor_unpair_sensor	aioguardian/helpers/command.py	/^    sensor_unpair_sensor = 50$/;"	v	class:Command
+system_diagnostics	aioguardian/helpers/command.py	/^    system_diagnostics = 1$/;"	v	class:Command
+system_factory_reset	aioguardian/helpers/command.py	/^    system_factory_reset = 255$/;"	v	class:Command
+system_onboard_sensor_status	aioguardian/helpers/command.py	/^    system_onboard_sensor_status = 80$/;"	v	class:Command
+system_ping	aioguardian/helpers/command.py	/^    system_ping = 0$/;"	v	class:Command
+system_reboot	aioguardian/helpers/command.py	/^    system_reboot = 2$/;"	v	class:Command
+system_upgrade_firmware	aioguardian/helpers/command.py	/^    system_upgrade_firmware = 4$/;"	v	class:Command
+valve_close	aioguardian/helpers/command.py	/^    valve_close = 18$/;"	v	class:Command
+valve_halt	aioguardian/helpers/command.py	/^    valve_halt = 19$/;"	v	class:Command
+valve_open	aioguardian/helpers/command.py	/^    valve_open = 17$/;"	v	class:Command
+valve_reset	aioguardian/helpers/command.py	/^    valve_reset = 20$/;"	v	class:Command
+valve_status	aioguardian/helpers/command.py	/^    valve_status = 16$/;"	v	class:Command
+wifi_configure	aioguardian/helpers/command.py	/^    wifi_configure = 34$/;"	v	class:Command
+wifi_disable_ap	aioguardian/helpers/command.py	/^    wifi_disable_ap = 36$/;"	v	class:Command
+wifi_enable_ap	aioguardian/helpers/command.py	/^    wifi_enable_ap = 35$/;"	v	class:Command
+wifi_list	aioguardian/helpers/command.py	/^    wifi_list = 38$/;"	v	class:Command
+wifi_reset	aioguardian/helpers/command.py	/^    wifi_reset = 33$/;"	v	class:Command
+wifi_scan	aioguardian/helpers/command.py	/^    wifi_scan = 37$/;"	v	class:Command
+wifi_status	aioguardian/helpers/command.py	/^    wifi_status = 32$/;"	v	class:Command
+get_command_from_name	aioguardian/helpers/command.py	/^def get_command_from_name(command_name: str) -> Command:$/;"	f	typeref:typename:Command
+get_command_from_code	aioguardian/helpers/command.py	/^def get_command_from_code(command_code: int) -> Command:$/;"	f	typeref:typename:Command
+vol	aioguardian/helpers/config_validation.py	/^import voluptuous as vol$/;"	I	nameref:module:voluptuous
+alphanumeric	aioguardian/helpers/config_validation.py	/^def alphanumeric(value: Any) -> str:$/;"	f	typeref:typename:str
+url	aioguardian/helpers/config_validation.py	/^def url(value: Any) -> str:$/;"	f	typeref:typename:str
+SPHINXOPTS	docs/Makefile	/^SPHINXOPTS    ?=$/;"	m
+SPHINXBUILD	docs/Makefile	/^SPHINXBUILD   ?= sphinx-build$/;"	m
+SOURCEDIR	docs/Makefile	/^SOURCEDIR     = .$/;"	m
+BUILDDIR	docs/Makefile	/^BUILDDIR      = _build$/;"	m
+help	docs/Makefile	/^help:$/;"	t
+%	docs/Makefile	/^%: Makefile$/;"	t
+API Reference	docs/api.md	/^# API Reference$/;"	c
+Client	docs/api.md	/^## Client$/;"	s	chapter:API Reference
+Command Helpers	docs/api.md	/^## Command Helpers$/;"	s	chapter:API Reference
+Command Classes	docs/api.md	/^## Command Classes$/;"	s	chapter:API Reference
+IOT	docs/api.md	/^### IOT$/;"	S	section:API Reference""Command Classes
+Sensor	docs/api.md	/^### Sensor$/;"	S	section:API Reference""Command Classes
+System	docs/api.md	/^### System$/;"	S	section:API Reference""Command Classes
+Valve	docs/api.md	/^### Valve$/;"	S	section:API Reference""Command Classes
+WiFi	docs/api.md	/^### WiFi$/;"	S	section:API Reference""Command Classes
+Errors	docs/api.md	/^## Errors$/;"	s	chapter:API Reference
+Commands	docs/commands.md	/^# Commands$/;"	c
+Supported Commands	docs/commands.md	/^## Supported Commands$/;"	s	chapter:Commands
+Executing Raw Commands	docs/commands.md	/^## Executing Raw Commands$/;"	s	chapter:Commands
+Dealing with "Beeps"	docs/commands.md	/^## Dealing with "Beeps"$/;"	s	chapter:Commands
+project	docs/conf.py	/^project = "aioguardian"$/;"	v
+copyright	docs/conf.py	/^copyright = f"{datetime.today().year}, Aaron Bach"$/;"	v
+author	docs/conf.py	/^author = "Aaron Bach"$/;"	v
+release	docs/conf.py	/^release = "2022.07.0"$/;"	v
+main_doc	docs/conf.py	/^main_doc = "index"$/;"	v
+extensions	docs/conf.py	/^extensions = [$/;"	v
+templates_path	docs/conf.py	/^templates_path = ["_templates"]$/;"	v
+exclude_patterns	docs/conf.py	/^exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]$/;"	v
+html_theme	docs/conf.py	/^html_theme = "sphinx_rtd_theme"$/;"	v
+html_theme_options	docs/conf.py	/^html_theme_options = {"display_version": True, "style_external_links": True}$/;"	v
+autodoc_default_options	docs/conf.py	/^autodoc_default_options = {"member-order": "bysource"}$/;"	v
+autosectionlabel_prefix_document	docs/conf.py	/^autosectionlabel_prefix_document = True$/;"	v
+aioguardian	docs/index.md	/^# aioguardian$/;"	c
+SPHINXBUILD	docs/make.bat	/^	set SPHINXBUILD=sphinx-build$/;"	v
+SOURCEDIR	docs/make.bat	/^set SOURCEDIR=.$/;"	v
+BUILDDIR	docs/make.bat	/^set BUILDDIR=_build$/;"	v
+help	docs/make.bat	/^:help$/;"	l
+end	docs/make.bat	/^:end$/;"	l
+Usage	docs/usage.md	/^# Usage$/;"	c
+Installation	docs/usage.md	/^## Installation$/;"	s	chapter:Usage
+Python Versions	docs/usage.md	/^## Python Versions$/;"	s	chapter:Usage
+Get Up and Running	docs/usage.md	/^## Get Up and Running$/;"	s	chapter:Usage
+_LOGGER	examples/test_iot.py	/^_LOGGER = logging.getLogger(__name__)$/;"	v
+main	examples/test_iot.py	/^async def main() -> None:$/;"	f	typeref:typename:None
+_LOGGER	examples/test_sensor.py	/^_LOGGER = logging.getLogger(__name__)$/;"	v
+main	examples/test_sensor.py	/^async def main() -> None:$/;"	f	typeref:typename:None
+_LOGGER	examples/test_system.py	/^_LOGGER = logging.getLogger(__name__)$/;"	v
+main	examples/test_system.py	/^async def main() -> None:$/;"	f	typeref:typename:None
+_LOGGER	examples/test_valve.py	/^_LOGGER = logging.getLogger(__name__)$/;"	v
+main	examples/test_valve.py	/^async def main() -> None:$/;"	f	typeref:typename:None
+_LOGGER	examples/test_wifi.py	/^_LOGGER = logging.getLogger(__name__)$/;"	v
+main	examples/test_wifi.py	/^async def main() -> None:$/;"	f	typeref:typename:None
+install_with_constraints	noxfile.py	/^def install_with_constraints(session: nox.sessions.Session, *args: str, **kwargs: Any):$/;"	f
+coverage	noxfile.py	/^def coverage(session: nox.sessions.Session) -> None:$/;"	f	typeref:typename:None
+docs	noxfile.py	/^def docs(session: nox.sessions.Session) -> None:$/;"	f	typeref:typename:None
+tests	noxfile.py	/^def tests(session: nox.sessions.Session) -> None:$/;"	f	typeref:typename:None
+0	renovate.json	/^    "config:base",$/;"	s	array:extends
+1	renovate.json	/^    "group:all",$/;"	s	array:extends
+2	renovate.json	/^    "schedule:monthly",$/;"	s	array:extends
+3	renovate.json	/^    ":disableDependencyDashboard"$/;"	s	array:extends
+extends	renovate.json	/^  "extends": [$/;"	a
+0	renovate.json	/^  "labels": ["dependencies"],$/;"	s	array:labels
+labels	renovate.json	/^  "labels": ["dependencies"],$/;"	a
+separateMinorPatch	renovate.json	/^  "separateMinorPatch": true$/;"	b
+generate_version	script/release	/^function generate_version {$/;"	f
+AsyncMock	tests/async_mock.py	/^    AsyncMock = CoroutineMock  # noqa: F405$/;"	v
+test_publish_state_failure	tests/commands/iot/test_publish_state.py	/^async def test_publish_state_failure(mock_datagram_client):$/;"	f
+test_publish_state_success	tests/commands/iot/test_publish_state.py	/^async def test_publish_state_success(mock_datagram_client):$/;"	f
+test_pair_dump_failure	tests/commands/sensor/test_pair_dump.py	/^async def test_pair_dump_failure(mock_datagram_client):$/;"	f
+test_pair_dump_success	tests/commands/sensor/test_pair_dump.py	/^async def test_pair_dump_success(mock_datagram_client):$/;"	f
+test_pair_sensor_failure	tests/commands/sensor/test_pair_sensor.py	/^async def test_pair_sensor_failure(mock_datagram_client):$/;"	f
+test_pair_sensor_invalid_uid	tests/commands/sensor/test_pair_sensor.py	/^async def test_pair_sensor_invalid_uid(mock_datagram_client):$/;"	f
+test_pair_sensor_success	tests/commands/sensor/test_pair_sensor.py	/^async def test_pair_sensor_success(mock_datagram_client):$/;"	f
+test_paired_sensor_status_failure_not_paired	tests/commands/sensor/test_paired_sensor_status.py	/^async def test_paired_sensor_status_failure_not_paired(mock_datagram_client):$/;"	f
+test_paired_sensor_status_failure_error_loading	tests/commands/sensor/test_paired_sensor_status.py	/^async def test_paired_sensor_status_failure_error_loading(mock_datagram_client):$/;"	f
+test_paired_sensor_status_invalid_uid	tests/commands/sensor/test_paired_sensor_status.py	/^async def test_paired_sensor_status_invalid_uid(mock_datagram_client):$/;"	f
+test_paired_sensor_status_dump_success	tests/commands/sensor/test_paired_sensor_status.py	/^async def test_paired_sensor_status_dump_success(mock_datagram_client):$/;"	f
+test_unpair_sensor_failure	tests/commands/sensor/test_unpair_sensor.py	/^async def test_unpair_sensor_failure(mock_datagram_client):$/;"	f
+test_unpair_sensor_invalid_uid	tests/commands/sensor/test_unpair_sensor.py	/^async def test_unpair_sensor_invalid_uid(mock_datagram_client):$/;"	f
+test_unpair_sensor_success	tests/commands/sensor/test_unpair_sensor.py	/^async def test_unpair_sensor_success(mock_datagram_client):$/;"	f
+test_diagnostics_failure	tests/commands/system/test_diagnostics.py	/^async def test_diagnostics_failure(mock_datagram_client):$/;"	f
+test_diagnostics_success	tests/commands/system/test_diagnostics.py	/^async def test_diagnostics_success(mock_datagram_client):$/;"	f
+test_factory_reset_failure	tests/commands/system/test_factory_reset.py	/^async def test_factory_reset_failure(mock_datagram_client):$/;"	f
+test_factory_reset_success	tests/commands/system/test_factory_reset.py	/^async def test_factory_reset_success(mock_datagram_client):$/;"	f
+test_onboard_sensor_status_success	tests/commands/system/test_onboard_sensor_status.py	/^async def test_onboard_sensor_status_success(mock_datagram_client):$/;"	f
+test_onboard_sensor_status_failure	tests/commands/system/test_onboard_sensor_status.py	/^async def test_onboard_sensor_status_failure(mock_datagram_client):$/;"	f
+test_ping_failure	tests/commands/system/test_ping.py	/^async def test_ping_failure(mock_datagram_client):$/;"	f
+test_ping_success	tests/commands/system/test_ping.py	/^async def test_ping_success(mock_datagram_client):$/;"	f
+test_ping_silent_success	tests/commands/system/test_ping.py	/^async def test_ping_silent_success(mock_datagram_client):$/;"	f
+test_reboot_failure	tests/commands/system/test_reboot.py	/^async def test_reboot_failure(mock_datagram_client):$/;"	f
+test_reboot_success	tests/commands/system/test_reboot.py	/^async def test_reboot_success(mock_datagram_client):$/;"	f
+test_upgrade_firmware_custom_parameters	tests/commands/system/test_upgrade_firmware.py	/^async def test_upgrade_firmware_custom_parameters(mock_datagram_client):$/;"	f
+test_upgrade_firmware_invalid_filename	tests/commands/system/test_upgrade_firmware.py	/^async def test_upgrade_firmware_invalid_filename(mock_datagram_client):$/;"	f
+test_upgrade_firmware_invalid_port	tests/commands/system/test_upgrade_firmware.py	/^async def test_upgrade_firmware_invalid_port(mock_datagram_client):$/;"	f
+test_upgrade_firmware_invalid_url	tests/commands/system/test_upgrade_firmware.py	/^async def test_upgrade_firmware_invalid_url(mock_datagram_client):$/;"	f
+test_upgrade_firmware_success	tests/commands/system/test_upgrade_firmware.py	/^async def test_upgrade_firmware_success(mock_datagram_client):$/;"	f
+test_close_failure	tests/commands/valve/test_close.py	/^async def test_close_failure(mock_datagram_client):$/;"	f
+test_close_success	tests/commands/valve/test_close.py	/^async def test_close_success(mock_datagram_client):$/;"	f
+test_halt_failure	tests/commands/valve/test_halt.py	/^async def test_halt_failure(mock_datagram_client):$/;"	f
+test_halt_success	tests/commands/valve/test_halt.py	/^async def test_halt_success(caplog, mock_datagram_client):$/;"	f
+test_open_failure	tests/commands/valve/test_open.py	/^async def test_open_failure(mock_datagram_client):$/;"	f
+test_open_success	tests/commands/valve/test_open.py	/^async def test_open_success(mock_datagram_client):$/;"	f
+test_reset_failure	tests/commands/valve/test_reset.py	/^async def test_reset_failure(mock_datagram_client):$/;"	f
+test_reset_success	tests/commands/valve/test_reset.py	/^async def test_reset_success(mock_datagram_client):$/;"	f
+test_status_failure	tests/commands/valve/test_status.py	/^async def test_status_failure(mock_datagram_client):$/;"	f
+test_status_success	tests/commands/valve/test_status.py	/^async def test_status_success(mock_datagram_client):$/;"	f

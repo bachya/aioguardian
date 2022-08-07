@@ -12,7 +12,7 @@
 ```{image} https://img.shields.io/pypi/l/aioguardian.svg
 ```
 
-```{image} https://codecov.io/gh/bachya/aioguardian/branch/master/graph/badge.svg
+```{image} https://codecov.io/gh/bachya/aioguardian/branch/main/graph/badge.svg
 ```
 
 ```{image} https://api.codeclimate.com/v1/badges/f46d8b1dcfde6a2f683d/maintainability
