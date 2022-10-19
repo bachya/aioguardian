@@ -13,6 +13,7 @@ pip install aioguardian
 - Python 3.8
 - Python 3.9
 - Python 3.10
+- Python 3.11
 
 ## Get Up and Running
 
