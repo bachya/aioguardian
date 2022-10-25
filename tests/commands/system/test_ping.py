@@ -12,7 +12,7 @@ from tests.common import load_fixture
     "command_response", [load_fixture("ping_failure_response.json").encode()]
 )
 async def test_ping_failure(mock_datagram_client):
-    """Test a failured ping of the device."""
+    """Test a failed ping of the device."""
     with mock_datagram_client:
         with pytest.raises(CommandError) as err:
             async with Client("192.168.1.100") as client:
