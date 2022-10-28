@@ -5,10 +5,10 @@ import asyncio
 import json
 import logging
 from types import TracebackType
-from typing import Any, Dict, cast
+from typing import Any, cast
 
-from async_timeout import timeout
 import asyncio_dgram
+from async_timeout import timeout
 
 from aioguardian.commands.iot import IOTCommands
 from aioguardian.commands.sensor import SensorCommands
@@ -28,14 +28,11 @@ DEFAULT_REQUEST_TIMEOUT: int = 10
 class Client:  # pylint: disable=too-many-instance-attributes
     """Define the class that can send commands to a Guardian device.
 
-    :param ip_address: The IP address or FQDN of the Guardian device
-    :type ip_address: ``str``
-    :param port: The port to connect to
-    :type port: ``int``
-    :param request_timeout: The number of seconds to wait before timing out a request
-    :type request_timeout: ``int``
-    :param command_retries: The number of attempts to retry a command that times out
-    :type command_retries: ``int``
+    Args:
+        ip_address: The IP address or hostname of a Guardian valve controller.
+        port: The port to connect to.
+        request_timeout: The number of seconds to wait before timing out a request.
+        command_retries: The number of retries to use on a failed command.
     """
 
     def __init__(
@@ -46,7 +43,14 @@ class Client:  # pylint: disable=too-many-instance-attributes
         request_timeout: int = DEFAULT_REQUEST_TIMEOUT,
         command_retries: int = DEFAULT_COMMAND_RETRIES,
     ) -> None:
-        """Initialize."""
+        """Initialize.
+
+        Args:
+            ip_address: The IP address or hostname of a Guardian valve controller.
+            port: The port to connect to.
+            request_timeout: The number of seconds to wait before timing out a request.
+            command_retries: The number of retries to use on a failed command.
+        """
         self._command_retries = command_retries
         self._ip = ip_address
         # Since device communication happens over a single UDP port, concurrent
@@ -55,7 +59,7 @@ class Client:  # pylint: disable=too-many-instance-attributes
         self._lock: asyncio.Lock = asyncio.Lock()
         self._port = port
         self._request_timeout = request_timeout
-        self._stream: asyncio_dgram.aio.DatagramStream = None
+        self._stream: asyncio_dgram.aio.DatagramStream | None = None
 
         self.iot = IOTCommands(self._execute_command)
         self.sensor = SensorCommands(self._execute_command)
@@ -63,18 +67,28 @@ class Client:  # pylint: disable=too-many-instance-attributes
         self.valve = ValveCommands(self._execute_command)
         self.wifi = WiFiCommands(self._execute_command)
 
-    async def __aenter__(self) -> "Client":
-        """Define an entry point into this object via a context manager."""
+    async def __aenter__(self) -> Client:
+        """Define an entry point into this object via a context manager.
+
+        Returns:
+            A connected aioguardian client.
+        """
         await self.connect()
         return self
 
     async def __aexit__(
         self,
-        exc_type: BaseException | None,
-        exc_val: BaseException | None,
-        exc_tb: TracebackType | None,
+        exc_type: type[BaseException] | None,  # noqa: F841
+        exc_val: BaseException | None,  # noqa: F841
+        exc_tb: TracebackType | None,  # noqa: F841
     ) -> None:
-        """Define an exit point out of this object via a context manager."""
+        """Define an exit point out of this object via a context manager.
+
+        Args:
+            exc_type: An optional exception if one caused the context manager to close.
+            exc_val: The value of the optional exception
+            exc_tb: The traceback of the optional exception
+        """
         self.disconnect()
 
     async def _execute_command(
@@ -82,13 +96,16 @@ class Client:  # pylint: disable=too-many-instance-attributes
     ) -> dict[str, Any]:
         """Make a request against the Guardian device and return the response.
 
-        :param command: The command to execute
-        :type command: :meth:`aioguardian.helpers.command.Command`
-        :param params: Any parameters to send along with the command
-        :type params: ``dict``
-        :param silent: If ``True``, silence "beep" tones associated with this command
-        :type silent: ``bool``
-        :rtype: ``dict``
+        Args:
+            command: The command to execute.
+            params: Any parameters to send along with the command.
+            silent: If ``True``, silence "beep" tones associated with this command.
+
+        Returns:
+            An API response payload.
+
+        Raises:
+            SocketError: Raised on an issue with the UDP socket.
         """
         if not self._stream:
             raise SocketError("You aren't connected to the device yet")
@@ -101,7 +118,9 @@ class Client:  # pylint: disable=too-many-instance-attributes
         while retry < self._command_retries:
             try:
                 async with self._lock, timeout(self._request_timeout):
-                    await self._stream.send(json.dumps(payload).encode())
+                    await self._stream.send(  # type: ignore[attr-defined]
+                        json.dumps(payload).encode()
+                    )
                     data, remote_addr = await self._stream.recv()
                     break
             except asyncio.TimeoutError:
@@ -116,10 +135,14 @@ class Client:  # pylint: disable=too-many-instance-attributes
 
         _raise_on_command_error(command, decoded_data)
 
-        return cast(Dict[str, Any], decoded_data)
+        return cast(dict[str, Any], decoded_data)
 
     async def connect(self) -> None:
-        """Connect to the Guardian device."""
+        """Connect to the Guardian device.
+
+        Raises:
+            SocketError: Raised on an issue with the UDP socket.
+        """
         try:
             async with timeout(self._request_timeout):
                 self._stream = await asyncio_dgram.connect((self._ip, self._port))
@@ -137,16 +160,13 @@ class Client:  # pylint: disable=too-many-instance-attributes
     ) -> dict[str, Any]:
         """Execute a command via its integer-based command code.
 
-        A mapping of command-code-to-command can be seen in the
-        :meth:`Command <aioguardian.helpers.command.Command>` helper.
+        Args:
+            command_code: The command code to execute.
+            params: Any parameters to send along with the command.
+            silent: If ``True``, silence "beep" tones associated with this command.
 
-        :param command: The command code to execute
-        :type command: ``int``
-        :param params: Any parameters to send along with the command
-        :type params: ``dict``
-        :param silent: If ``True``, silence "beep" tones associated with this command
-        :type silent: ``bool``
-        :rtype: ``dict``
+        Returns:
+            An API response payload.
         """
         command = get_command_from_code(command_code)
         return await self._execute_command(command, params=params, silent=silent)

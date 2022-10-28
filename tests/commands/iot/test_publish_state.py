@@ -1,9 +1,10 @@
 """Test the publish_state command."""
+from unittest.mock import MagicMock
+
 import pytest
 
 from aioguardian import Client
 from aioguardian.errors import CommandError
-
 from tests.common import load_fixture
 
 
@@ -12,16 +13,19 @@ from tests.common import load_fixture
     "command_response",
     [load_fixture("publish_state_failure_response.json").encode()],
 )
-async def test_publish_state_failure(mock_datagram_client):
-    """Test the publish_state command failing."""
-    with mock_datagram_client:
-        with pytest.raises(CommandError) as err:
-            async with Client("192.168.1.100") as client:
-                _ = await client.iot.publish_state()
-            client.disconnect()
+async def test_publish_state_failure(mock_datagram_client: MagicMock) -> None:
+    """Test the publish_state command failing.
+
+    Args:
+        mock_datagram_client: A mocked UDP client.
+    """
+    with mock_datagram_client, pytest.raises(CommandError) as err:
+        async with Client("192.168.1.100") as client:
+            _ = await client.iot.publish_state()
+        client.disconnect()
 
     assert str(err.value) == (
-        "iot_publish_state command failed "
+        "IOT_PUBLISH_STATE command failed "
         "(response: {'command': 65, 'status': 'error'})"
     )
 
@@ -31,8 +35,12 @@ async def test_publish_state_failure(mock_datagram_client):
     "command_response",
     [load_fixture("publish_state_success_response.json").encode()],
 )
-async def test_publish_state_success(mock_datagram_client):
-    """Test the publish_state command succeeding."""
+async def test_publish_state_success(mock_datagram_client: MagicMock) -> None:
+    """Test the publish_state command succeeding.
+
+    Args:
+        mock_datagram_client: A mocked UDP client.
+    """
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             publish_state_response = await client.iot.publish_state()

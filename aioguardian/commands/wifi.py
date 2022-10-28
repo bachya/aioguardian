@@ -1,6 +1,7 @@
 """Define WiFi commands."""
 import logging
-from typing import Any, Awaitable, Callable, Dict, cast
+from collections.abc import Awaitable, Callable
+from typing import Any, cast
 
 import voluptuous as vol
 
@@ -9,10 +10,10 @@ from aioguardian.helpers.command import Command
 
 _LOGGER = logging.getLogger(__name__)
 
-PARAM_PASSWORD: str = "password"
-PARAM_SSID: str = "ssid"
+PARAM_PASSWORD = "password"  # noqa: S105, # nosec
+PARAM_SSID = "ssid"
 
-WIFI_CONFIGURE_PARAM_SCHEMA: vol.Schema = vol.Schema(
+WIFI_CONFIGURE_PARAM_SCHEMA = vol.Schema(
     {
         vol.Required(PARAM_SSID): vol.All(str, vol.Length(max=36)),
         vol.Required(PARAM_PASSWORD): vol.All(str, vol.Length(max=64)),
@@ -26,25 +27,35 @@ class WiFiCommands:
     Note that this class shouldn't be instantiated directly; an instance of it will
     automatically be added to the :meth:`Client <aioguardian.Client>` (as
     ``client.wifi``).
+
+    Args:
+        execute_command: The execute_command method from the Client object.
     """
 
     def __init__(self, execute_command: Callable[..., Awaitable]) -> None:
-        """Initialize."""
+        """Initialize.
+
+        Args:
+            execute_command: The execute_command method from the Client object.
+        """
         self._execute_command = execute_command
         self._scan_performed = False
 
     async def configure(
         self, ssid: str, password: str, *, silent: bool = True
-    ) -> Dict[str, Any]:
-        """Configure the device to a wireless network.
+    ) -> dict[str, Any]:
+        """Configure the device to use a wireless network.
 
-        :param ssid: The SSID to connect to
-        :type ssid: ``str``
-        :param password: The SSID's password
-        :type password: ``str``
-        :param silent: If ``True``, silence "beep" tones associated with this command
-        :type silent: ``bool``
-        :rtype: ``dict``
+        Args:
+            ssid: An SSID to connect to.
+            password: The password to use to connect to the SSID.
+            silent: Whether the valve controller should beep upon successful command.
+
+        Returns:
+            An API response payload.
+
+        Raises:
+            CommandError: Raised when invalid parameters are provided.
         """
         params = {PARAM_SSID: ssid, PARAM_PASSWORD: password}
 
@@ -54,73 +65,85 @@ class WiFiCommands:
             raise CommandError(f"Invalid parameters provided: {err}") from None
 
         data = await self._execute_command(
-            Command.wifi_configure, params=params, silent=silent
+            Command.WIFI_CONFIGURE, params=params, silent=silent
         )
-        return cast(Dict[str, Any], data)
+        return cast(dict[str, Any], data)
 
-    async def disable_ap(self, *, silent: bool = True) -> Dict[str, Any]:
+    async def disable_ap(self, *, silent: bool = True) -> dict[str, Any]:
         """Disable the device's onboard WiFi access point.
 
-        :param silent: If ``True``, silence "beep" tones associated with this command
-        :type silent: ``bool``
-        :rtype: ``dict``
-        """
-        data = await self._execute_command(Command.wifi_disable_ap, silent=silent)
-        return cast(Dict[str, Any], data)
+        Args:
+            silent: Whether the valve controller should beep upon successful command.
 
-    async def enable_ap(self, *, silent: bool = True) -> Dict[str, Any]:
+        Returns:
+            An API response payload.
+        """
+        data = await self._execute_command(Command.WIFI_DISABLE_AP, silent=silent)
+        return cast(dict[str, Any], data)
+
+    async def enable_ap(self, *, silent: bool = True) -> dict[str, Any]:
         """Enable the device's onboard WiFi access point.
 
-        :param silent: If ``True``, silence "beep" tones associated with this command
-        :type silent: ``bool``
-        :rtype: ``dict``
-        """
-        data = await self._execute_command(Command.wifi_enable_ap, silent=silent)
-        return cast(Dict[str, Any], data)
+        Args:
+            silent: Whether the valve controller should beep upon successful command.
 
-    async def list(self, *, silent: bool = True) -> Dict[str, Any]:
+        Returns:
+            An API response payload.
+        """
+        data = await self._execute_command(Command.WIFI_ENABLE_AP, silent=silent)
+        return cast(dict[str, Any], data)
+
+    async def list(self, *, silent: bool = True) -> dict[str, Any]:
         """List previously scanned nearby SSIDs.
 
-        :param silent: If ``True``, silence "beep" tones associated with this command
-        :type silent: ``bool``
-        :rtype: ``dict``
+        Args:
+            silent: Whether the valve controller should beep upon successful command.
+
+        Returns:
+            An API response payload.
         """
         if not self._scan_performed:
             _LOGGER.warning(
                 "Returning cached SSIDs; run wifi_scan first for up-to-date data"
             )
 
-        data = await self._execute_command(Command.wifi_list, silent=silent)
+        data = await self._execute_command(Command.WIFI_LIST, silent=silent)
         self._scan_performed = False
-        return cast(Dict[str, Any], data)
+        return cast(dict[str, Any], data)
 
-    async def reset(self, *, silent: bool = True) -> Dict[str, Any]:
+    async def reset(self, *, silent: bool = True) -> dict[str, Any]:
         """Erase and reset all WiFi settings.
 
-        :param silent: If ``True``, silence "beep" tones associated with this command
-        :type silent: ``bool``
-        :rtype: ``dict``
-        """
-        data = await self._execute_command(Command.wifi_reset, silent=silent)
-        return cast(Dict[str, Any], data)
+        Args:
+            silent: Whether the valve controller should beep upon successful command.
 
-    async def scan(self, *, silent: bool = True) -> Dict[str, Any]:
+        Returns:
+            An API response payload.
+        """
+        data = await self._execute_command(Command.WIFI_RESET, silent=silent)
+        return cast(dict[str, Any], data)
+
+    async def scan(self, *, silent: bool = True) -> dict[str, Any]:
         """Scan for nearby SSIDs.
 
-        :param silent: If ``True``, silence "beep" tones associated with this command
-        :type silent: ``bool``
-        :rtype: ``dict``
-        """
-        data = await self._execute_command(Command.wifi_scan, silent=silent)
-        self._scan_performed = True
-        return cast(Dict[str, Any], data)
+        Args:
+            silent: Whether the valve controller should beep upon successful command.
 
-    async def status(self, *, silent: bool = True) -> Dict[str, Any]:
+        Returns:
+            An API response payload.
+        """
+        data = await self._execute_command(Command.WIFI_SCAN, silent=silent)
+        self._scan_performed = True
+        return cast(dict[str, Any], data)
+
+    async def status(self, *, silent: bool = True) -> dict[str, Any]:
         """Return the current WiFi status of the device.
 
-        :param silent: If ``True``, silence "beep" tones associated with this command
-        :type silent: ``bool``
-        :rtype: ``dict``
+        Args:
+            silent: Whether the valve controller should beep upon successful command.
+
+        Returns:
+            An API response payload.
         """
-        data = await self._execute_command(Command.wifi_status, silent=silent)
-        return cast(Dict[str, Any], data)
+        data = await self._execute_command(Command.WIFI_STATUS, silent=silent)
+        return cast(dict[str, Any], data)

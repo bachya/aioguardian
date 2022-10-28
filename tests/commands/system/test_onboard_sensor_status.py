@@ -1,9 +1,10 @@
 """Test the onboard_sensor_status command."""
+from unittest.mock import MagicMock
+
 import pytest
 
 from aioguardian import Client
 from aioguardian.errors import CommandError
-
 from tests.common import load_fixture
 
 
@@ -12,8 +13,12 @@ from tests.common import load_fixture
     "command_response",
     [load_fixture("onboard_sensor_status_success_response.json").encode()],
 )
-async def test_onboard_sensor_status_success(mock_datagram_client):
-    """Test the onboard_sensor_status command succeeding."""
+async def test_onboard_sensor_status_success(mock_datagram_client: MagicMock) -> None:
+    """Test the onboard_sensor_status command succeeding.
+
+    Args:
+        mock_datagram_client: A mocked UDP client.
+    """
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             onboard_sensor_status = await client.system.onboard_sensor_status()
@@ -28,14 +33,18 @@ async def test_onboard_sensor_status_success(mock_datagram_client):
     "command_response",
     [load_fixture("onboard_sensor_status_failure_response.json").encode()],
 )
-async def test_onboard_sensor_status_failure(mock_datagram_client):
-    """Test the onboard_sensor_status command failing."""
+async def test_onboard_sensor_status_failure(mock_datagram_client: MagicMock) -> None:
+    """Test the onboard_sensor_status command failing.
+
+    Args:
+        mock_datagram_client: A mocked UDP client.
+    """
     with mock_datagram_client:
         with pytest.raises(CommandError) as err:
             async with Client("192.168.1.100") as client:
                 _ = await client.system.onboard_sensor_status()
 
         assert str(err.value) == (
-            "system_onboard_sensor_status command failed "
+            "SYSTEM_ONBOARD_SENSOR_STATUS command failed "
             "(response: {'command': 80, 'status': 'error'})"
         )

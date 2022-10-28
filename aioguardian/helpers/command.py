@@ -7,37 +7,42 @@ from aioguardian.errors import CommandError
 class Command(Enum):
     """Define a Guardian UDP command mapping."""
 
-    iot_publish_state = 65
-    sensor_pair_dump = 48
-    sensor_pair_sensor = 49
-    sensor_paired_sensor_status = 51
-    sensor_unpair_sensor = 50
-    system_diagnostics = 1
-    system_factory_reset = 255
-    system_onboard_sensor_status = 80
-    system_ping = 0
-    system_reboot = 2
-    system_upgrade_firmware = 4
-    valve_close = 18
-    valve_halt = 19
-    valve_open = 17
-    valve_reset = 20
-    valve_status = 16
-    wifi_configure = 34
-    wifi_disable_ap = 36
-    wifi_enable_ap = 35
-    wifi_list = 38
-    wifi_reset = 33
-    wifi_scan = 37
-    wifi_status = 32
+    IOT_PUBLISH_STATE = 65
+    SENSOR_PAIR_DUMP = 48
+    SENSOR_PAIR_SENSOR = 49
+    SENSOR_PAIRED_SENSOR_STATUS = 51
+    SENSOR_UNPAIR_SENSOR = 50
+    SYSTEM_DIAGNOSTICS = 1
+    SYSTEM_FACTORY_RESET = 255
+    SYSTEM_ONBOARD_SENSOR_STATUS = 80
+    SYSTEM_PING = 0
+    SYSTEM_REBOOT = 2
+    SYSTEM_UPGRADE_FIRMWARE = 4
+    VALVE_CLOSE = 18
+    VALVE_HALT = 19
+    VALVE_OPEN = 17
+    VALVE_RESET = 20
+    VALVE_STATUS = 16
+    WIFI_CONFIGURE = 34
+    WIFI_DISABLE_AP = 36
+    WIFI_ENABLE_AP = 35
+    WIFI_LIST = 38
+    WIFI_RESET = 33
+    WIFI_SCAN = 37
+    WIFI_STATUS = 32
 
 
 def get_command_from_name(command_name: str) -> Command:
     """Return the command for a particular name.
 
-    :param command_name: The command name to search for
-    :type command_name: ``str``
-    :rtype: :meth:`aioguardian.helpers.command.Command`
+    Args:
+        command_name: The command string to parse into a Command.
+
+    Returns:
+        A Command object.
+
+    Raises:
+        CommandError: Raised when an unknown command is encountered.
     """
     try:
         command = Command[command_name]
@@ -49,9 +54,14 @@ def get_command_from_name(command_name: str) -> Command:
 def get_command_from_code(command_code: int) -> Command:
     """Return the command for a particular code.
 
-    :param command_code: The command code to search for
-    :type command_code: ``int``
-    :rtype: :meth:`aioguardian.helpers.command.Command`
+    Args:
+        command_code: The raw command code to parse into a Command.
+
+    Returns:
+        A Command object.
+
+    Raises:
+        CommandError: Raised when an unknown command is encountered.
     """
     try:
         command = Command(command_code)

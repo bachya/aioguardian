@@ -1,9 +1,10 @@
 """Test the paired_sensor_status command."""
+from unittest.mock import MagicMock
+
 import pytest
 
 from aioguardian import Client
 from aioguardian.errors import CommandError
-
 from tests.common import load_fixture
 
 
@@ -12,8 +13,14 @@ from tests.common import load_fixture
     "command_response",
     [load_fixture("paired_sensor_status_failure_3_response.json").encode()],
 )
-async def test_paired_sensor_status_failure_not_paired(mock_datagram_client):
-    """Test the paired_sensor_status command failing because it isn't paired."""
+async def test_paired_sensor_status_failure_not_paired(
+    mock_datagram_client: MagicMock,
+) -> None:
+    """Test the paired_sensor_status command failing because it isn't paired.
+
+    Args:
+        mock_datagram_client: A mocked UDP client.
+    """
     with mock_datagram_client:
         with pytest.raises(CommandError) as err:
             async with Client("192.168.1.100") as client:
@@ -21,7 +28,7 @@ async def test_paired_sensor_status_failure_not_paired(mock_datagram_client):
 
         assert (
             str(err.value)
-            == "sensor_paired_sensor_status command failed: sensor_not_paired"
+            == "SENSOR_PAIRED_SENSOR_STATUS command failed: sensor_not_paired"
         )
 
 
@@ -30,8 +37,14 @@ async def test_paired_sensor_status_failure_not_paired(mock_datagram_client):
     "command_response",
     [load_fixture("paired_sensor_status_failure_5_response.json").encode()],
 )
-async def test_paired_sensor_status_failure_error_loading(mock_datagram_client):
-    """Test the paired_sensor_status command failing because of a loading error."""
+async def test_paired_sensor_status_failure_error_loading(
+    mock_datagram_client: MagicMock,
+) -> None:
+    """Test the paired_sensor_status command failing because of a loading error.
+
+    Args:
+        mock_datagram_client: A mocked UDP client.
+    """
     with mock_datagram_client:
         with pytest.raises(CommandError) as err:
             async with Client("192.168.1.100") as client:
@@ -39,13 +52,19 @@ async def test_paired_sensor_status_failure_error_loading(mock_datagram_client):
 
         assert (
             str(err.value)
-            == "sensor_paired_sensor_status command failed: sensor_error_loading"
+            == "SENSOR_PAIRED_SENSOR_STATUS command failed: sensor_error_loading"
         )
 
 
 @pytest.mark.asyncio
-async def test_paired_sensor_status_invalid_uid(mock_datagram_client):
-    """Test that an invalid UID throws an exception."""
+async def test_paired_sensor_status_invalid_uid(
+    mock_datagram_client: MagicMock,
+) -> None:
+    """Test that an invalid UID throws an exception.
+
+    Args:
+        mock_datagram_client: A mocked UDP client.
+    """
     with mock_datagram_client:
         with pytest.raises(CommandError) as err:
             async with Client("192.168.1.100") as client:
@@ -62,8 +81,14 @@ async def test_paired_sensor_status_invalid_uid(mock_datagram_client):
     "command_response",
     [load_fixture("paired_sensor_status_success_response.json").encode()],
 )
-async def test_paired_sensor_status_dump_success(mock_datagram_client):
-    """Test the pair_dump command succeeding."""
+async def test_paired_sensor_status_dump_success(
+    mock_datagram_client: MagicMock,
+) -> None:
+    """Test the pair_dump command succeeding.
+
+    Args:
+        mock_datagram_client: A mocked UDP client.
+    """
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             paired_sensor_status = await client.sensor.paired_sensor_status(

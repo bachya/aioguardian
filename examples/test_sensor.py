@@ -26,12 +26,6 @@ async def main() -> None:
                     uid,
                     paired_sensor_status_resp,
                 )
-
-            # pair_sensor_response = await guardian.sensor.pair_sensor("<UID>")
-            # _LOGGER.info("pair_response command response: %s", pair_sensor_response)
-
-            # unpair_sensor_response = await guardian.sensor.unpair_sensor("<UID>")
-            # _LOGGER.info("unpair_response command response: %s", unpair_sensor_response)
         except GuardianError as err:
             _LOGGER.info(err)
 
