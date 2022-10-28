@@ -23,22 +23,22 @@ work:
 ```python
 import asyncio
 
-  from aioguardian import Client
+from aioguardian import Client
 
 
-  async def main():
-      client = Client("<IP ADDRESS>")
+async def main():
+    client = Client("<IP ADDRESS>")
 
-      # Note that connecting to the Guardian is accomplished via a coroutine:
-      await client.connect()
+    # Note that connecting to the Guardian is accomplished via a coroutine:
+    await client.connect()
 
-      # ...run commands...
+    # ...run commands...
 
-      # Note that disconnecting from the Guardian is accomplished via a regular method:
-      client.disconnect()
+    # Note that disconnecting from the Guardian is accomplished via a regular method:
+    client.disconnect()
 
 
-  asyncio.run(main())
+asyncio.run(main())
 ```
 
 If you would prefer, the {meth}`Client <aioguardian.Client>` class also comes with a
@@ -47,13 +47,14 @@ context manager that handles connection/disconnection for you:
 ```python
 import asyncio
 
-  from aioguardian import Client
+from aioguardian import Client
 
 
-  async def main():
-      async with Client("<IP ADDRESS>") as client:
-          # ...run commands...
+async def main():
+    async with Client("<IP ADDRESS>") as client:
+        # ...run commands...
+        pass
 
 
-  asyncio.run(main())
+asyncio.run(main())
 ```

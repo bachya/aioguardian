@@ -20,7 +20,7 @@
 
 # Installation
 
-```python
+```bash
 pip install aioguardian
 ```
 
@@ -28,9 +28,9 @@ pip install aioguardian
 
 `aioguardian` is currently supported on:
 
-* Python 3.9
-* Python 3.10
-* Python 3.11
+- Python 3.9
+- Python 3.10
+- Python 3.11
 
 # Documentation
 
@@ -39,14 +39,14 @@ Complete documentation can be found here: http://aioguardian.readthedocs.io
 # Contributing
 
 1. [Check for open features/bugs](https://github.com/bachya/aioguardian/issues)
-  or [initiate a discussion on one](https://github.com/bachya/aioguardian/issues/new).
+   or [initiate a discussion on one](https://github.com/bachya/aioguardian/issues/new).
 2. [Fork the repository](https://github.com/bachya/aioguardian/fork).
 3. (_optional, but highly recommended_) Create a virtual environment: `python3 -m venv .venv`
 4. (_optional, but highly recommended_) Enter the virtual environment: `source ./.venv/bin/activate`
 5. Install the dev environment: `script/setup`
 6. Code your new feature or bug fix.
 7. Write tests that cover your new functionality.
-8. Run tests and ensure 100% code coverage: `nox -rs coverage`
+8. Run tests and ensure 100% code coverage: `poetry run pytest --cov aioguardian tests`
 9. Update `README.md` with any new documentation.
 10. Add yourself to `AUTHORS.md`.
 11. Submit a pull request!

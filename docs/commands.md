@@ -28,7 +28,7 @@
 - {meth}`client.wifi.scan() <aioguardian.commands.wifi.WiFiCommands.scan>`: scan for nearby WiFi SSIDs
 - {meth}`client.wifi.status() <aioguardian.commands.wifi.WiFiCommands.status>`: get information related to the device's WiFi connections
 
-*Note:* Not all commands are supported on all firmwares. If a particular command is not working on your valve controller, please ensure you have the latest device firmware before filing an `aioguardian` bug.
+_Note:_ Not all commands are supported on all firmwares. If a particular command is not working on your valve controller, please ensure you have the latest device firmware before filing an `aioguardian` bug.
 
 You can learn more about the response payloads of these commands by looking at the
 [fixtures folder](https://github.com/bachya/aioguardian/tree/dev/tests/fixtures)
@@ -44,16 +44,16 @@ used:
 ```python
 import asyncio
 
-  from aioguardian import Client
+from aioguardian import Client
 
 
-  async def main():
-      async with Client("<IP ADDRESS>") as client:
-          # Get sensor status, which is command 80:
-          status = await client.execute_raw_command(80)
+async def main():
+    async with Client("<IP ADDRESS>") as client:
+        # Get sensor status, which is command 80:
+        status = await client.execute_raw_command(80)
 
 
-  asyncio.run(main())
+asyncio.run(main())
 ```
 
 You can see the command-code-to-command mapping by examining the
@@ -73,13 +73,13 @@ tones to play:
 ```python
 import asyncio
 
-  from aioguardian import Client
+from aioguardian import Client
 
 
-  async def main():
-      async with Client("<IP ADDRESS>") as client:
-          await client.system.ping(silent=False)
+async def main():
+    async with Client("<IP ADDRESS>") as client:
+        await client.system.ping(silent=False)
 
 
-  asyncio.run(main())
+asyncio.run(main())
 ```

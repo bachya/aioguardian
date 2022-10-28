@@ -1,5 +1,8 @@
 """Define IOT commands."""
-from typing import Any, Awaitable, Callable, Dict, cast
+from __future__ import annotations
+
+from collections.abc import Awaitable, Callable
+from typing import Any, cast
 
 from aioguardian.helpers.command import Command
 
@@ -10,18 +13,27 @@ class IOTCommands:  # pylint: disable=too-few-public-methods
     Note that this class shouldn't be instantiated directly; an instance of it will
     automatically be added to the :meth:`Client <aioguardian.Client>` (as
     ``client.iot``).
+
+    Args:
+        execute_command: The execute_command method from the Client object.
     """
 
     def __init__(self, execute_command: Callable[..., Awaitable]) -> None:
-        """Initialize."""
+        """Initialize.
+
+        Args:
+            execute_command: The execute_command method from the Client object.
+        """
         self._execute_command = execute_command
 
-    async def publish_state(self, *, silent: bool = True) -> Dict[str, Any]:
+    async def publish_state(self, *, silent: bool = True) -> dict[str, Any]:
         """Publish the device's complete state to the Guardian cloud.
 
-        :param silent: If ``True``, silence "beep" tones associated with this command
-        :type silent: ``bool``
-        :rtype: ``dict``
+        Args:
+            silent: Whether the valve controller should beep upon successful command.
+
+        Returns:
+            An API response payload.
         """
-        data = await self._execute_command(Command.iot_publish_state, silent=silent)
-        return cast(Dict[str, Any], data)
+        data = await self._execute_command(Command.IOT_PUBLISH_STATE, silent=silent)
+        return cast(dict[str, Any], data)

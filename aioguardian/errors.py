@@ -1,7 +1,7 @@
 """Define exception types for ``aioguardian``."""
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from aioguardian.helpers.command import Command
@@ -34,13 +34,15 @@ class SocketError(GuardianError):
     pass
 
 
-def _raise_on_command_error(command: Command, data: dict) -> None:
+def _raise_on_command_error(command: Command, data: dict[str, Any]) -> None:
     """Examine a data response and raise errors appropriately.
 
-    :param command: The command that was run
-    :type command: :meth:`aioguardian.helpers.command.Command`
-    :param data: The response data from running the command
-    :type params: ``dict``
+    Args:
+        command: The command to execute.
+        data: An API response payload.o
+
+    Raises:
+        CommandError: Raised when a command fails for any reason.
     """
     if data.get("status") == "ok":
         return

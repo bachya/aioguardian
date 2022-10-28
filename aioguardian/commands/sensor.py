@@ -1,11 +1,14 @@
 """Define sensor commands."""
-from typing import Any, Awaitable, Callable, Dict, cast
+from __future__ import annotations
+
+from collections.abc import Awaitable, Callable
+from typing import Any, cast
 
 import voluptuous as vol
 
+import aioguardian.helpers.config_validation as cv
 from aioguardian.errors import CommandError
 from aioguardian.helpers.command import Command
-import aioguardian.helpers.config_validation as cv
 
 PARAM_UID = "uid"
 
@@ -20,30 +23,43 @@ class SensorCommands:
     Note that this class shouldn't be instantiated directly; an instance of it will
     automatically be added to the :meth:`Client <aioguardian.Client>` (as
     ``client.sensor``).
+
+    Args:
+        execute_command: The execute_command method from the Client object.
     """
 
     def __init__(self, execute_command: Callable[..., Awaitable]) -> None:
-        """Initialize."""
+        """Initialize.
+
+        Args:
+            execute_command: The execute_command method from the Client object.
+        """
         self._execute_command = execute_command
 
-    async def pair_dump(self, *, silent: bool = True) -> Dict[str, Any]:
+    async def pair_dump(self, *, silent: bool = True) -> dict[str, Any]:
         """Dump information on all paired sensors.
 
-        :param silent: If ``True``, silence "beep" tones associated with this command
-        :type silent: ``bool``
-        :rtype: ``dict``
-        """
-        data = await self._execute_command(Command.sensor_pair_dump, silent=silent)
-        return cast(Dict[str, Any], data)
+        Args:
+            silent: Whether the valve controller should beep upon successful command.
 
-    async def pair_sensor(self, uid: str, *, silent: bool = True) -> Dict[str, Any]:
+        Returns:
+            An API response payload.
+        """
+        data = await self._execute_command(Command.SENSOR_PAIR_DUMP, silent=silent)
+        return cast(dict[str, Any], data)
+
+    async def pair_sensor(self, uid: str, *, silent: bool = True) -> dict[str, Any]:
         """Pair a new sensor to the device.
 
-        :param uid: The UID of the sensor to pair
-        :type uid: ``str``
-        :param silent: If ``True``, silence "beep" tones associated with this command
-        :type silent: ``bool``
-        :rtype: ``dict``
+        Args:
+            uid: A UID of a Guardian paired sensor.
+            silent: Whether the valve controller should beep upon successful command.
+
+        Returns:
+            An API response payload.
+
+        Raises:
+            CommandError: Raised when invalid parameters are provided.
         """
         params = {PARAM_UID: uid}
 
@@ -53,20 +69,24 @@ class SensorCommands:
             raise CommandError(f"Invalid parameters provided: {err}") from None
 
         data = await self._execute_command(
-            Command.sensor_pair_sensor, params=params, silent=silent
+            Command.SENSOR_PAIR_SENSOR, params=params, silent=silent
         )
-        return cast(Dict[str, Any], data)
+        return cast(dict[str, Any], data)
 
     async def paired_sensor_status(
         self, uid: str, *, silent: bool = True
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get the status (leak, temperature, etc.) of a paired sensor.
 
-        :param uid: The UID of the sensor to pair
-        :type uid: ``str``
-        :param silent: If ``True``, silence "beep" tones associated with this command
-        :type silent: ``bool``
-        :rtype: ``dict``
+        Args:
+            uid: A UID of a Guardian paired sensor.
+            silent: Whether the valve controller should beep upon successful command.
+
+        Returns:
+            An API response payload.
+
+        Raises:
+            CommandError: Raised when invalid parameters are provided.
         """
         params = {PARAM_UID: uid}
 
@@ -76,18 +96,22 @@ class SensorCommands:
             raise CommandError(f"Invalid parameters provided: {err}") from None
 
         data = await self._execute_command(
-            Command.sensor_paired_sensor_status, params=params, silent=silent
+            Command.SENSOR_PAIRED_SENSOR_STATUS, params=params, silent=silent
         )
-        return cast(Dict[str, Any], data)
+        return cast(dict[str, Any], data)
 
-    async def unpair_sensor(self, uid: str, *, silent: bool = True) -> Dict[str, Any]:
+    async def unpair_sensor(self, uid: str, *, silent: bool = True) -> dict[str, Any]:
         """Unpair a sensor from the device.
 
-        :param uid: The UID of the sensor to unpair
-        :type uid: ``str``
-        :param silent: If ``True``, silence "beep" tones associated with this command
-        :type silent: ``bool``
-        :rtype: ``dict``
+        Args:
+            uid: A UID of a Guardian paired sensor.
+            silent: Whether the valve controller should beep upon successful command.
+
+        Returns:
+            An API response payload.
+
+        Raises:
+            CommandError: Raised when invalid parameters are provided.
         """
         params = {PARAM_UID: uid}
 
@@ -97,6 +121,6 @@ class SensorCommands:
             raise CommandError(f"Invalid parameters provided: {err}") from None
 
         data = await self._execute_command(
-            Command.sensor_unpair_sensor, params=params, silent=silent
+            Command.SENSOR_UNPAIR_SENSOR, params=params, silent=silent
         )
-        return cast(Dict[str, Any], data)
+        return cast(dict[str, Any], data)

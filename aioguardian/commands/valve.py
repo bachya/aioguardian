@@ -1,6 +1,7 @@
 """Define valve commands."""
 import logging
-from typing import Any, Awaitable, Callable, Dict, cast
+from collections.abc import Awaitable, Callable
+from typing import Any, cast
 
 from aioguardian.helpers.command import Command
 
@@ -29,59 +30,71 @@ class ValveCommands:
     Note that this class shouldn't be instantiated directly; an instance of it will
     automatically be added to the :meth:`Client <aioguardian.Client>` (as
     ``client.valve``).
+
+    Args:
+        execute_command: The execute_command method from the Client object.
     """
 
     def __init__(self, execute_command: Callable[..., Awaitable]) -> None:
-        """Initialize."""
+        """Initialize.
+
+        Args:
+            execute_command: The execute_command method from the Client object.
+        """
         self._execute_command = execute_command
 
-    async def close(self) -> Dict[str, Any]:
+    async def close(self) -> dict[str, Any]:
         """Close the valve.
 
-        :rtype: ``dict``
+        Returns:
+            An API response payload.
         """
-        data = await self._execute_command(Command.valve_close)
-        return cast(Dict[str, Any], data)
+        data = await self._execute_command(Command.VALVE_CLOSE)
+        return cast(dict[str, Any], data)
 
-    async def halt(self) -> Dict[str, Any]:
+    async def halt(self) -> dict[str, Any]:
         """Halt the valve.
 
         Note that calling this method will cause the device to no longer respond to leak
         events; therefore, it is not recommended to leave the device in a "halted" state
         indefinitely.
 
-        :rtype: ``dict``
+        Returns:
+            An API response payload.
         """
         _LOGGER.warning(
             "The device will not respond to leak events while in a halted state. It is "
             "recommended that you call valve_close() or valve_open() as soon as "
             "possible."
         )
-        data = await self._execute_command(Command.valve_halt)
-        return cast(Dict[str, Any], data)
+        data = await self._execute_command(Command.VALVE_HALT)
+        return cast(dict[str, Any], data)
 
-    async def open(self) -> Dict[str, Any]:
+    async def open(self) -> dict[str, Any]:
         """Open the valve.
 
-        :rtype: ``dict``
+        Returns:
+            An API response payload.
         """
-        data = await self._execute_command(Command.valve_open)
-        return cast(Dict[str, Any], data)
+        data = await self._execute_command(Command.VALVE_OPEN)
+        return cast(dict[str, Any], data)
 
-    async def reset(self, *, silent: bool = True) -> Dict[str, Any]:
+    async def reset(self, *, silent: bool = True) -> dict[str, Any]:
         """Reset the valve.
 
         This fully resets system motor diagnostics (including open/close count and
         lifetime average current draw) and cannot be undone.
 
-        :param silent: If ``True``, silence "beep" tones associated with this command
-        :type silent: ``bool``
-        :rtype: ``dict``
-        """
-        data = await self._execute_command(Command.valve_reset, silent=silent)
-        return cast(Dict[str, Any], data)
+        Args:
+            silent: Whether the valve controller should beep upon successful command.
 
-    async def status(self, *, silent: bool = True) -> Dict[str, Any]:
+        Returns:
+            An API response payload.
+        """
+        data = await self._execute_command(Command.VALVE_RESET, silent=silent)
+        return cast(dict[str, Any], data)
+
+    async def status(self, *, silent: bool = True) -> dict[str, Any]:
         """Retrieve status of the valve.
 
         In the payload that is returned, the ``state`` attribute of the valve can be any
@@ -101,10 +114,12 @@ class ValveCommands:
             * ``start_halt``
             * ``start_opening``
 
-        :param silent: If ``True``, silence "beep" tones associated with this command
-        :type silent: ``bool``
-        :rtype: ``dict``
+        Args:
+            silent: Whether the valve controller should beep upon successful command.
+
+        Returns:
+            An API response payload.
         """
-        data = await self._execute_command(Command.valve_status, silent=silent)
+        data = await self._execute_command(Command.VALVE_STATUS, silent=silent)
         data["data"]["state"] = VALVE_STATE_MAPPING[data["data"]["state"]]
-        return cast(Dict[str, Any], data)
+        return cast(dict[str, Any], data)

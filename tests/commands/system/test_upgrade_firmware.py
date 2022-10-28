@@ -1,9 +1,10 @@
 """Test the upgrade_firmware command."""
+from unittest.mock import MagicMock
+
 import pytest
 
 from aioguardian import Client
 from aioguardian.errors import GuardianError
-
 from tests.common import load_fixture
 
 
@@ -12,8 +13,14 @@ from tests.common import load_fixture
     "command_response",
     [load_fixture("upgrade_firmware_success_response.json").encode()],
 )
-async def test_upgrade_firmware_custom_parameters(mock_datagram_client):
-    """Test that valid custom parameters work."""
+async def test_upgrade_firmware_custom_parameters(
+    mock_datagram_client: MagicMock,
+) -> None:
+    """Test that valid custom parameters work.
+
+    Args:
+        mock_datagram_client: A mocked UDP client.
+    """
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             upgrade_firmware_response = await client.system.upgrade_firmware(
@@ -25,8 +32,14 @@ async def test_upgrade_firmware_custom_parameters(mock_datagram_client):
 
 
 @pytest.mark.asyncio
-async def test_upgrade_firmware_invalid_filename(mock_datagram_client):
-    """Test that an invalid firmware filename throws an exception."""
+async def test_upgrade_firmware_invalid_filename(
+    mock_datagram_client: MagicMock,
+) -> None:
+    """Test that an invalid firmware filename throws an exception.
+
+    Args:
+        mock_datagram_client: A mocked UDP client.
+    """
     with mock_datagram_client:
         with pytest.raises(GuardianError) as err:
             async with Client("192.168.1.100") as client:
@@ -41,12 +54,18 @@ async def test_upgrade_firmware_invalid_filename(mock_datagram_client):
 
 
 @pytest.mark.asyncio
-async def test_upgrade_firmware_invalid_port(mock_datagram_client):
-    """Test that an invalid firmware port throws an exception."""
+async def test_upgrade_firmware_invalid_port(mock_datagram_client: MagicMock) -> None:
+    """Test that an invalid firmware port throws an exception.
+
+    Args:
+        mock_datagram_client: A mocked UDP client.
+    """
     with mock_datagram_client:
         with pytest.raises(GuardianError) as err:
             async with Client("192.168.1.100") as client:
-                _ = await client.system.upgrade_firmware(port="WHOOPS")
+                _ = await client.system.upgrade_firmware(
+                    port="WHOOPS"  # type: ignore[arg-type]
+                )
 
         assert str(err.value) == (
             "Invalid parameters provided: expected int for dictionary value @ "
@@ -55,8 +74,12 @@ async def test_upgrade_firmware_invalid_port(mock_datagram_client):
 
 
 @pytest.mark.asyncio
-async def test_upgrade_firmware_invalid_url(mock_datagram_client):
-    """Test that an invalid firmware URL throws an exception."""
+async def test_upgrade_firmware_invalid_url(mock_datagram_client: MagicMock) -> None:
+    """Test that an invalid firmware URL throws an exception.
+
+    Args:
+        mock_datagram_client: A mocked UDP client.
+    """
     with mock_datagram_client:
         with pytest.raises(GuardianError) as err:
             async with Client("192.168.1.100") as client:
@@ -73,8 +96,12 @@ async def test_upgrade_firmware_invalid_url(mock_datagram_client):
     "command_response",
     [load_fixture("upgrade_firmware_success_response.json").encode()],
 )
-async def test_upgrade_firmware_success(mock_datagram_client):
-    """Test the upgrade_firmware command succeeding."""
+async def test_upgrade_firmware_success(mock_datagram_client: MagicMock) -> None:
+    """Test the upgrade_firmware command succeeding.
+
+    Args:
+        mock_datagram_client: A mocked UDP client.
+    """
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
             upgrade_firmware_response = await client.system.upgrade_firmware()
