@@ -151,9 +151,6 @@ ignore-docstrings = true
 # Ignore imports when computing similarities.
 ignore-imports = true
 
-[tool.pyright]
-include = ["aioguardian"]
-
 [tool.vulture]
 min_confidence = 80
 paths = ["aioguardian", "tests"]
