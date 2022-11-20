@@ -1,5 +1,4 @@
 """Define WiFi commands."""
-import logging
 from collections.abc import Awaitable, Callable
 from typing import Any
 
@@ -7,8 +6,6 @@ import voluptuous as vol
 
 from aioguardian.errors import CommandError
 from aioguardian.helpers.command import Command
-
-_LOGGER = logging.getLogger(__name__)
 
 PARAM_PASSWORD = "password"  # noqa: S105, # nosec
 PARAM_SSID = "ssid"

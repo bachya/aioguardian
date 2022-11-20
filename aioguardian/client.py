@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import asyncio
 import json
-import logging
 from types import TracebackType
 from typing import Any, cast
 
@@ -15,10 +14,9 @@ from aioguardian.commands.sensor import SensorCommands
 from aioguardian.commands.system import SystemCommands
 from aioguardian.commands.valve import ValveCommands
 from aioguardian.commands.wifi import WiFiCommands
+from aioguardian.const import LOGGER
 from aioguardian.errors import SocketError, _raise_on_command_error
 from aioguardian.helpers.command import Command, get_command_from_code
-
-_LOGGER = logging.getLogger(__name__)
 
 DEFAULT_COMMAND_RETRIES: int = 3
 DEFAULT_PORT: int = 7777
@@ -124,14 +122,14 @@ class Client:  # pylint: disable=too-many-instance-attributes
                     data, remote_addr = await self._stream.recv()
                     break
             except asyncio.TimeoutError:
-                _LOGGER.info("%s command timed out; trying again", command.name)
+                LOGGER.info("%s command timed out; trying again", command.name)
                 retry += 1
                 await asyncio.sleep(1)
         else:
             raise SocketError(f"{command.name} command timed out")
 
         decoded_data = json.loads(data.decode())
-        _LOGGER.debug("Received data from %s: %s", remote_addr, decoded_data)
+        LOGGER.debug("Received data from %s: %s", remote_addr, decoded_data)
 
         _raise_on_command_error(command, decoded_data)
 
