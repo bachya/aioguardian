@@ -41,7 +41,6 @@ class WiFiCommands:
             execute_command: The execute_command method from the Client object.
         """
         self._execute_command = execute_command
-        self._scan_performed = False
 
     async def configure(
         self, ssid: str, password: str, *, silent: bool = True
@@ -101,14 +100,7 @@ class WiFiCommands:
         Returns:
             An API response payload.
         """
-        if not self._scan_performed:
-            _LOGGER.warning(
-                "Returning cached SSIDs; run wifi_scan first for up-to-date data"
-            )
-
-        data = await self._execute_command(Command.WIFI_LIST, silent=silent)
-        self._scan_performed = False
-        return data
+        return await self._execute_command(Command.WIFI_LIST, silent=silent)
 
     async def reset(self, *, silent: bool = True) -> dict[str, Any]:
         """Erase and reset all WiFi settings.
@@ -130,9 +122,7 @@ class WiFiCommands:
         Returns:
             An API response payload.
         """
-        data = await self._execute_command(Command.WIFI_SCAN, silent=silent)
-        self._scan_performed = True
-        return data
+        return await self._execute_command(Command.WIFI_SCAN, silent=silent)
 
     async def status(self, *, silent: bool = True) -> dict[str, Any]:
         """Return the current WiFi status of the device.
