@@ -1,7 +1,7 @@
 """Define WiFi commands."""
 import logging
 from collections.abc import Awaitable, Callable
-from typing import Any, cast
+from typing import Any
 
 import voluptuous as vol
 
@@ -32,7 +32,9 @@ class WiFiCommands:
         execute_command: The execute_command method from the Client object.
     """
 
-    def __init__(self, execute_command: Callable[..., Awaitable]) -> None:
+    def __init__(
+        self, execute_command: Callable[..., Awaitable[dict[str, Any]]]
+    ) -> None:
         """Initialize.
 
         Args:
@@ -64,10 +66,9 @@ class WiFiCommands:
         except vol.Invalid as err:
             raise CommandError(f"Invalid parameters provided: {err}") from None
 
-        data = await self._execute_command(
+        return await self._execute_command(
             Command.WIFI_CONFIGURE, params=params, silent=silent
         )
-        return cast(dict[str, Any], data)
 
     async def disable_ap(self, *, silent: bool = True) -> dict[str, Any]:
         """Disable the device's onboard WiFi access point.
@@ -78,8 +79,7 @@ class WiFiCommands:
         Returns:
             An API response payload.
         """
-        data = await self._execute_command(Command.WIFI_DISABLE_AP, silent=silent)
-        return cast(dict[str, Any], data)
+        return await self._execute_command(Command.WIFI_DISABLE_AP, silent=silent)
 
     async def enable_ap(self, *, silent: bool = True) -> dict[str, Any]:
         """Enable the device's onboard WiFi access point.
@@ -90,8 +90,7 @@ class WiFiCommands:
         Returns:
             An API response payload.
         """
-        data = await self._execute_command(Command.WIFI_ENABLE_AP, silent=silent)
-        return cast(dict[str, Any], data)
+        return await self._execute_command(Command.WIFI_ENABLE_AP, silent=silent)
 
     async def list(self, *, silent: bool = True) -> dict[str, Any]:
         """List previously scanned nearby SSIDs.
@@ -109,7 +108,7 @@ class WiFiCommands:
 
         data = await self._execute_command(Command.WIFI_LIST, silent=silent)
         self._scan_performed = False
-        return cast(dict[str, Any], data)
+        return data
 
     async def reset(self, *, silent: bool = True) -> dict[str, Any]:
         """Erase and reset all WiFi settings.
@@ -120,8 +119,7 @@ class WiFiCommands:
         Returns:
             An API response payload.
         """
-        data = await self._execute_command(Command.WIFI_RESET, silent=silent)
-        return cast(dict[str, Any], data)
+        return await self._execute_command(Command.WIFI_RESET, silent=silent)
 
     async def scan(self, *, silent: bool = True) -> dict[str, Any]:
         """Scan for nearby SSIDs.
@@ -134,7 +132,7 @@ class WiFiCommands:
         """
         data = await self._execute_command(Command.WIFI_SCAN, silent=silent)
         self._scan_performed = True
-        return cast(dict[str, Any], data)
+        return data
 
     async def status(self, *, silent: bool = True) -> dict[str, Any]:
         """Return the current WiFi status of the device.
@@ -145,5 +143,4 @@ class WiFiCommands:
         Returns:
             An API response payload.
         """
-        data = await self._execute_command(Command.WIFI_STATUS, silent=silent)
-        return cast(dict[str, Any], data)
+        return await self._execute_command(Command.WIFI_STATUS, silent=silent)
