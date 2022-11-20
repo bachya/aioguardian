@@ -1,11 +1,9 @@
 """Define valve commands."""
-import logging
 from collections.abc import Awaitable, Callable
 from typing import Any
 
+from aioguardian.const import LOGGER
 from aioguardian.helpers.command import Command
-
-_LOGGER = logging.getLogger(__name__)
 
 VALVE_STATE_MAPPING = {
     0: "default",
@@ -63,7 +61,7 @@ class ValveCommands:
         Returns:
             An API response payload.
         """
-        _LOGGER.warning(
+        LOGGER.warning(
             "The device will not respond to leak events while in a halted state. It is "
             "recommended that you call valve_close() or valve_open() as soon as "
             "possible."
