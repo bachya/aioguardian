@@ -1,7 +1,7 @@
 """Define valve commands."""
 import logging
 from collections.abc import Awaitable, Callable
-from typing import Any, cast
+from typing import Any
 
 from aioguardian.helpers.command import Command
 
@@ -35,7 +35,9 @@ class ValveCommands:
         execute_command: The execute_command method from the Client object.
     """
 
-    def __init__(self, execute_command: Callable[..., Awaitable]) -> None:
+    def __init__(
+        self, execute_command: Callable[..., Awaitable[dict[str, Any]]]
+    ) -> None:
         """Initialize.
 
         Args:
@@ -49,8 +51,7 @@ class ValveCommands:
         Returns:
             An API response payload.
         """
-        data = await self._execute_command(Command.VALVE_CLOSE)
-        return cast(dict[str, Any], data)
+        return await self._execute_command(Command.VALVE_CLOSE)
 
     async def halt(self) -> dict[str, Any]:
         """Halt the valve.
@@ -67,8 +68,7 @@ class ValveCommands:
             "recommended that you call valve_close() or valve_open() as soon as "
             "possible."
         )
-        data = await self._execute_command(Command.VALVE_HALT)
-        return cast(dict[str, Any], data)
+        return await self._execute_command(Command.VALVE_HALT)
 
     async def open(self) -> dict[str, Any]:
         """Open the valve.
@@ -76,8 +76,7 @@ class ValveCommands:
         Returns:
             An API response payload.
         """
-        data = await self._execute_command(Command.VALVE_OPEN)
-        return cast(dict[str, Any], data)
+        return await self._execute_command(Command.VALVE_OPEN)
 
     async def reset(self, *, silent: bool = True) -> dict[str, Any]:
         """Reset the valve.
@@ -91,8 +90,7 @@ class ValveCommands:
         Returns:
             An API response payload.
         """
-        data = await self._execute_command(Command.VALVE_RESET, silent=silent)
-        return cast(dict[str, Any], data)
+        return await self._execute_command(Command.VALVE_RESET, silent=silent)
 
     async def status(self, *, silent: bool = True) -> dict[str, Any]:
         """Retrieve status of the valve.
@@ -122,4 +120,4 @@ class ValveCommands:
         """
         data = await self._execute_command(Command.VALVE_STATUS, silent=silent)
         data["data"]["state"] = VALVE_STATE_MAPPING[data["data"]["state"]]
-        return cast(dict[str, Any], data)
+        return data

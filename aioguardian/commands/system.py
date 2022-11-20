@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import asyncio
 from collections.abc import Awaitable, Callable
-from typing import Any, cast
+from typing import Any
 
 import voluptuous as vol
 
@@ -35,13 +35,15 @@ class SystemCommands:
         execute_command: The execute_command method from the Client object.
     """
 
-    def __init__(self, execute_command: Callable[..., Awaitable]) -> None:
+    def __init__(
+        self, execute_command: Callable[..., Awaitable[dict[str, Any]]]
+    ) -> None:
         """Initialize.
 
         Args:
             execute_command: The execute_command method from the Client object.
         """
-        self._execute_command: Callable = execute_command
+        self._execute_command = execute_command
 
     async def diagnostics(self, *, silent: bool = True) -> dict[str, Any]:
         """Retrieve diagnostics info.
@@ -52,8 +54,7 @@ class SystemCommands:
         Returns:
             An API response payload.
         """
-        data = await self._execute_command(Command.SYSTEM_DIAGNOSTICS, silent=silent)
-        return cast(dict[str, Any], data)
+        return await self._execute_command(Command.SYSTEM_DIAGNOSTICS, silent=silent)
 
     async def factory_reset(self, *, silent: bool = True) -> dict[str, Any]:
         """Perform a factory reset on the device.
@@ -64,8 +65,7 @@ class SystemCommands:
         Returns:
             An API response payload.
         """
-        data = await self._execute_command(Command.SYSTEM_FACTORY_RESET, silent=silent)
-        return cast(dict[str, Any], data)
+        return await self._execute_command(Command.SYSTEM_FACTORY_RESET, silent=silent)
 
     async def onboard_sensor_status(self, *, silent: bool = True) -> dict[str, Any]:
         """Retrieve status of the valve controller's onboard sensors.
@@ -76,10 +76,9 @@ class SystemCommands:
         Returns:
             An API response payload.
         """
-        data = await self._execute_command(
+        return await self._execute_command(
             Command.SYSTEM_ONBOARD_SENSOR_STATUS, silent=silent
         )
-        return cast(dict[str, Any], data)
 
     async def ping(self, *, silent: bool = True) -> dict[str, Any]:
         """Ping the device.
@@ -90,8 +89,7 @@ class SystemCommands:
         Returns:
             An API response payload.
         """
-        data = await self._execute_command(Command.SYSTEM_PING, silent=silent)
-        return cast(dict[str, Any], data)
+        return await self._execute_command(Command.SYSTEM_PING, silent=silent)
 
     async def reboot(self, *, silent: bool = True) -> dict[str, Any]:
         """Reboot the device.
@@ -110,7 +108,7 @@ class SystemCommands:
         # returning the response:
         await asyncio.sleep(3)
 
-        return cast(dict[str, Any], data)
+        return data
 
     async def upgrade_firmware(
         self,
@@ -147,7 +145,6 @@ class SystemCommands:
         except vol.Invalid as err:
             raise CommandError(f"Invalid parameters provided: {err}") from None
 
-        data = await self._execute_command(
+        return await self._execute_command(
             Command.SYSTEM_UPGRADE_FIRMWARE, params=params, silent=silent
         )
-        return cast(dict[str, Any], data)

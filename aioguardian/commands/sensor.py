@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from collections.abc import Awaitable, Callable
-from typing import Any, cast
+from typing import Any
 
 import voluptuous as vol
 
@@ -28,7 +28,9 @@ class SensorCommands:
         execute_command: The execute_command method from the Client object.
     """
 
-    def __init__(self, execute_command: Callable[..., Awaitable]) -> None:
+    def __init__(
+        self, execute_command: Callable[..., Awaitable[dict[str, Any]]]
+    ) -> None:
         """Initialize.
 
         Args:
@@ -45,8 +47,7 @@ class SensorCommands:
         Returns:
             An API response payload.
         """
-        data = await self._execute_command(Command.SENSOR_PAIR_DUMP, silent=silent)
-        return cast(dict[str, Any], data)
+        return await self._execute_command(Command.SENSOR_PAIR_DUMP, silent=silent)
 
     async def pair_sensor(self, uid: str, *, silent: bool = True) -> dict[str, Any]:
         """Pair a new sensor to the device.
@@ -68,10 +69,9 @@ class SensorCommands:
         except vol.Invalid as err:
             raise CommandError(f"Invalid parameters provided: {err}") from None
 
-        data = await self._execute_command(
+        return await self._execute_command(
             Command.SENSOR_PAIR_SENSOR, params=params, silent=silent
         )
-        return cast(dict[str, Any], data)
 
     async def paired_sensor_status(
         self, uid: str, *, silent: bool = True
@@ -95,10 +95,9 @@ class SensorCommands:
         except vol.Invalid as err:
             raise CommandError(f"Invalid parameters provided: {err}") from None
 
-        data = await self._execute_command(
+        return await self._execute_command(
             Command.SENSOR_PAIRED_SENSOR_STATUS, params=params, silent=silent
         )
-        return cast(dict[str, Any], data)
 
     async def unpair_sensor(self, uid: str, *, silent: bool = True) -> dict[str, Any]:
         """Unpair a sensor from the device.
@@ -120,7 +119,6 @@ class SensorCommands:
         except vol.Invalid as err:
             raise CommandError(f"Invalid parameters provided: {err}") from None
 
-        data = await self._execute_command(
+        return await self._execute_command(
             Command.SENSOR_UNPAIR_SENSOR, params=params, silent=silent
         )
-        return cast(dict[str, Any], data)

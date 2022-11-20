@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from collections.abc import Awaitable, Callable
-from typing import Any, cast
+from typing import Any
 
 from aioguardian.helpers.command import Command
 
@@ -18,7 +18,9 @@ class IOTCommands:  # pylint: disable=too-few-public-methods
         execute_command: The execute_command method from the Client object.
     """
 
-    def __init__(self, execute_command: Callable[..., Awaitable]) -> None:
+    def __init__(
+        self, execute_command: Callable[..., Awaitable[dict[str, Any]]]
+    ) -> None:
         """Initialize.
 
         Args:
@@ -35,5 +37,4 @@ class IOTCommands:  # pylint: disable=too-few-public-methods
         Returns:
             An API response payload.
         """
-        data = await self._execute_command(Command.IOT_PUBLISH_STATE, silent=silent)
-        return cast(dict[str, Any], data)
+        return await self._execute_command(Command.IOT_PUBLISH_STATE, silent=silent)
