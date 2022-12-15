@@ -61,7 +61,7 @@ Thanks to all of [our contributors][contributors] so far!
 [issues]: https://github.com/bachya/aioguardian/issues
 [license-badge]: https://img.shields.io/pypi/l/aioguardian.svg
 [license]: https://github.com/bachya/aioguardian/blob/main/LICENSE
-[maintainability-badge]: https://api.codeclimate.com/v1/badges/a03c9e96f19a3dc37f98/maintainability
+[maintainability-badge]: https://api.codeclimate.com/v1/badges/e6521f4a50efd222be18/maintainability
 [maintainability]: https://codeclimate.com/github/bachya/aioguardian/maintainability
 [new-issue]: https://github.com/bachya/aioguardian/issues/new
 [new-issue]: https://github.com/bachya/aioguardian/issues/new
