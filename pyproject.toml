@@ -98,7 +98,7 @@ vulture = "^2.6"
 yamllint = "^1.28.0"
 
 [tool.poetry.group.docs.dependencies]
-Sphinx = "^5.0.0"
+Sphinx = ">=5,<7"
 myst-parser = ">=0.18,<0.20"
 
 [tool.poetry.urls]
