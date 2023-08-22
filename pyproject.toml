@@ -63,7 +63,6 @@ aiohttp = ">=3.8.0"
 asyncio_dgram = "^2.0.0"
 certifi = ">=2023.07.22"
 python = "^3.9.0"
-setuptools = ">=65.5.1"
 voluptuous = ">=0.11.7"
 
 [tool.poetry.group.dev.dependencies]
