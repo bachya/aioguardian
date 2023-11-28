@@ -41,7 +41,8 @@ def url(value: Any) -> str:
 
     if urlparse(url_in).scheme in ["http", "https"]:
         return cast(
-            str, vol.Schema(vol.Url())(url_in)  # pylint: disable=no-value-for-parameter
+            str,
+            vol.Schema(vol.Url())(url_in),  # pylint: disable=no-value-for-parameter
         )
 
     raise vol.Invalid("Invalid URL")
