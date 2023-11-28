@@ -7,7 +7,6 @@ from types import TracebackType
 from typing import Any, cast
 
 import asyncio_dgram
-from async_timeout import timeout
 
 from aioguardian.commands.iot import IOTCommands
 from aioguardian.commands.sensor import SensorCommands
@@ -21,6 +20,13 @@ from aioguardian.helpers.command import Command, get_command_from_code
 DEFAULT_COMMAND_RETRIES: int = 3
 DEFAULT_PORT: int = 7777
 DEFAULT_REQUEST_TIMEOUT: int = 10
+
+try:
+    timeout_callable = asyncio.timeout  # type: ignore[attr-defined]
+except AttributeError:  # pragma: no cover
+    import async_timeout  # pylint: disable=import-error
+
+    timeout_callable = async_timeout.timeout
 
 
 class Client:  # pylint: disable=too-many-instance-attributes
@@ -115,7 +121,7 @@ class Client:  # pylint: disable=too-many-instance-attributes
 
         while retry < self._command_retries:
             try:
-                async with self._lock, timeout(self._request_timeout):
+                async with self._lock, timeout_callable(self._request_timeout):
                     await self._stream.send(  # type: ignore[attr-defined]
                         json.dumps(payload).encode()
                     )
@@ -142,7 +148,7 @@ class Client:  # pylint: disable=too-many-instance-attributes
             SocketError: Raised on an issue with the UDP socket.
         """
         try:
-            async with timeout(self._request_timeout):
+            async with timeout_callable(self._request_timeout):
                 self._stream = await asyncio_dgram.connect((self._ip, self._port))
         except asyncio.TimeoutError:
             raise SocketError("Connection to device timed out") from None
