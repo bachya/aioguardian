@@ -41,7 +41,7 @@ warn_unused_ignores = true
 
 [tool.poetry]
 name = "aioguardian"
-version = "2023.08.0"
+version = "2023.11.0"
 description = "A Python3 library for Elexa Guardian water valves and sensors"
 readme = "README.md"
 authors = ["Aaron Bach <bachya1208@gmail.com>"]
