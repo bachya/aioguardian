@@ -1,4 +1,5 @@
 """Test the halt command."""
+
 from unittest.mock import MagicMock, Mock
 
 import pytest

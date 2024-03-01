@@ -1,4 +1,5 @@
 """Test command helpers."""
+
 import pytest
 
 from aioguardian.errors import CommandError

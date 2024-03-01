@@ -1,4 +1,5 @@
 """Test the ping command."""
+
 from unittest.mock import MagicMock
 
 import pytest

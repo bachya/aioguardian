@@ -1,4 +1,5 @@
 """Define generic fixtures for tests."""
+
 # pylint: disable=redefined-outer-name
 from collections.abc import Generator
 from unittest.mock import AsyncMock, MagicMock, patch

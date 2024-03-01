@@ -1,4 +1,5 @@
 """Test the factory_reset command."""
+
 from unittest.mock import MagicMock
 
 import pytest
