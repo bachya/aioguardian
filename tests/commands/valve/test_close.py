@@ -1,4 +1,5 @@
 """Test the close command."""
+
 from unittest.mock import MagicMock
 
 import pytest

@@ -1,4 +1,5 @@
 """Test the enable_ap command."""
+
 from unittest.mock import MagicMock
 
 import pytest

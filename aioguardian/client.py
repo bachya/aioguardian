@@ -1,4 +1,5 @@
 """Define a client object to interact with a Guardian device."""
+
 from __future__ import annotations
 
 import asyncio

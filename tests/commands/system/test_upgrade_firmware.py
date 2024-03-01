@@ -1,4 +1,5 @@
 """Test the upgrade_firmware command."""
+
 from unittest.mock import MagicMock
 
 import pytest

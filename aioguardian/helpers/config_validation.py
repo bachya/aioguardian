@@ -1,4 +1,5 @@
 """Define custom validators."""
+
 from typing import Any, cast
 from urllib.parse import urlparse
 

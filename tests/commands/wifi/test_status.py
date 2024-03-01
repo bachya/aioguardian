@@ -1,4 +1,5 @@
 """Test the status command."""
+
 from unittest.mock import MagicMock
 
 import pytest

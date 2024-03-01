@@ -1,4 +1,5 @@
 """Test the pair_dump command."""
+
 from unittest.mock import MagicMock
 
 import pytest

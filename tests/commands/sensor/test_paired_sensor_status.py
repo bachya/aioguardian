@@ -1,4 +1,5 @@
 """Test the paired_sensor_status command."""
+
 from unittest.mock import MagicMock
 
 import pytest

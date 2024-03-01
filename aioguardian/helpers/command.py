@@ -1,4 +1,5 @@
 """Define command helpers."""
+
 from enum import Enum
 
 from aioguardian.errors import CommandError

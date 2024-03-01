@@ -1,4 +1,5 @@
 """Test generic client characteristics."""
+
 import asyncio
 from unittest.mock import AsyncMock, MagicMock, patch
 

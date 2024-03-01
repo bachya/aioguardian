@@ -1,4 +1,5 @@
 """Test the diagnostics command."""
+
 from unittest.mock import MagicMock
 
 import pytest

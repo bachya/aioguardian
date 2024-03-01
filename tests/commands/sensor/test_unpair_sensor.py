@@ -1,4 +1,5 @@
 """Test the ununpair_sensor command."""
+
 from unittest.mock import MagicMock
 
 import pytest
