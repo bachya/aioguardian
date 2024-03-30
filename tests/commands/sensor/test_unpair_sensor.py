@@ -9,7 +9,7 @@ from aioguardian.errors import CommandError
 from tests.common import load_fixture
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 @pytest.mark.parametrize(
     "command_response", [load_fixture("unpair_sensor_failure_response.json").encode()]
 )
@@ -17,7 +17,9 @@ async def test_unpair_sensor_failure(mock_datagram_client: MagicMock) -> None:
     """Test the unpair_sensor command failing.
 
     Args:
+    ----
         mock_datagram_client: A mocked UDP client.
+
     """
     with mock_datagram_client:
         with pytest.raises(CommandError) as err:
@@ -30,12 +32,14 @@ async def test_unpair_sensor_failure(mock_datagram_client: MagicMock) -> None:
         )
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_unpair_sensor_invalid_uid(mock_datagram_client: MagicMock) -> None:
     """Test that an invalid UID throws an exception.
 
     Args:
+    ----
         mock_datagram_client: A mocked UDP client.
+
     """
     with mock_datagram_client:
         with pytest.raises(CommandError) as err:
@@ -48,7 +52,7 @@ async def test_unpair_sensor_invalid_uid(mock_datagram_client: MagicMock) -> Non
         )
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 @pytest.mark.parametrize(
     "command_response", [load_fixture("unpair_sensor_success_response.json").encode()]
 )
@@ -56,7 +60,9 @@ async def test_unpair_sensor_success(mock_datagram_client: MagicMock) -> None:
     """Test the unpair_sensor command succeeding.
 
     Args:
+    ----
         mock_datagram_client: A mocked UDP client.
+
     """
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:

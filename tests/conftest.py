@@ -11,8 +11,10 @@ import pytest
 def command_response() -> MagicMock:
     """Define a fixture for the JSON response payload of a command.
 
-    Returns:
+    Returns
+    -------
         A mocked command response.
+
     """
     return MagicMock()
 
@@ -22,7 +24,9 @@ def mock_datagram_client(recv_response: AsyncMock) -> Generator:
     """Define a mocked datagram client.
 
     Args:
+    ----
         recv_response: A mocked instance of a socket recv operation.
+
     """
     mock_datagram_client = MagicMock()
     mock_datagram_client.connect = AsyncMock()
@@ -38,8 +42,10 @@ def mock_datagram_client(recv_response: AsyncMock) -> Generator:
 def recv_response(command_response: MagicMock, remote_addr_response: str) -> AsyncMock:
     """Define a response from the socket.
 
-    Returns:
+    Returns
+    -------
         A mocked instance of a socket recv operation.
+
     """
     return AsyncMock(return_value=(command_response, remote_addr_response))
 
@@ -48,7 +54,9 @@ def recv_response(command_response: MagicMock, remote_addr_response: str) -> Asy
 def remote_addr_response() -> str:
     """Define an IP address for the Guardian device.
 
-    Returns:
+    Returns
+    -------
         A response for getting the valve's remote IP address.
+
     """
     return "192.168.1.100"

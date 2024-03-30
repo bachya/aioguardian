@@ -37,18 +37,23 @@ def get_command_from_name(command_name: str) -> Command:
     """Return the command for a particular name.
 
     Args:
+    ----
         command_name: The command string to parse into a Command.
 
     Returns:
+    -------
         A Command object.
 
     Raises:
+    ------
         CommandError: Raised when an unknown command is encountered.
+
     """
     try:
         command = Command[command_name]
-    except KeyError:
-        raise CommandError(f"Unknown command name: {command_name}") from None
+    except KeyError as err:
+        msg = f"Unknown command name: {command_name}"
+        raise CommandError(msg) from err
     return command
 
 
@@ -56,16 +61,21 @@ def get_command_from_code(command_code: int) -> Command:
     """Return the command for a particular code.
 
     Args:
+    ----
         command_code: The raw command code to parse into a Command.
 
     Returns:
+    -------
         A Command object.
 
     Raises:
+    ------
         CommandError: Raised when an unknown command is encountered.
+
     """
     try:
         command = Command(command_code)
-    except ValueError:
-        raise CommandError(f"Unknown command code: {command_code}") from None
+    except ValueError as err:
+        msg = f"Unknown command code: {command_code}"
+        raise CommandError(msg) from err
     return command

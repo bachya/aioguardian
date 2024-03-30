@@ -16,7 +16,9 @@ class IOTCommands:  # pylint: disable=too-few-public-methods
     ``client.iot``).
 
     Args:
+    ----
         execute_command: The execute_command method from the Client object.
+
     """
 
     def __init__(
@@ -25,7 +27,9 @@ class IOTCommands:  # pylint: disable=too-few-public-methods
         """Initialize.
 
         Args:
+        ----
             execute_command: The execute_command method from the Client object.
+
         """
         self._execute_command = execute_command
 
@@ -33,9 +37,12 @@ class IOTCommands:  # pylint: disable=too-few-public-methods
         """Publish the device's complete state to the Guardian cloud.
 
         Args:
+        ----
             silent: Whether the valve controller should beep upon successful command.
 
         Returns:
+        -------
             An API response payload.
+
         """
         return await self._execute_command(Command.IOT_PUBLISH_STATE, silent=silent)

@@ -1,5 +1,7 @@
 """Define valve commands."""
 
+from __future__ import annotations
+
 from collections.abc import Awaitable, Callable
 from typing import Any
 
@@ -31,7 +33,9 @@ class ValveCommands:
     ``client.valve``).
 
     Args:
+    ----
         execute_command: The execute_command method from the Client object.
+
     """
 
     def __init__(
@@ -40,15 +44,19 @@ class ValveCommands:
         """Initialize.
 
         Args:
+        ----
             execute_command: The execute_command method from the Client object.
+
         """
         self._execute_command = execute_command
 
     async def close(self) -> dict[str, Any]:
         """Close the valve.
 
-        Returns:
+        Returns
+        -------
             An API response payload.
+
         """
         return await self._execute_command(Command.VALVE_CLOSE)
 
@@ -59,8 +67,10 @@ class ValveCommands:
         events; therefore, it is not recommended to leave the device in a "halted" state
         indefinitely.
 
-        Returns:
+        Returns
+        -------
             An API response payload.
+
         """
         LOGGER.warning(
             "The device will not respond to leak events while in a halted state. It is "
@@ -72,8 +82,10 @@ class ValveCommands:
     async def open(self) -> dict[str, Any]:
         """Open the valve.
 
-        Returns:
+        Returns
+        -------
             An API response payload.
+
         """
         return await self._execute_command(Command.VALVE_OPEN)
 
@@ -84,10 +96,13 @@ class ValveCommands:
         lifetime average current draw) and cannot be undone.
 
         Args:
+        ----
             silent: Whether the valve controller should beep upon successful command.
 
         Returns:
+        -------
             An API response payload.
+
         """
         return await self._execute_command(Command.VALVE_RESET, silent=silent)
 
@@ -112,10 +127,13 @@ class ValveCommands:
             * ``start_opening``
 
         Args:
+        ----
             silent: Whether the valve controller should beep upon successful command.
 
         Returns:
+        -------
             An API response payload.
+
         """
         data = await self._execute_command(Command.VALVE_STATUS, silent=silent)
         data["data"]["state"] = VALVE_STATE_MAPPING[data["data"]["state"]]

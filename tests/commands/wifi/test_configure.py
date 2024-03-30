@@ -9,7 +9,7 @@ from aioguardian.errors import CommandError, GuardianError
 from tests.common import load_fixture
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 @pytest.mark.parametrize(
     "command_response", [load_fixture("wifi_configure_failure_response.json").encode()]
 )
@@ -17,7 +17,9 @@ async def test_configure_failure(mock_datagram_client: MagicMock) -> None:
     """Test the wifi_configure command failing.
 
     Args:
+    ----
         mock_datagram_client: A mocked UDP client.
+
     """
     with mock_datagram_client:
         with pytest.raises(CommandError) as err:
@@ -30,12 +32,14 @@ async def test_configure_failure(mock_datagram_client: MagicMock) -> None:
         )
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_configure_invalid_password(mock_datagram_client: MagicMock) -> None:
     """Test that an invalid password throws an exception.
 
     Args:
+    ----
         mock_datagram_client: A mocked UDP client.
+
     """
     with mock_datagram_client:
         with pytest.raises(GuardianError) as err:
@@ -51,12 +55,14 @@ async def test_configure_invalid_password(mock_datagram_client: MagicMock) -> No
         )
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_configure_invalid_ssid(mock_datagram_client: MagicMock) -> None:
     """Test that an invalid SSID throws an exception.
 
     Args:
+    ----
         mock_datagram_client: A mocked UDP client.
+
     """
     with mock_datagram_client:
         with pytest.raises(GuardianError) as err:
@@ -71,7 +77,7 @@ async def test_configure_invalid_ssid(mock_datagram_client: MagicMock) -> None:
         )
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 @pytest.mark.parametrize(
     "command_response", [load_fixture("wifi_configure_success_response.json").encode()]
 )
@@ -79,7 +85,9 @@ async def test_configure_success(mock_datagram_client: MagicMock) -> None:
     """Test the wifi_configure command succeeding.
 
     Args:
+    ----
         mock_datagram_client: A mocked UDP client.
+
     """
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:
