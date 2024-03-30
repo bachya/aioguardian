@@ -8,6 +8,7 @@ from types import TracebackType
 from typing import Any, cast
 
 import asyncio_dgram
+from typing_extensions import Self
 
 from aioguardian.commands.iot import IOTCommands
 from aioguardian.commands.sensor import SensorCommands
@@ -25,19 +26,21 @@ DEFAULT_REQUEST_TIMEOUT: int = 10
 try:
     timeout_callable = asyncio.timeout  # type: ignore[attr-defined]
 except AttributeError:  # pragma: no cover
-    import async_timeout  # pylint: disable=import-error
+    import async_timeout
 
     timeout_callable = async_timeout.timeout
 
 
-class Client:  # pylint: disable=too-many-instance-attributes
+class Client:
     """Define the class that can send commands to a Guardian device.
 
     Args:
+    ----
         ip_address: The IP address or hostname of a Guardian valve controller.
         port: The port to connect to.
         request_timeout: The number of seconds to wait before timing out a request.
         command_retries: The number of retries to use on a failed command.
+
     """
 
     def __init__(
@@ -51,10 +54,12 @@ class Client:  # pylint: disable=too-many-instance-attributes
         """Initialize.
 
         Args:
+        ----
             ip_address: The IP address or hostname of a Guardian valve controller.
             port: The port to connect to.
             request_timeout: The number of seconds to wait before timing out a request.
             command_retries: The number of retries to use on a failed command.
+
         """
         self._command_retries = command_retries
         self._ip = ip_address
@@ -72,27 +77,31 @@ class Client:  # pylint: disable=too-many-instance-attributes
         self.valve = ValveCommands(self._execute_command)
         self.wifi = WiFiCommands(self._execute_command)
 
-    async def __aenter__(self) -> Client:
+    async def __aenter__(self) -> Self:
         """Define an entry point into this object via a context manager.
 
-        Returns:
+        Returns
+        -------
             A connected aioguardian client.
+
         """
         await self.connect()
         return self
 
     async def __aexit__(
         self,
-        exc_type: type[BaseException] | None,  # noqa: F841
-        exc_val: BaseException | None,  # noqa: F841
-        exc_tb: TracebackType | None,  # noqa: F841
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: TracebackType | None,
     ) -> None:
         """Define an exit point out of this object via a context manager.
 
         Args:
+        ----
             exc_type: An optional exception if one caused the context manager to close.
             exc_val: The value of the optional exception
             exc_tb: The traceback of the optional exception
+
         """
         self.disconnect()
 
@@ -102,18 +111,23 @@ class Client:  # pylint: disable=too-many-instance-attributes
         """Make a request against the Guardian device and return the response.
 
         Args:
+        ----
             command: The command to execute.
             params: Any parameters to send along with the command.
             silent: If ``True``, silence "beep" tones associated with this command.
 
         Returns:
+        -------
             An API response payload.
 
         Raises:
+        ------
             SocketError: Raised on an issue with the UDP socket.
+
         """
         if not self._stream:
-            raise SocketError("You aren't connected to the device yet")
+            msg = "You aren't connected to the device yet"
+            raise SocketError(msg)
 
         _params = params or {}
         payload = {"command": command.value, "silent": silent, **_params}
@@ -133,7 +147,8 @@ class Client:  # pylint: disable=too-many-instance-attributes
                 retry += 1
                 await asyncio.sleep(1)
         else:
-            raise SocketError(f"{command.name} command timed out")
+            msg = f"{command.name} command timed out"
+            raise SocketError(msg)
 
         decoded_data = json.loads(data.decode())
         LOGGER.debug("Received data from %s: %s", remote_addr, decoded_data)
@@ -145,14 +160,17 @@ class Client:  # pylint: disable=too-many-instance-attributes
     async def connect(self) -> None:
         """Connect to the Guardian device.
 
-        Raises:
+        Raises
+        ------
             SocketError: Raised on an issue with the UDP socket.
+
         """
         try:
             async with timeout_callable(self._request_timeout):
                 self._stream = await asyncio_dgram.connect((self._ip, self._port))
-        except asyncio.TimeoutError:
-            raise SocketError("Connection to device timed out") from None
+        except asyncio.TimeoutError as err:
+            msg = "Connection to device timed out"
+            raise SocketError(msg) from err
 
     def disconnect(self) -> None:
         """Close the connection."""
@@ -166,12 +184,15 @@ class Client:  # pylint: disable=too-many-instance-attributes
         """Execute a command via its integer-based command code.
 
         Args:
+        ----
             command_code: The command code to execute.
             params: Any parameters to send along with the command.
             silent: If ``True``, silence "beep" tones associated with this command.
 
         Returns:
+        -------
             An API response payload.
+
         """
         command = get_command_from_code(command_code)
         return await self._execute_command(command, params=params, silent=silent)

@@ -9,7 +9,7 @@ from aioguardian.errors import CommandError
 from tests.common import load_fixture
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 @pytest.mark.parametrize(
     "command_response", [load_fixture("valve_halt_failure_response.json").encode()]
 )
@@ -17,7 +17,9 @@ async def test_halt_failure(mock_datagram_client: MagicMock) -> None:
     """Test the valve_halt command failing.
 
     Args:
+    ----
         mock_datagram_client: A mocked UDP client.
+
     """
     with mock_datagram_client:
         with pytest.raises(CommandError) as err:
@@ -27,7 +29,7 @@ async def test_halt_failure(mock_datagram_client: MagicMock) -> None:
         assert str(err.value) == "VALVE_HALT command failed: valve_already_stopped"
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 @pytest.mark.parametrize(
     "command_response", [load_fixture("valve_halt_success_response.json").encode()]
 )
@@ -35,8 +37,10 @@ async def test_halt_success(caplog: Mock, mock_datagram_client: MagicMock) -> No
     """Test the valve_halt command succeeding.
 
     Args:
+    ----
         caplog: A mocked logging facility.
         mock_datagram_client: A mocked UDP client.
+
     """
     with mock_datagram_client:
         async with Client("192.168.1.100") as client:

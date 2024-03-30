@@ -8,9 +8,9 @@ from typing import Any
 
 import voluptuous as vol
 
-import aioguardian.helpers.config_validation as cv
 from aioguardian.errors import CommandError
 from aioguardian.helpers.command import Command
+import aioguardian.helpers.config_validation as cv
 
 PARAM_FILENAME = "filename"
 PARAM_PORT = "port"
@@ -33,7 +33,9 @@ class SystemCommands:
     ``client.system``).
 
     Args:
+    ----
         execute_command: The execute_command method from the Client object.
+
     """
 
     def __init__(
@@ -42,7 +44,9 @@ class SystemCommands:
         """Initialize.
 
         Args:
+        ----
             execute_command: The execute_command method from the Client object.
+
         """
         self._execute_command = execute_command
 
@@ -50,10 +54,13 @@ class SystemCommands:
         """Retrieve diagnostics info.
 
         Args:
+        ----
             silent: Whether the valve controller should beep upon successful command.
 
         Returns:
+        -------
             An API response payload.
+
         """
         return await self._execute_command(Command.SYSTEM_DIAGNOSTICS, silent=silent)
 
@@ -61,10 +68,13 @@ class SystemCommands:
         """Perform a factory reset on the device.
 
         Args:
+        ----
             silent: Whether the valve controller should beep upon successful command.
 
         Returns:
+        -------
             An API response payload.
+
         """
         return await self._execute_command(Command.SYSTEM_FACTORY_RESET, silent=silent)
 
@@ -72,10 +82,13 @@ class SystemCommands:
         """Retrieve status of the valve controller's onboard sensors.
 
         Args:
+        ----
             silent: Whether the valve controller should beep upon successful command.
 
         Returns:
+        -------
             An API response payload.
+
         """
         return await self._execute_command(
             Command.SYSTEM_ONBOARD_SENSOR_STATUS, silent=silent
@@ -85,10 +98,13 @@ class SystemCommands:
         """Ping the device.
 
         Args:
+        ----
             silent: Whether the valve controller should beep upon successful command.
 
         Returns:
+        -------
             An API response payload.
+
         """
         return await self._execute_command(Command.SYSTEM_PING, silent=silent)
 
@@ -96,15 +112,18 @@ class SystemCommands:
         """Reboot the device.
 
         Args:
+        ----
             silent: Whether the valve controller should beep upon successful command.
 
         Returns:
+        -------
             An API response payload.
+
         """
         data = await self._execute_command(Command.SYSTEM_REBOOT, silent=silent)
 
         # The Guardian API docs indicate that the reboot will occur "3 seconds after
-        # command is received" – in order to guard against errors from subsequent
+        # command is received." In order to guard against errors from subsequent
         # commands while the reboot is occurring, we sleep for 3 seconds before
         # returning the response:
         await asyncio.sleep(3)
@@ -122,16 +141,20 @@ class SystemCommands:
         """Upgrade the firmware on the device.
 
         Args:
+        ----
             url: A Guardian-provided URL that hosts firmware files.
             port: A port at the Guardian-provided URL that can be accessed.
             filename: A firmware filename.
             silent: Whether the valve controller should beep upon successful command.
 
         Returns:
+        -------
             An API response payload.
 
         Raises:
+        ------
             CommandError: Raised when invalid parameters are provided.
+
         """
         params: dict[str, int | str] = {}
         if url:
@@ -144,7 +167,8 @@ class SystemCommands:
         try:
             UPGRADE_FIRMWARE_PARAM_SCHEMA(params)
         except vol.Invalid as err:
-            raise CommandError(f"Invalid parameters provided: {err}") from None
+            msg = f"Invalid parameters provided: {err}"
+            raise CommandError(msg) from err
 
         return await self._execute_command(
             Command.SYSTEM_UPGRADE_FIRMWARE, params=params, silent=silent

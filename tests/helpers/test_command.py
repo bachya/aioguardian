@@ -10,7 +10,7 @@ from aioguardian.helpers.command import (
 )
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_get_command_from_code() -> None:
     """Test the get_command_from_code helper."""
     real_command = get_command_from_code(0)
@@ -21,7 +21,7 @@ async def test_get_command_from_code() -> None:
     assert str(err.value) == "Unknown command code: 99999"
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_get_command_from_name() -> None:
     """Test the get_command_from_name helper."""
     real_command = get_command_from_name("SYSTEM_PING")
