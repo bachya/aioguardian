@@ -7,7 +7,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import pytest
 
 
-@pytest.fixture()
+@pytest.fixture
 def command_response() -> MagicMock:
     """Define a fixture for the JSON response payload of a command.
 
@@ -19,7 +19,7 @@ def command_response() -> MagicMock:
     return MagicMock()
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_datagram_client(recv_response: AsyncMock) -> Generator:
     """Define a mocked datagram client.
 
@@ -38,7 +38,7 @@ def mock_datagram_client(recv_response: AsyncMock) -> Generator:
         yield mock_datagram_client
 
 
-@pytest.fixture()
+@pytest.fixture
 def recv_response(command_response: MagicMock, remote_addr_response: str) -> AsyncMock:
     """Define a response from the socket.
 
@@ -50,7 +50,7 @@ def recv_response(command_response: MagicMock, remote_addr_response: str) -> Asy
     return AsyncMock(return_value=(command_response, remote_addr_response))
 
 
-@pytest.fixture()
+@pytest.fixture
 def remote_addr_response() -> str:
     """Define an IP address for the Guardian device.
 

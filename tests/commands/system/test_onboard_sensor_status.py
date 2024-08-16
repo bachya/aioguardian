@@ -9,7 +9,7 @@ from aioguardian.errors import CommandError
 from tests.common import load_fixture
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     "command_response",
     [load_fixture("onboard_sensor_status_success_response.json").encode()],
@@ -31,7 +31,7 @@ async def test_onboard_sensor_status_success(mock_datagram_client: MagicMock) ->
         assert onboard_sensor_status["data"] == {"temperature": 71, "wet": False}
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     "command_response",
     [load_fixture("onboard_sensor_status_failure_response.json").encode()],

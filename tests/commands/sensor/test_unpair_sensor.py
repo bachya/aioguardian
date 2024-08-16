@@ -9,7 +9,7 @@ from aioguardian.errors import CommandError
 from tests.common import load_fixture
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     "command_response", [load_fixture("unpair_sensor_failure_response.json").encode()]
 )
@@ -32,7 +32,7 @@ async def test_unpair_sensor_failure(mock_datagram_client: MagicMock) -> None:
         )
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_unpair_sensor_invalid_uid(mock_datagram_client: MagicMock) -> None:
     """Test that an invalid UID throws an exception.
 
@@ -52,7 +52,7 @@ async def test_unpair_sensor_invalid_uid(mock_datagram_client: MagicMock) -> Non
         )
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     "command_response", [load_fixture("unpair_sensor_success_response.json").encode()]
 )

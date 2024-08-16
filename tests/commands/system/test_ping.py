@@ -9,7 +9,7 @@ from aioguardian.errors import CommandError
 from tests.common import load_fixture
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     "command_response", [load_fixture("ping_failure_response.json").encode()]
 )
@@ -31,7 +31,7 @@ async def test_ping_failure(mock_datagram_client: MagicMock) -> None:
         )
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     "command_response", [load_fixture("ping_success_response.json").encode()]
 )
@@ -52,7 +52,7 @@ async def test_ping_success(mock_datagram_client: MagicMock) -> None:
         assert ping_response["data"] == {"uid": "ABCDEF123456"}
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     "command_response", [load_fixture("ping_success_silent_response.json").encode()]
 )

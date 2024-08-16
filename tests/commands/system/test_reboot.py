@@ -9,7 +9,7 @@ from aioguardian.errors import CommandError
 from tests.common import load_fixture
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     "command_response", [load_fixture("reboot_failure_response.json").encode()]
 )
@@ -31,7 +31,7 @@ async def test_reboot_failure(mock_datagram_client: MagicMock) -> None:
         )
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     "command_response", [load_fixture("reboot_success_response.json").encode()]
 )
