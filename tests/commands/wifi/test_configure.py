@@ -9,7 +9,7 @@ from aioguardian.errors import CommandError, GuardianError
 from tests.common import load_fixture
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     "command_response", [load_fixture("wifi_configure_failure_response.json").encode()]
 )
@@ -32,7 +32,7 @@ async def test_configure_failure(mock_datagram_client: MagicMock) -> None:
         )
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_configure_invalid_password(mock_datagram_client: MagicMock) -> None:
     """Test that an invalid password throws an exception.
 
@@ -55,7 +55,7 @@ async def test_configure_invalid_password(mock_datagram_client: MagicMock) -> No
         )
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_configure_invalid_ssid(mock_datagram_client: MagicMock) -> None:
     """Test that an invalid SSID throws an exception.
 
@@ -77,7 +77,7 @@ async def test_configure_invalid_ssid(mock_datagram_client: MagicMock) -> None:
         )
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     "command_response", [load_fixture("wifi_configure_success_response.json").encode()]
 )

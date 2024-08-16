@@ -9,7 +9,7 @@ from aioguardian.errors import GuardianError
 from tests.common import load_fixture
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     "command_response",
     [load_fixture("upgrade_firmware_success_response.json").encode()],
@@ -34,7 +34,7 @@ async def test_upgrade_firmware_custom_parameters(
         assert upgrade_firmware_response["status"] == "ok"
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_upgrade_firmware_invalid_filename(
     mock_datagram_client: MagicMock,
 ) -> None:
@@ -58,7 +58,7 @@ async def test_upgrade_firmware_invalid_filename(
         )
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_upgrade_firmware_invalid_port(mock_datagram_client: MagicMock) -> None:
     """Test that an invalid firmware port throws an exception.
 
@@ -80,7 +80,7 @@ async def test_upgrade_firmware_invalid_port(mock_datagram_client: MagicMock) ->
         )
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_upgrade_firmware_invalid_url(mock_datagram_client: MagicMock) -> None:
     """Test that an invalid firmware URL throws an exception.
 
@@ -100,7 +100,7 @@ async def test_upgrade_firmware_invalid_url(mock_datagram_client: MagicMock) -> 
         )
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     "command_response",
     [load_fixture("upgrade_firmware_success_response.json").encode()],

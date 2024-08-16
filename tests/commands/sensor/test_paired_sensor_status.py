@@ -9,7 +9,7 @@ from aioguardian.errors import CommandError
 from tests.common import load_fixture
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     "command_response",
     [load_fixture("paired_sensor_status_failure_3_response.json").encode()],
@@ -35,7 +35,7 @@ async def test_paired_sensor_status_failure_not_paired(
         )
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     "command_response",
     [load_fixture("paired_sensor_status_failure_5_response.json").encode()],
@@ -61,7 +61,7 @@ async def test_paired_sensor_status_failure_error_loading(
         )
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_paired_sensor_status_invalid_uid(
     mock_datagram_client: MagicMock,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_paired_sensor_status_invalid_uid(
         )
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     "command_response",
     [load_fixture("paired_sensor_status_success_response.json").encode()],

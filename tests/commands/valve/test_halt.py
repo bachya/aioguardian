@@ -9,7 +9,7 @@ from aioguardian.errors import CommandError
 from tests.common import load_fixture
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     "command_response", [load_fixture("valve_halt_failure_response.json").encode()]
 )
@@ -29,7 +29,7 @@ async def test_halt_failure(mock_datagram_client: MagicMock) -> None:
         assert str(err.value) == "VALVE_HALT command failed: valve_already_stopped"
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     "command_response", [load_fixture("valve_halt_success_response.json").encode()]
 )
