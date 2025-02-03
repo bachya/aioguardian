@@ -40,7 +40,7 @@ jobs:
           uv sync --extra test
 
       - name: 🚀 Run pytest
-        run: uv run pytest --cov aioambient tests
+        run: uv run pytest --cov aioguardian tests
 
       - name: ⬆️ Upload coverage artifact
         uses: actions/upload-artifact@v4
