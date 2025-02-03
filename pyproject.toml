@@ -23,6 +23,7 @@ dependencies = [
     "asyncio_dgram==2.0.0",
     "certifi>=2023.07.22",
     "frozenlist==1.4.0",
+    "typing-extensions==4.8.0",
     "voluptuous>=0.11.7",
     "yarl>=1.9.2",
 ]
@@ -54,7 +55,6 @@ lint = [
     "pytest-asyncio==0.25.2",
     "pytest==8.3.4",
     "ruff==0.9.3",
-    "typing-extensions==4.8.0",
     "yamllint==1.28.0",
 ]
 test = [

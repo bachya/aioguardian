@@ -15,6 +15,7 @@ dependencies = [
     { name = "asyncio-dgram" },
     { name = "certifi" },
     { name = "frozenlist" },
+    { name = "typing-extensions" },
     { name = "voluptuous" },
     { name = "yarl" },
 ]
@@ -39,7 +40,6 @@ lint = [
     { name = "pytest" },
     { name = "pytest-asyncio" },
     { name = "ruff" },
-    { name = "typing-extensions" },
     { name = "yamllint" },
 ]
 test = [
@@ -74,7 +74,7 @@ requires-dist = [
     { name = "ruff", marker = "extra == 'lint'", specifier = "==0.9.3" },
     { name = "sphinx", marker = "extra == 'docs'", specifier = ">=5,<9" },
     { name = "sphinx-rtd-theme", marker = "extra == 'docs'", specifier = ">=1,<4" },
-    { name = "typing-extensions", marker = "extra == 'lint'", specifier = "==4.8.0" },
+    { name = "typing-extensions", specifier = "==4.8.0" },
     { name = "uv", marker = "extra == 'build'", specifier = "==0.5.26" },
     { name = "voluptuous", specifier = ">=0.11.7" },
     { name = "yamllint", marker = "extra == 'lint'", specifier = "==1.28.0" },
