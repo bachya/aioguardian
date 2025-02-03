@@ -5,10 +5,9 @@ from __future__ import annotations
 import asyncio
 import json
 from types import TracebackType
-from typing import Any, cast
+from typing import Any, Self, cast
 
 import asyncio_dgram
-from typing_extensions import Self
 
 from aioguardian.commands.iot import IOTCommands
 from aioguardian.commands.sensor import SensorCommands
@@ -22,13 +21,6 @@ from aioguardian.helpers.command import Command, get_command_from_code
 DEFAULT_COMMAND_RETRIES: int = 3
 DEFAULT_PORT: int = 7777
 DEFAULT_REQUEST_TIMEOUT: int = 10
-
-try:
-    timeout_callable = asyncio.timeout  # type: ignore[attr-defined]
-except AttributeError:  # pragma: no cover
-    import async_timeout
-
-    timeout_callable = async_timeout.timeout
 
 
 class Client:
@@ -136,13 +128,11 @@ class Client:
 
         while retry < self._command_retries:
             try:
-                async with self._lock, timeout_callable(self._request_timeout):
-                    await self._stream.send(  # type: ignore[attr-defined]
-                        json.dumps(payload).encode()
-                    )
+                async with self._lock, asyncio.timeout(self._request_timeout):
+                    await self._stream.send(json.dumps(payload).encode())
                     data, remote_addr = await self._stream.recv()
                     break
-            except asyncio.TimeoutError:
+            except TimeoutError:
                 LOGGER.info("%s command timed out; trying again", command.name)
                 retry += 1
                 await asyncio.sleep(1)
@@ -166,9 +156,9 @@ class Client:
 
         """
         try:
-            async with timeout_callable(self._request_timeout):
+            async with asyncio.timeout(self._request_timeout):
                 self._stream = await asyncio_dgram.connect((self._ip, self._port))
-        except asyncio.TimeoutError as err:
+        except TimeoutError as err:
             msg = "Connection to device timed out"
             raise SocketError(msg) from err
 
