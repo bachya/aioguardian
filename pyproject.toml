@@ -22,6 +22,7 @@ dependencies = [
     "aiohttp>=3.9.0",
     "asyncio_dgram==2.0.0",
     "certifi>=2023.07.22",
+    "frozenlist==1.5.0",
     "typing-extensions==4.8.0",
     "voluptuous>=0.11.7",
     "yarl>=1.9.2",
