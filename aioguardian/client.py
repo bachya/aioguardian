@@ -5,9 +5,10 @@ from __future__ import annotations
 import asyncio
 import json
 from types import TracebackType
-from typing import Any, Self, cast
+from typing import Any, cast
 
 import asyncio_dgram
+from typing_extensions import Self  # noqa: UP035
 
 from aioguardian.commands.iot import IOTCommands
 from aioguardian.commands.sensor import SensorCommands
