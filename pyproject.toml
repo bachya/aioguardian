@@ -32,7 +32,7 @@ license = "MIT"
 name = "aioguardian"
 readme = "README.md"
 repository = "https://github.com/bachya/aioguardian"
-requires-python = ">=3.10,<3.13"
+requires-python = ">=3.11,<3.14"
 version = "2023.12.0"
 
 [project.optional-dependencies]
