@@ -34,7 +34,7 @@ name = "aioguardian"
 readme = "README.md"
 repository = "https://github.com/bachya/aioguardian"
 requires-python = ">=3.11"
-version = "2026.01.0"
+version = "2026.01.1"
 
 [project.optional-dependencies]
 build = [
